@@ -16,11 +16,11 @@ class OnboardingPageController extends AbstractController
         ]);
     }
 
-    #[Route('/login', name: 'login_name')]
+    #[Route('/login', name: 'app_login')]
     public function login(): Response
     {
         return $this->render('onboarding_page/login.html.twig', [
-            'sesionName' => 'login_name',
+            'sesionName' => 'app_login',
         ]);
     }
 }

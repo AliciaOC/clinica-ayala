@@ -20,6 +20,8 @@ security:
         login_path: app_login
         check_path: app_login
         enable_csrf: true
+        always_use_default_target_path: true
+        default_target_path: app_login_redirect
       logout:
         path: app_logout
         # where to redirect after logout
@@ -34,6 +36,7 @@ security:
   # Note: Only the *first* access control that matches will be used
   access_control:
     - { path: ^/admin, roles: ROLE_ADMIN }
+    - { path: ^/registro, roles: [ROLE_ADMIN, ROLE_TERAPEUTA] }
     # - { path: ^/profile, roles: ROLE_USER }
 
 when@test:

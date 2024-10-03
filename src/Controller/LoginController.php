@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
@@ -28,5 +30,25 @@ class LoginController extends AbstractController
     public function logout(): void
     {
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
+    }
+
+    #[Route(path: '/after-login-redirect', name: 'app_login_redirect')]
+    public function loginRedirect(Security $security): RedirectResponse
+    {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
+
+        $redirectUrl = $this->generateUrl('app_login');
+
+        if ($security->isGranted('ROLE_ADMIN')) {
+            $redirectUrl = $this->generateUrl('app_admin');
+        } elseif ($security->isGranted('ROLE_TERAPEUTA')) {
+            // TODO: Redirect to the terapeuta dashboard
+            $redirectUrl = $this->generateUrl('app_terapeuta');
+        } elseif ($security->isGranted('ROLE_CLIENTE')) {
+            // TODO: Redirect to the cliente dashboard
+            $redirectUrl = $this->generateUrl('app_cliente');
+        }
+
+        return $this->redirect($redirectUrl);
     }
 }

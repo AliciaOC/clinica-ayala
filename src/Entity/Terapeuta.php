@@ -6,7 +6,7 @@ use App\Repository\TerapeutaRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: TerapeutaRepository::class)]
-class Terapeuta extends User
+class Terapeuta
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -21,6 +21,10 @@ class Terapeuta extends User
 
     #[ORM\Column(length: 255)]
     private ?string $horario = null;
+
+    #[ORM\OneToOne(inversedBy: 'terapeuta', cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $usuario = null;
 
     public function getId(): ?int
     {
@@ -59,6 +63,18 @@ class Terapeuta extends User
     public function setHorario(string $horario): static
     {
         $this->horario = $horario;
+
+        return $this;
+    }
+
+    public function getIdUsuario(): ?User
+    {
+        return $this->usuario;
+    }
+
+    public function setIdUsuario(User $usuario): static
+    {
+        $this->usuario = $usuario;
 
         return $this;
     }

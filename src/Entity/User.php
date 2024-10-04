@@ -10,11 +10,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
-#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
-#[ORM\InheritanceType("JOINED")]
-#[ORM\DiscriminatorColumn(name: "discr", type: "string")]
-#[ORM\DiscriminatorMap(["user" => "User"], ["terapeuta" => "Terapeuta"], ["cliente" => "Cliente"])]
-
+#[UniqueEntity(fields: ['email'], message: 'Este correo ya está en uso.')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -39,6 +35,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column]
     private bool $isVerified = false;
+
+    #[ORM\OneToOne(mappedBy: 'id_usuario', cascade: ['persist', 'remove'])]
+    private ?Terapeuta $terapeuta = null;
+
+    #[ORM\OneToOne(mappedBy: 'usuario', cascade: ['persist', 'remove'])]
+    private ?Cliente $cliente = null;
 
     public function getId(): ?int
     {
@@ -123,6 +125,40 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setVerified(bool $isVerified): static
     {
         $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    public function getTerapeuta(): ?Terapeuta
+    {
+        return $this->terapeuta;
+    }
+
+    public function setTerapeuta(Terapeuta $terapeuta): static
+    {
+        // set the owning side of the relation if necessary
+        if ($terapeuta->getIdUsuario() !== $this) {
+            $terapeuta->setIdUsuario($this);
+        }
+
+        $this->terapeuta = $terapeuta;
+
+        return $this;
+    }
+
+    public function getCliente(): ?Cliente
+    {
+        return $this->cliente;
+    }
+
+    public function setCliente(Cliente $cliente): static
+    {
+        // set the owning side of the relation if necessary
+        if ($cliente->getUsuario() !== $this) {
+            $cliente->setUsuario($this);
+        }
+
+        $this->cliente = $cliente;
 
         return $this;
     }

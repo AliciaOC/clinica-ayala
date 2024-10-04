@@ -70,18 +70,18 @@ class Tratamiento
         return $this->terapeuta;
     }
 
-    public function addTerapeutum(Terapeuta $terapeutum): static
+    public function addTerapeuta(Terapeuta $terapeuta): static
     {
-        if (!$this->terapeuta->contains($terapeutum)) {
-            $this->terapeuta->add($terapeutum);
+        if (!$this->terapeuta->contains($terapeuta)) {
+            $this->terapeuta->add($terapeuta);
         }
 
         return $this;
     }
 
-    public function removeTerapeutum(Terapeuta $terapeutum): static
+    public function removeTerapeuta(Terapeuta $terapeuta): static
     {
-        $this->terapeuta->removeElement($terapeutum);
+        $this->terapeuta->removeElement($terapeuta);
 
         return $this;
     }

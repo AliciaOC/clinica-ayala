@@ -1,0 +1,10 @@
+{% extends 'admin/index.html.twig' %}
+{% block title %}Administración Tratamientos
+{% endblock %}
+{% block main %}
+	<h1>Administración de los Tratamientos disponibles en la Clínica</h1>
+	<section id="nuevo-tratamiento">
+		<h2>Añadir un nuevo Tratamiento o Terapia</h2>
+		{{ form(nuevoTratamientoForm) }}
+		</section>
+	{% endblock %}

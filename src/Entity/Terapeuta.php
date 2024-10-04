@@ -104,7 +104,7 @@ class Terapeuta
     {
         if (!$this->tratamientos->contains($tratamiento)) {
             $this->tratamientos->add($tratamiento);
-            $tratamiento->addTerapeutum($this);
+            $tratamiento->addTerapeuta($this);
         }
 
         return $this;
@@ -113,7 +113,7 @@ class Terapeuta
     public function removeTratamiento(Tratamiento $tratamiento): static
     {
         if ($this->tratamientos->removeElement($tratamiento)) {
-            $tratamiento->removeTerapeutum($this);
+            $tratamiento->removeTerapeuta($this);
         }
 
         return $this;

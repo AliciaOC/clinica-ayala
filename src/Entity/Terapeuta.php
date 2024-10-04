@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\TerapeutaRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: TerapeutaRepository::class)]
@@ -25,6 +27,17 @@ class Terapeuta
     #[ORM\OneToOne(inversedBy: 'terapeuta', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $usuario = null;
+
+    /**
+     * @var Collection<int, Tratamiento>
+     */
+    #[ORM\ManyToMany(targetEntity: Tratamiento::class, mappedBy: 'terapeuta')]
+    private Collection $tratamientos;
+
+    public function __construct()
+    {
+        $this->tratamientos = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -75,6 +88,33 @@ class Terapeuta
     public function setIdUsuario(User $usuario): static
     {
         $this->usuario = $usuario;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Tratamiento>
+     */
+    public function getTratamientos(): Collection
+    {
+        return $this->tratamientos;
+    }
+
+    public function addTratamiento(Tratamiento $tratamiento): static
+    {
+        if (!$this->tratamientos->contains($tratamiento)) {
+            $this->tratamientos->add($tratamiento);
+            $tratamiento->addTerapeutum($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTratamiento(Tratamiento $tratamiento): static
+    {
+        if ($this->tratamientos->removeElement($tratamiento)) {
+            $tratamiento->removeTerapeutum($this);
+        }
 
         return $this;
     }

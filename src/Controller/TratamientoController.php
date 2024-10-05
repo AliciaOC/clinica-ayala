@@ -80,6 +80,15 @@ class TratamientoController extends AbstractController
         $editarTratamientoForm->handleRequest($peticion);
 
         if ($editarTratamientoForm->isSubmitted() && $editarTratamientoForm->isValid()) {
+            $nombreActualizado = $tratamientoSeleccionado->getNombre();
+            $nombreActualizado = ucfirst(strtolower($nombreActualizado));
+            $tratamientoSeleccionado->setNombre($nombreActualizado);
+
+            if ($this->tratamientoRepository->nombreDisponible($nombreActualizado, $id)) {
+                $this->addFlash('error', 'Actualmente ya existe un tratamiento diferente con ese nombre: ' . $nombreActualizado);
+                return $this->redirectToRoute('admin_editarTratamiento', ['id' => $id]);
+            }
+
             $this->tratamientoRepository->guardar($tratamientoSeleccionado);
             return $this->redirectToRoute('app_admin_tratamientos');
         }

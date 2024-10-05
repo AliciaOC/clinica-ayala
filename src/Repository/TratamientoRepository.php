@@ -32,6 +32,18 @@ class TratamientoRepository extends ServiceEntityRepository
         $this->entityManager->flush();
     }
 
+    //Lo uso en editar tratamiento, para asegurarme que no pueda tener el mismo nombre que otro tratamiento tras la edición
+    public function nombreDisponible($nombre, $id): ?Tratamiento
+    {
+        return $this->createQueryBuilder('tratamiento')
+            ->andWhere('tratamiento.nombre = :nombre')
+            ->andWhere('tratamiento.id != :id')
+            ->setParameter('nombre', $nombre)
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getOneOrNullResult() //devuelve un objeto o null
+        ;
+    }
 
 
 
@@ -51,13 +63,13 @@ class TratamientoRepository extends ServiceEntityRepository
     //        ;
     //    }
 
-    //    public function findOneBySomeField($value): ?Tratamiento
-    //    {
-    //        return $this->createQueryBuilder('t')
-    //            ->andWhere('t.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+    public function findOneBySomeField($value): ?Tratamiento
+    {
+        return $this->createQueryBuilder('t')
+            ->andWhere('t.exampleField = :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
 }

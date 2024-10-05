@@ -9,6 +9,9 @@ use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Tratamiento;
 use App\Repository\TratamientoRepository;
 use App\Form\NuevoTratamientoType;
+use App\Form\EditarTratamientoType;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class TratamientoController extends AbstractController
 {
@@ -19,21 +22,79 @@ class TratamientoController extends AbstractController
         $this->tratamientoRepository = $tratamientoRepository;
     }
 
-    #[Route('/admin/nuevo-tratamiento', name: 'app_nuevo_tratamiento')]
-    public function nuevoTratamiento(Request $peticion): Response
+    #[Route('/admin/tratamientos', name: 'app_admin_tratamientos')]
+    public function administrarTratamientos(Request $peticion): Response
     {
-        $tratamiento = new Tratamiento();
+        //parte para añadir nuevos tratamientos
+        $nuevoTratamientoForm = $this->crearFormularioNuevoTratamiento($peticion);
 
-        $nuevoTratamientoForm = $this->createForm(NuevoTratamientoType::class, $tratamiento);
+        //también obtengo todos los tratamientos para mostrarlos
+        $tratamientos = $this->tratamientoRepository->findAll();
+
+        return $this->render('tratamiento/adminTratamientos.html.twig', [
+            'tratamientos' => $tratamientos,
+            'nuevoTratamientoForm' => $nuevoTratamientoForm,
+        ]);
+    }
+
+    private function crearFormularioNuevoTratamiento(Request $peticion): FormInterface
+    {
+        $tratamientoNuevo = new Tratamiento();
+        $nuevoTratamientoForm = $this->createForm(NuevoTratamientoType::class, $tratamientoNuevo);
 
         $nuevoTratamientoForm->handleRequest($peticion);
 
         if ($nuevoTratamientoForm->isSubmitted() && $nuevoTratamientoForm->isValid()) {
-            $this->tratamientoRepository->save($tratamiento);
+
+            $nombreNuevoTratamiento = $tratamientoNuevo->getNombre();
+            $nombreNuevoTratamiento = ucfirst(strtolower($nombreNuevoTratamiento));
+
+            $arrayNombresTratamientos = [];
+            $tratamientos = $this->tratamientoRepository->findAll();
+
+            foreach ($tratamientos as $tratamiento) {
+                $arrayNombresTratamientos[] = $tratamiento->getNombre();
+            }
+
+            if (!in_array($nombreNuevoTratamiento, $arrayNombresTratamientos)) {
+                $tratamientoNuevo->setNombre($nombreNuevoTratamiento);
+                $this->tratamientoRepository->guardar($tratamientoNuevo);
+                //limpio el formulario
+                $tratamientoNuevo = new Tratamiento();
+                $nuevoTratamientoForm = $this->createForm(NuevoTratamientoType::class, $tratamientoNuevo);
+            } else {
+                //mensaje flash
+                $this->addFlash('error', 'El tratamiento ya existe');
+            }
+        }
+        return $nuevoTratamientoForm;
+    }
+
+    #[Route('/admin/tratamientos/editar/{id}', name: 'admin_editarTratamiento')]
+    public function editarTratamiento(Request $peticion, $id): Response | RedirectResponse
+    {
+
+        $tratamientoSeleccionado = $this->tratamientoRepository->find($id);
+        $editarTratamientoForm = $this->createForm(EditarTratamientoType::class, $tratamientoSeleccionado);
+
+        $editarTratamientoForm->handleRequest($peticion);
+
+        if ($editarTratamientoForm->isSubmitted() && $editarTratamientoForm->isValid()) {
+            $this->tratamientoRepository->guardar($tratamientoSeleccionado);
+            return $this->redirectToRoute('app_admin_tratamientos');
         }
 
-        return $this->render('tratamiento/adminTratamientos.html.twig', [
-            'nuevoTratamientoForm' => $nuevoTratamientoForm
+        return $this->render('tratamiento/editarTratamientoAdmin.html.twig', [
+            'editarTratamientoForm' => $editarTratamientoForm->createView(),
+            'nombreTratamiento' => $tratamientoSeleccionado->getNombre(),
         ]);
+    }
+
+    #[Route('/admin/tratamientos/borrar/{id}', name: 'admin_borrarTratamiento')]
+    public function borrarTratamiento($id): RedirectResponse
+    {
+        $tratamientoSeleccionado = $this->tratamientoRepository->find($id);
+        $this->tratamientoRepository->borrar($tratamientoSeleccionado);
+        return $this->redirectToRoute('app_admin_tratamientos');
     }
 }

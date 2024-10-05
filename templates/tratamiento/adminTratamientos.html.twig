@@ -4,7 +4,42 @@
 {% block main %}
 	<h1>Administración de los Tratamientos disponibles en la Clínica</h1>
 	<section id="nuevo-tratamiento">
-		<h2>Añadir un nuevo Tratamiento o Terapia</h2>
+		<h5>Añadir un nuevo Tratamiento o Terapia</h5>
 		{{ form(nuevoTratamientoForm) }}
+			{% for message in app.flashes('error') %}
+				<div class="flash-error">
+					{{ message }}
+				</div>
+			{% endfor %}
+		</section>
+		<section id="tratamientos">
+			<h5>Tratamientos disponibles</h5>
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>Nombre</th>
+						<th>Descripción</th>
+						<th>Terapeutas que lo aplican</th>
+						<th>Acciones</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for tratamiento in tratamientos %}
+						<tr>
+							<td>{{ tratamiento.nombre }}</td>
+							<td>{{ tratamiento.descripcion }}</td>
+							<td>
+								{% for terapeuta in tratamiento.terapeuta %}
+									{{ terapeuta.nombre }}<br/>
+								{% endfor %}
+							</td>
+							<td>
+								<a href="{{ path('admin_editarTratamiento', {'id': tratamiento.id}) }}">Editar</a>
+								<a href="{{ path('admin_borrarTratamiento', {'id': tratamiento.id}) }}">Borrar</a>
+							</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
 		</section>
 	{% endblock %}

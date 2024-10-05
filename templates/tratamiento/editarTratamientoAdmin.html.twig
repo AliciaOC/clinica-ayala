@@ -1,0 +1,12 @@
+{% extends 'admin/index.html.twig' %}
+
+{% block title %}Editar Tratamiento
+{% endblock %}
+
+{% block main %}
+	<h1>Editar Tratamiento Seleccionado:
+		{{ nombreTratamiento }}</h1>
+	<section id="editar-tratamiento">
+		{{ form(editarTratamientoForm) }}
+		</section>
+	{% endblock %}

@@ -3,4 +3,9 @@
 {% block title %}Administración
 {% endblock %}
 
-{% block header %}{% endblock %}
+{% block header %}
+	<h1>Administración</h1>
+	<ul>
+		<li><a href=" {{ path('app_admin_tratamientos') }} ">Tratamientos</a></li>
+	</ul>
+{% endblock %}

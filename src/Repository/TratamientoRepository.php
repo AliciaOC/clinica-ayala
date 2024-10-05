@@ -20,11 +20,21 @@ class TratamientoRepository extends ServiceEntityRepository
         $this->entityManager = $entityManager;
     }
 
-    public function save(Tratamiento $tratamiento): void
+    public function guardar(Tratamiento $tratamiento): void
     {
         $this->entityManager->persist($tratamiento);
         $this->entityManager->flush();
     }
+
+    public function borrar(Tratamiento $tratamiento): void
+    {
+        $this->entityManager->remove($tratamiento);
+        $this->entityManager->flush();
+    }
+
+
+
+
 
     //    /**
     //     * @return Tratamiento[] Returns an array of Tratamiento objects

@@ -3,9 +3,14 @@
 <p>
 	Confirma tu dirección de correo haciendo click en el siguiente enlace:
 	<br><br>
-	<a href="{{ signedUrl|raw }}">Confirm my Email</a>.
-		    Este enlace caducará en
+	<a href="{{ signedUrl|raw }}">Confirmar Email</a>.
+						    Este enlace caducará en
 	{{ expiresAtMessageKey|trans(expiresAtMessageData, 'VerifyEmailBundle') }}.
+</p>
+
+<p>
+	Tu contraseña pregenerada es:
+	{{ codigo }}. Se te pedirá cambiar la contraseña en tu primer inicio de sesión.
 </p>
 
 <p>

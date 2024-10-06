@@ -1,23 +1,20 @@
-{% extends 'base.html.twig' %}
+{% extends 'admin/index.html.twig' %}
 
 {% block title %}Crear cuenta
 {% endblock %}
 
-{% block body %}
+{% block main %}
 	{% for flash_error in app.flashes('verify_email_error') %}
 		<div class="alert alert-danger" role="alert">{{ flash_error }}</div>
 	{% endfor %}
 
-	<h1>Crear Cuenta</h1>
+	<h1>Crear Cuenta de Administrador/a</h1>
 
 	{{ form_errors(registrationForm) }}
 
 	{{ form_start(registrationForm) }}
 	{{ form_row(registrationForm.email) }}
-	{{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
-	{{ form_row(registrationForm.agreeTerms) }}
+
 
 	<button type="submit" class="btn">Crear</button>
 	{{ form_end(registrationForm) }}

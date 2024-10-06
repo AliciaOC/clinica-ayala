@@ -42,6 +42,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToOne(mappedBy: 'usuario', cascade: ['persist', 'remove'])]
     private ?Cliente $cliente = null;
 
+    #[ORM\Column]
+    private ?bool $recienCreado = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -159,6 +162,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         $this->cliente = $cliente;
+
+        return $this;
+    }
+
+    public function isRecienCreado(): ?bool
+    {
+        return $this->recienCreado;
+    }
+
+    public function setRecienCreado(bool $recienCreado): static
+    {
+        $this->recienCreado = $recienCreado;
 
         return $this;
     }

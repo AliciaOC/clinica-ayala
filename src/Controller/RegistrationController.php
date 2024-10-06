@@ -20,7 +20,7 @@ class RegistrationController extends AbstractController
 {
     public function __construct(private EmailVerifier $emailVerifier) {}
 
-    #[Route('/registro', name: 'app_register')]
+    #[Route('/admin/registro', name: 'app_admin_registrar')]
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
     {
         $user = new User();
@@ -28,11 +28,15 @@ class RegistrationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            /** @var string $plainPassword */
-            $plainPassword = $form->get('plainPassword')->getData();
 
-            // encode the plain password
-            $user->setPassword($userPasswordHasher->hashPassword($user, $plainPassword));
+            //codigo aleatorio de 6 letras y números
+            $codigoAleatorio = substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 6);
+
+            //introduzco los valores que faltan para crear un administrador
+            $user->setPassword($userPasswordHasher->hashPassword($user, $codigoAleatorio));
+            $user->setRoles(['ROLE_ADMIN']);
+            $user->setVerified(false);
+            $user->setRecienCreado(true);
 
             $entityManager->persist($user);
             $entityManager->flush();
@@ -45,15 +49,21 @@ class RegistrationController extends AbstractController
                     ->from(new Address('tfgdawalicia@gmail.com', 'Clinica Ayala'))
                     ->to((string) $user->getEmail())
                     ->subject('Por favor, confirma tu email')
+                    //a la template le paso el código aleatorio
                     ->htmlTemplate('registration/confirmation_email.html.twig')
+                    ->context([
+                        'codigo' => $codigoAleatorio, //le paso el código aleatorio a la template
+
+                    ])
+
             );
 
             // do anything else you need here, like send an email
 
-            return $this->redirectToRoute('login_name');
+            return $this->redirectToRoute('app_admin');
         }
 
-        return $this->render('registration/register.html.twig', [
+        return $this->render('registration/adminRegister.html.twig', [
             'registrationForm' => $form,
         ]);
     }
@@ -71,12 +81,12 @@ class RegistrationController extends AbstractController
         } catch (VerifyEmailExceptionInterface $exception) {
             $this->addFlash('verify_email_error', $translator->trans($exception->getReason(), [], 'VerifyEmailBundle'));
 
-            return $this->redirectToRoute('app_register');
+            return $this->redirectToRoute('app_home');
         }
 
         // @TODO Change the redirect on success and handle or remove the flash message in your templates
         $this->addFlash('success', 'Tu correo ha sido verificado.');
 
-        return $this->redirectToRoute('app_register');
+        return $this->redirectToRoute('app_login');
     }
 }

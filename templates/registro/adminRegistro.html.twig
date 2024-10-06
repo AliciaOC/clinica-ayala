@@ -10,12 +10,13 @@
 
 	<h1>Crear Cuenta de Administrador/a</h1>
 
-	{{ form_errors(registrationForm) }}
+	{{ form_errors(registroForm) }}
 
-	{{ form_start(registrationForm) }}
-	{{ form_row(registrationForm.email) }}
-
+	{{ form_start(registroForm) }}
+	{{ form_row(registroForm.email) }}
+	{{ form_row(registroForm.confirmacionCodigo) }}:
+	{{ codigo }}
 
 	<button type="submit" class="btn">Crear</button>
-	{{ form_end(registrationForm) }}
+	{{ form_end(registroForm) }}
 {% endblock %}

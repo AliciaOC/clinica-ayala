@@ -6,6 +6,8 @@ use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 
 
 class RegistrarAdminType extends AbstractType
@@ -13,7 +15,12 @@ class RegistrarAdminType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('email');
+            ->add('email', EmailType::class)
+            ->add('confirmacionCodigo', CheckboxType::class, [
+                'mapped' => false,
+                'label' => 'Confirmación de código',
+                'required' => true,
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

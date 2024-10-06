@@ -33,17 +33,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
-    #[ORM\Column]
-    private bool $isVerified = false;
-
     #[ORM\OneToOne(mappedBy: 'usuario', cascade: ['persist', 'remove'])]
     private ?Terapeuta $terapeuta = null;
 
     #[ORM\OneToOne(mappedBy: 'usuario', cascade: ['persist', 'remove'])]
     private ?Cliente $cliente = null;
 
-    #[ORM\Column]
-    private ?bool $recienCreado = null;
+    #[ORM\Column(length: 255)]
+    private ?string $codigo = null;
 
     public function getId(): ?int
     {
@@ -120,18 +117,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // $this->plainPassword = null;
     }
 
-    public function isVerified(): bool
-    {
-        return $this->isVerified;
-    }
-
-    public function setVerified(bool $isVerified): static
-    {
-        $this->isVerified = $isVerified;
-
-        return $this;
-    }
-
     public function getTerapeuta(): ?Terapeuta
     {
         return $this->terapeuta;
@@ -166,14 +151,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function isRecienCreado(): ?bool
+    public function getCodigo(): ?string
     {
-        return $this->recienCreado;
+        return $this->codigo;
     }
 
-    public function setRecienCreado(bool $recienCreado): static
+    public function setCodigo(string $codigo): static
     {
-        $this->recienCreado = $recienCreado;
+        $this->codigo = $codigo;
 
         return $this;
     }

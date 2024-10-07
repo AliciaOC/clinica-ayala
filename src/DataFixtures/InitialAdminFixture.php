@@ -26,21 +26,15 @@ class InitialAdminFixture extends Fixture
         $usuarioAdmin = new User();
         $usuarioAdmin->setEmail('admin@admin.com');
         $usuarioAdmin->setRoles(['ROLE_ADMIN']);
+        $usuarioAdmin->setNuevo(false);
         $password = $this->params->get('app.super_admin_password');
-        $codigo = $this->params->get('app.super_admin_codigo');
 
         $hashedPassword = $this->passwordHasher->hashPassword(
             $usuarioAdmin,
             $password
         );
+
         $usuarioAdmin->setPassword($hashedPassword);
-
-        $hashedCodigo = $this->passwordHasher->hashPassword(
-            $usuarioAdmin,
-            $codigo
-        );
-        $usuarioAdmin->setCodigo($hashedCodigo);
-
         $manager->persist($usuarioAdmin);
         $manager->flush();
     }

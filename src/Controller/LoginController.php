@@ -8,9 +8,20 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use App\Form\CambioPasswordType;
+use App\Entity\User;
 
 class LoginController extends AbstractController
 {
+    private EntityManagerInterface $entityManager;
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
+
     #[Route(path: '/login', name: 'app_login')]
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
@@ -37,6 +48,14 @@ class LoginController extends AbstractController
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
 
+        //si nuevo=true, lo redirijo a app_cambio_password
+        $userEmail = $this->getUser()->getUserIdentifier();
+        $user = $this->entityManager->getRepository(User::class)->findOneByEmail($userEmail);
+        if ($user->isNuevo()) {
+            return $this->redirectToRoute('app_cambio_password');
+        }
+
+        //si no es su primer login, lo redirijo a la página correspondiente según su rol
         $redirectUrl = $this->generateUrl('app_login');
 
         if ($security->isGranted('ROLE_ADMIN')) {
@@ -50,5 +69,47 @@ class LoginController extends AbstractController
         }
 
         return $this->redirect($redirectUrl);
+    }
+
+    #[Route(path: '/cambio-password', name: 'app_cambio_password')]
+    public function cambioPassword(Request $peticion, UserPasswordHasherInterface $hashpassword): Response
+    {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
+
+        $userEmail = $this->getUser()->getUserIdentifier();
+        $user = $this->entityManager->getRepository(User::class)->findOneByEmail($userEmail);
+
+        $form = $this->createForm(CambioPasswordType::class);
+        $form->handleRequest($peticion);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $password = $form->get('nuevaPassword')->getData();
+            $confirmacionPassword = $form->get('confirmacionPassword')->getData();
+
+            if ($password != $confirmacionPassword) {
+                $this->addFlash('error', 'Las contraseñas no coinciden');
+                return $this->render('login/cambioPassword.html.twig', [
+                    'nuevo' => $user->isNuevo(),
+                    'cambioPasswordForm' => $form->createView(),
+                ]);
+            }
+
+            //Si llega hasta aquí se actualiza la contraseña en la base de datos y se redirige a su espacio personal
+            try {
+                $user->setPassword($hashpassword->hashPassword($user, $password));
+                $user->setNuevo(false);
+                $this->entityManager->persist($user);
+                $this->entityManager->flush();
+                return $this->redirectToRoute('app_login_redirect');
+            } catch (\Exception $e) {
+                $this->addFlash('error', 'Error al cambiar la contraseña: ' . $e->getMessage());
+            }
+        }
+
+        return $this->render('login/cambioPassword.html.twig', [
+            'nuevo' => $user->isNuevo(),
+            'cambioPasswordForm' => $form->createView(),
+        ]);
     }
 }

@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use App\Form\RegistrarAdminType;
 
 
-class RegistrationController extends AbstractController
+class RegistroAdminController extends AbstractController
 {
 
 
@@ -21,17 +21,18 @@ class RegistrationController extends AbstractController
     {
         $user = new User();
         $form = $this->createForm(RegistrarAdminType::class, $user);
-        //codigo aleatorio de 6 letras y números
-        $codigoAleatorio = substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 6);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             //introduzco los valores que faltan para crear un administrador (el email va en el formulario)
-            //la contraseña y el código son lo mismo cuando se crea el nuevo usuario, al acceder, cuando se detecten que son iguales se le pide el cambio de contraseña
-            $user->setPassword($userPasswordHasher->hashPassword($user, $codigoAleatorio));
-            $user->setCodigo($userPasswordHasher->hashPassword($user, $codigoAleatorio));
+            //la contraseña para nuevos usuarios es el string de su email que hay antes del @
+            $email = $user->getEmail();
+            $passwordProvisonal = substr($email, 0, strpos($email, '@')); //el 0 es el inicio de la cadena, y strpos busca la primera aparición de @
+            $passwordHashed = $userPasswordHasher->hashPassword($user, $passwordProvisonal);
+            $user->setPassword($passwordHashed);
             $user->setRoles(['ROLE_ADMIN']);
+            $user->setNuevo(true);
 
             $entityManager->persist($user);
             $entityManager->flush();
@@ -43,7 +44,6 @@ class RegistrationController extends AbstractController
 
         return $this->render('registro/adminRegistro.html.twig', [
             'registroForm' => $form,
-            'codigo' => $codigoAleatorio
         ]);
     }
 }

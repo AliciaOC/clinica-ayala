@@ -39,8 +39,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToOne(mappedBy: 'usuario', cascade: ['persist', 'remove'])]
     private ?Cliente $cliente = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $codigo = null;
+    #[ORM\Column]
+    private ?bool $nuevo = null;
 
     public function getId(): ?int
     {
@@ -151,14 +151,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getCodigo(): ?string
+    public function isNuevo(): ?bool
     {
-        return $this->codigo;
+        return $this->nuevo;
     }
 
-    public function setCodigo(string $codigo): static
+    public function setNuevo(bool $nuevo): static
     {
-        $this->codigo = $codigo;
+        $this->nuevo = $nuevo;
 
         return $this;
     }

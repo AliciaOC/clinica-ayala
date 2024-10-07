@@ -14,9 +14,6 @@
 
 	{{ form_start(registroForm) }}
 	{{ form_row(registroForm.email) }}
-	{{ form_row(registroForm.confirmacionCodigo) }}:
-	{{ codigo }}
-
-	<button type="submit" class="btn">Crear</button>
+	{{ form_row(registroForm.confirmacion) }}
 	{{ form_end(registroForm) }}
 {% endblock %}

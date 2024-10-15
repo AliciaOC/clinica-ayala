@@ -8,6 +8,7 @@ use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
+
 class InitialAdminFixture extends Fixture
 {
     private UserPasswordHasherInterface $passwordHasher;

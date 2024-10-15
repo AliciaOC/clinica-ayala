@@ -46,28 +46,32 @@ class LoginController extends AbstractController
     #[Route(path: '/after-login-redirect', name: 'app_login_redirect')]
     public function loginRedirect(Security $security): RedirectResponse
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
-
-        //si nuevo=true, lo redirijo a app_cambio_password
-        $userEmail = $this->getUser()->getUserIdentifier();
-        $user = $this->entityManager->getRepository(User::class)->findOneByEmail($userEmail);
-        if ($user->isNuevo()) {
-            return $this->redirectToRoute('app_cambio_password');
-        }
-
-        //si no es su primer login, lo redirijo a la página correspondiente según su rol
         $redirectUrl = $this->generateUrl('app_login');
 
-        if ($security->isGranted('ROLE_ADMIN')) {
-            $redirectUrl = $this->generateUrl('app_admin');
-        } elseif ($security->isGranted('ROLE_TERAPEUTA')) {
-            // TODO: Redirect to the terapeuta dashboard
-            $redirectUrl = $this->generateUrl('app_terapeuta');
-        } elseif ($security->isGranted('ROLE_CLIENTE')) {
-            // TODO: Redirect to the cliente dashboard
-            $redirectUrl = $this->generateUrl('app_cliente');
-        }
+        if($this->getUser())
+        {
+            $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
 
+            //si nuevo=true, lo redirijo a app_cambio_password
+            $userEmail = $this->getUser()->getUserIdentifier();
+            $user = $this->entityManager->getRepository(User::class)->findOneByEmail($userEmail);
+            if ($user->isNuevo()) {
+                return $this->redirectToRoute('app_cambio_password');
+            }
+
+            //si no es su primer login, lo redirijo a la página correspondiente según su rol
+            if ($security->isGranted('ROLE_ADMIN')) {
+                $redirectUrl = $this->generateUrl('app_admin');
+            } elseif ($security->isGranted('ROLE_TERAPEUTA')) {
+                // TODO: Redirect to the terapeuta dashboard
+                $redirectUrl = $this->generateUrl('app_terapeuta');
+            } elseif ($security->isGranted('ROLE_CLIENTE')) {
+                // TODO: Redirect to the cliente dashboard
+                $redirectUrl = $this->generateUrl('app_cliente');
+            }
+
+        }
+        
         return $this->redirect($redirectUrl);
     }
 
@@ -87,6 +91,7 @@ class LoginController extends AbstractController
             $password = $form->get('nuevaPassword')->getData();
             $confirmacionPassword = $form->get('confirmacionPassword')->getData();
 
+            //compruebo que las contraseñas sean iguales
             if ($password != $confirmacionPassword) {
                 $this->addFlash('error', 'Las contraseñas no coinciden');
                 return $this->render('login/cambioPassword.html.twig', [

@@ -1,14 +1,10 @@
-{% extends 'admin/index.html.twig' %}
+{% extends 'admin/indexAdmin.html.twig' %}
 
 {% block title %}Crear cuenta
 {% endblock %}
 
 {% block main %}
-	{% for flash_error in app.flashes('verify_email_error') %}
-		<div class="alert alert-danger" role="alert">{{ flash_error }}</div>
-	{% endfor %}
-
-	<h1>Crear Cuenta de Administrador/a</h1>
+	<h3>Crear Cuenta de Administrador/a</h1>
 
 	{{ form_errors(registroForm) }}
 

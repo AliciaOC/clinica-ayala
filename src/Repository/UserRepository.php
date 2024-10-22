@@ -57,4 +57,49 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->getOneOrNullResult() //devuelve un solo resultado o null
         ;
     }
+
+    public function findOneById($id): ?User
+    {
+        return $this->createQueryBuilder('user')
+            ->andWhere('user.id = :val')
+            ->setParameter('val', $id)
+            ->getQuery()
+            ->getOneOrNullResult() 
+        ;
+    }
+
+    public function findByRole($role): array
+    {
+        return $this->createQueryBuilder('user')
+            ->andWhere('user.roles = :val')
+            ->setParameter('val', $role)
+            ->orderBy('user.id', 'ASC')
+            //->setMaxResults(10)
+            ->getQuery()
+            ->getResult()
+      ;
+    }
+
+    //método para paginar
+    public function findAllByRole($role, $pagina = 1, $elementosPorPagina = 10): array
+    {
+        $query = $this->createQueryBuilder('user')
+            ->andWhere('user.roles = :val')
+            ->setParameter('val', $role)
+            ->orderBy('user.id', 'ASC')
+            ->getQuery()
+        ;
+
+        $offset = ($pagina - 1) * $elementosPorPagina;//offset es el número de elementos que se saltan
+        $query->setFirstResult($offset);
+        $query->setMaxResults($elementosPorPagina);
+
+        return $query->getResult();
+    }
+
+    public function borrar(User $user): void
+    {
+        $this->getEntityManager()->remove($user);
+        $this->getEntityManager()->flush();
+    }
 }

@@ -10,12 +10,22 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use App\Form\RegistrarAdminType;
-use App\Form\RegistrarTerapeutaType;
-use Exception;
-use Symfony\Component\Form\Extension\Core\Type\FormType;
+use App\Repository\UserRepository;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class AdminController extends AbstractController
 {
+    private UserRepository $userRepository;
+    private UserPasswordHasherInterface $userPasswordHasher;
+    private EntityManagerInterface $entityManager; 
+
+    public function __construct(UserRepository $userRepository, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager)
+    {
+        $this->userRepository = $userRepository;
+        $this->userPasswordHasher = $userPasswordHasher;
+        $this->entityManager = $entityManager;
+    }
+
     #[Route('/admin', name: 'app_admin')]
     public function index(): Response
     {
@@ -24,38 +34,28 @@ class AdminController extends AbstractController
         ]);
     }
 
-    #[Route('/admin/registro-admin', name: 'app_admin_registrar')]
-    public function registrarAdmin(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
+    #[Route('/admin/admins', name: 'app_admin_admins')]
+    public function administrarAdmins(Request $request): Response
     {
-        $user = new User();
-        $form = $this->createForm(RegistrarAdminType::class, $user);
+        //formulario para añadir admins
+        $crearAdminForm=$this->crearUserForm($request, "ROLE_ADMIN");
 
-        $form->handleRequest($request);
+        //todos los admins
+        $admins = $this->userRepository->findByRole('["ROLE_ADMIN"]');
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            //introduzco los valores que faltan para crear un administrador (el email va en el formulario)
-            //la contraseña para nuevos usuarios es el string de su email que hay antes del @
-            $email = $user->getEmail();
-            $passwordProvisonal = substr($email, 0, strpos($email, '@')); //el 0 es el inicio de la cadena, y strpos busca la primera aparición de @
-            $passwordHashed = $userPasswordHasher->hashPassword($user, $passwordProvisonal);
-            $user->setPassword($passwordHashed);
-            $user->setRoles(['ROLE_ADMIN']);
-            $user->setNuevo(true);
-
-            $entityManager->persist($user);
-            $entityManager->flush();
-
-            // do anything else you need here, like send an email
-
-            return $this->redirectToRoute('app_admin');
-        }
-
-        return $this->render('admin/adminRegistro.html.twig', [
-            'registroForm' => $form,
+        //controlar que no se pueda borrar el admin que está logueado
+        $user = $this->getUser();//obtengo el usuario actual
+        $emailUserActual=$user->getUserIdentifier();
+        $idAdminUserActual=$this->userRepository->findOneByEmail($emailUserActual)->getId();
+        
+        return $this->render('admin/admins.html.twig', [
+            'admins' => $admins,
+            'registroForm' => $crearAdminForm,
+            'idActual' => $idAdminUserActual,
         ]);
     }
 
-    public function crearUser(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, string $rol)
+    public function crearUserForm(Request $request, string $rol)
     {
         $user = new User();
         $form = $this->createForm(RegistrarAdminType::class, $user);
@@ -67,52 +67,61 @@ class AdminController extends AbstractController
             //la contraseña para nuevos usuarios es el string de su email que hay antes del @
             $email = $user->getEmail();
             $passwordProvisonal = substr($email, 0, strpos($email, '@')); //el 0 es el inicio de la cadena, y strpos busca la primera aparición de @
-            $passwordHashed = $userPasswordHasher->hashPassword($user, $passwordProvisonal);
+            $passwordHashed = $this->userPasswordHasher->hashPassword($user, $passwordProvisonal);
             $user->setPassword($passwordHashed);
             $user->setRoles([$rol]);
             $user->setNuevo(true);
 
-            $entityManager->persist($user);
-            $entityManager->flush();
+            $this->entityManager->persist($user);
+            $this->entityManager->flush();
 
-            return true;
-            //return $this->redirectToRoute('app_admin');
+            //limpio el formulario
+            $user = new User();                            
+            $form = $this->createForm(RegistrarAdminType::class, $user);        
         }
-
-        
-        return $this->render('admin/adminRegistro.html.twig', [
-            'registroForm' => $form,
-        ]);
-        
+         return $form;  
     }
 
-    public function registrarTerapeuta(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
+    #[Route('/admin/admins/borrar-user/{id}', name: 'admin_admins_borrarUser')]
+    public function borrarUser($id): RedirectResponse
     {
-        $user = new User();
-        $form = $this->createForm(RegistrarAdminType::class, $user);
+        $userSeleccionado = $this->userRepository->findOneById($id);
+        $this->userRepository->borrar($userSeleccionado);
+        return $this->redirectToRoute('app_admin_admins');
+    }
 
-        $form->handleRequest($request);
+    #[Route('/admin/reiniciar-password/{id}', name: 'admin_reiniciarPassword')]
+    public function reiniciarPassword($id): RedirectResponse
+    {
+        $userSeleccionado = $this->userRepository->findOneById($id);
+        $email = $userSeleccionado->getEmail();
+        $passwordProvisonal = substr($email, 0, strpos($email, '@')); //el 0 es el inicio de la cadena, y strpos busca la primera aparición de @
+        $passwordHashed = $this->userPasswordHasher->hashPassword($userSeleccionado, $passwordProvisonal);
+        $userSeleccionado->setPassword($passwordHashed);
+        $userSeleccionado->setNuevo(true);
+        $this->entityManager->persist($userSeleccionado);
+        $this->entityManager->flush();
+        return $this->redirectToRoute('app_admin_admins');
+    }
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            //introduzco los valores que faltan para crear un administrador (el email va en el formulario)
-            //la contraseña para nuevos usuarios es el string de su email que hay antes del @
-            $email = $user->getEmail();
-            $passwordProvisonal = substr($email, 0, strpos($email, '@')); //el 0 es el inicio de la cadena, y strpos busca la primera aparición de @
-            $passwordHashed = $userPasswordHasher->hashPassword($user, $passwordProvisonal);
-            $user->setPassword($passwordHashed);
-            $user->setRoles(['ROLE_ADMIN']);
-            $user->setNuevo(true);
+    #[Route('/admin/terapeutas', name: 'app_admin_terapeutas')]
+    public function administrarTerapeutas(Request $request): Response
+    {
+        //formulario para añadir admins
+        $crearAdminForm=$this->crearUserForm($request, "ROLE_ADMIN");
 
-            $entityManager->persist($user);
-            $entityManager->flush();
+        //todos los admins
+        $admins = $this->userRepository->findByRole('["ROLE_ADMIN"]');
 
-            // do anything else you need here, like send an email
-
-            return $this->redirectToRoute('app_admin');
-        }
-
-        return $this->render('admin/adminRegistro.html.twig', [
-            'registroForm' => $form,
+        //controlar que no se pueda borrar el admin que está logueado
+        $user = $this->getUser();//obtengo el usuario actual
+        $emailUserActual=$user->getUserIdentifier();
+        $idAdminUserActual=$this->userRepository->findOneByEmail($emailUserActual)->getId();
+        
+        return $this->render('admin/admins.html.twig', [
+            'admins' => $admins,
+            'registroForm' => $crearAdminForm,
+            'idActual' => $idAdminUserActual,
         ]);
     }
 }

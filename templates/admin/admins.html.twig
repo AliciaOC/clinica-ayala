@@ -1,0 +1,38 @@
+{% extends 'admin/indexAdmin.html.twig' %}
+
+{% block title %}Administradores/as
+{% endblock %}
+
+{% block main %}
+	<h3>Crear Cuenta de Administrador/a</h1>
+	<section id="nuevo-admin">
+		{{ form(registroForm) }}
+	</section>
+	<section id="admins">
+		<h3>Administradores/as</h3>
+		<table>
+			<thead>
+				<tr>
+					<th>Correo Electrónico</th>
+					<th>Acciones</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for admin in admins %}
+					<tr>
+						<td>{{ admin.email }}</td>
+						<td>
+
+						{% if not admin.nuevo %}
+							<a href="{{ path('admin_reiniciarPassword', {'id': admin.id}) }}">Reiniciar Contraseña</a>
+						{% endif %}
+
+						{% if admin.id != idActual %}
+							<a href="{{ path('admin_admins_borrarUser', {'id': admin.id}) }}">Borrar</a>
+						{% endif %}
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+{% endblock %}

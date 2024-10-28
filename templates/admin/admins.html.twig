@@ -27,7 +27,7 @@
 							<a href="{{ path('admin_reiniciarPassword', {'id': admin.id}) }}">Reiniciar Contraseña</a>
 						{% endif %}
 
-						{% if admin.id != idActual %}
+						{% if admin.id != app.user.id %}<!-- No se puede borrar a si mismo -->
 							<a href="{{ path('admin_admins_borrarUser', {'id': admin.id}) }}">Borrar</a>
 						{% endif %}
 						</td>

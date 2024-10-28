@@ -20,7 +20,7 @@ class TratamientoController extends AbstractController
     public function __construct(TratamientoRepository $tratamientoRepository)
     {
         $this->tratamientoRepository = $tratamientoRepository;
-    }
+    } 
 
     #[Route('/admin/tratamientos', name: 'app_admin_tratamientos')]
     public function administrarTratamientos(Request $peticion): Response

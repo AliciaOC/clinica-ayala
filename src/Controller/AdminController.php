@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Terapeuta;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -9,21 +10,24 @@ use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use App\Form\RegistrarAdminType;
 use App\Repository\UserRepository;
+use App\Services\UserService;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+
 
 class AdminController extends AbstractController
 {
     private UserRepository $userRepository;
     private UserPasswordHasherInterface $userPasswordHasher;
     private EntityManagerInterface $entityManager; 
+    private UserService $userService;
 
-    public function __construct(UserRepository $userRepository, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager)
+    public function __construct(UserRepository $userRepository, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, UserService $userService)
     {
         $this->userRepository = $userRepository;
         $this->userPasswordHasher = $userPasswordHasher;
         $this->entityManager = $entityManager;
+        $this->userService = $userService;
     }
 
     #[Route('/admin', name: 'app_admin')]
@@ -38,48 +42,15 @@ class AdminController extends AbstractController
     public function administrarAdmins(Request $request): Response
     {
         //formulario para añadir admins
-        $crearAdminForm=$this->crearUserForm($request, "ROLE_ADMIN");
+        $crearAdminForm=$this->userService->crearUserForm($request, "ROLE_ADMIN");
 
         //todos los admins
         $admins = $this->userRepository->findByRole('["ROLE_ADMIN"]');
-
-        //controlar que no se pueda borrar el admin que está logueado
-        $user = $this->getUser();//obtengo el usuario actual
-        $emailUserActual=$user->getUserIdentifier();
-        $idAdminUserActual=$this->userRepository->findOneByEmail($emailUserActual)->getId();
         
         return $this->render('admin/admins.html.twig', [
             'admins' => $admins,
             'registroForm' => $crearAdminForm,
-            'idActual' => $idAdminUserActual,
         ]);
-    }
-
-    public function crearUserForm(Request $request, string $rol)
-    {
-        $user = new User();
-        $form = $this->createForm(RegistrarAdminType::class, $user);
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            //introduzco los valores que faltan para crear un administrador (el email va en el formulario)
-            //la contraseña para nuevos usuarios es el string de su email que hay antes del @
-            $email = $user->getEmail();
-            $passwordProvisonal = substr($email, 0, strpos($email, '@')); //el 0 es el inicio de la cadena, y strpos busca la primera aparición de @
-            $passwordHashed = $this->userPasswordHasher->hashPassword($user, $passwordProvisonal);
-            $user->setPassword($passwordHashed);
-            $user->setRoles([$rol]);
-            $user->setNuevo(true);
-
-            $this->entityManager->persist($user);
-            $this->entityManager->flush();
-
-            //limpio el formulario
-            $user = new User();                            
-            $form = $this->createForm(RegistrarAdminType::class, $user);        
-        }
-         return $form;  
     }
 
     #[Route('/admin/admins/borrar-user/{id}', name: 'admin_admins_borrarUser')]
@@ -107,8 +78,16 @@ class AdminController extends AbstractController
     #[Route('/admin/terapeutas', name: 'app_admin_terapeutas')]
     public function administrarTerapeutas(Request $request): Response
     {
-        //formulario para añadir admins
-        $crearAdminForm=$this->crearUserForm($request, "ROLE_ADMIN");
+        $usuario = new User();
+        $usuario->setEmail('asd');
+        $terapeuta = new Terapeuta();
+        $terapeuta->setUsuario($usuario);
+
+        $this->entityManager->persist($terapeuta);
+        $this->entityManager->flush();
+
+        //formulario para añadir user-terapeuta
+        $crearAdminForm=$this->userService->crearUserForm($request, "ROLE_TERAPEUTA");
 
         //todos los admins
         $admins = $this->userRepository->findByRole('["ROLE_ADMIN"]');
@@ -124,4 +103,31 @@ class AdminController extends AbstractController
             'idActual' => $idAdminUserActual,
         ]);
     }
+
+    /*private function crearUserForm(Request $request, string $rol)
+    {
+        $user = new User();
+        $form = $this->createForm(RegistrarAdminType::class, $user);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            //introduzco los valores que faltan para crear un administrador (el email va en el formulario)
+            //la contraseña para nuevos usuarios es el string de su email que hay antes del @
+            $email = $user->getEmail();
+            $passwordProvisonal = substr($email, 0, strpos($email, '@')); //el 0 es el inicio de la cadena, y strpos busca la primera aparición de @
+            $passwordHashed = $this->userPasswordHasher->hashPassword($user, $passwordProvisonal);
+            $user->setPassword($passwordHashed);
+            $user->setRoles([$rol]);
+            $user->setNuevo(true);
+
+            $this->entityManager->persist($user);
+            $this->entityManager->flush();
+
+            //limpio el formulario
+            $user = new User();                            
+            $form = $this->createForm(RegistrarAdminType::class, $user);        
+        }
+         return $form;  
+    }*/
 }

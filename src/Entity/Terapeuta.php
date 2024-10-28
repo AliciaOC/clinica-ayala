@@ -80,12 +80,12 @@ class Terapeuta
         return $this;
     }
 
-    public function getIdUsuario(): ?User
+    public function getUsuario(): ?User
     {
         return $this->usuario;
     }
 
-    public function setIdUsuario(User $usuario): static
+    public function setUsuario(User $usuario): static
     {
         $this->usuario = $usuario;
 

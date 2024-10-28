@@ -125,8 +125,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setTerapeuta(Terapeuta $terapeuta): static
     {
         // set the owning side of the relation if necessary
-        if ($terapeuta->getIdUsuario() !== $this) {
-            $terapeuta->setIdUsuario($this);
+        if ($terapeuta->getUsuario() !== $this) {
+            $terapeuta->setUsuario($this);
         }
 
         $this->terapeuta = $terapeuta;

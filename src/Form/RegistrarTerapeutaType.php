@@ -28,15 +28,6 @@ class RegistrarTerapeutaType extends AbstractType
                 'multiple' => true,
                 'required' => false,
             ])
-            ->add('email', EmailType::class)
-            ->add('confirmacion', CheckboxType::class, [
-                'mapped' => false, //no se mapea con la entidad
-                'label' => 'Informe al nuevo Terapeuta que su contraseña provisional es lo que hay antes del @ en su email y que el programa le pedirá cambiar la contraseña en el primer acceso.',
-                'required' => true,
-            ])
-            ->add('submit', SubmitType::class, [
-                'label' => 'Guardar',
-            ]);
         ;
     }
 

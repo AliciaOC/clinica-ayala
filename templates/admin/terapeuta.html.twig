@@ -1,0 +1,48 @@
+{% extends 'admin/indexAdmin.html.twig' %}
+
+{% block title %}Terapeutas
+{% endblock %}
+
+{% block main %}
+	<h3>Crear Cuenta de Terapeuta</h1>
+	<section id="nuevo-terapeuta">
+
+		{{ form(registroForm1) }}
+        {{ form(registroForm2) }}
+		<button type="submit">Crear</button>
+		
+	</section>
+	<section id="terapeutas">
+		<h3>Terapeutas</h3>
+		<table>
+			<thead>
+				<tr>
+					<th>Correo Electrónico</th>
+                    <th>Nombre</th>
+                    <th>Titulación</th>
+                    <th>Tratamientos</th>
+                    <th>Horario</th>
+					<th>Acciones</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for terapeuta in terapeutas %}
+					<tr>
+						<td>{{ terapeuta.email }}</td>
+                        <td>{{ terapeuta.nombre }}</td>
+                        <td>{{ terapeuta.titulacion }}</td>
+                        <td>{{ terapeuta.tratamientos }}</td>
+                        <td>{{ terapeuta.horario }}</td>
+						<td>
+						{% if not terapeuta.nuevo %}
+							<a href="{{ path('admin_reiniciarPassword', {'id': admin.id}) }}">Reiniciar Contraseña</a>
+						{% endif %}
+
+							<a href="{{ path('admin_admins_borrarUser', {'id': admin.id}) }}">Borrar</a>
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+    </section>
+{% endblock %}

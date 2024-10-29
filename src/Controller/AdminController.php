@@ -7,13 +7,15 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use App\Entity\User;
+use App\Form\RegistrarTerapeutaType;
+use App\Form\RegistrarUserType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use App\Repository\UserRepository;
 use App\Services\UserService;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-
 
 class AdminController extends AbstractController
 {
@@ -42,14 +44,14 @@ class AdminController extends AbstractController
     public function administrarAdmins(Request $request): Response
     {
         //formulario para añadir admins
-        $crearAdminForm=$this->userService->crearUserForm($request, "ROLE_ADMIN");
+        $crearAdminForm=$this->crearUserForm($request, "ROLE_ADMIN");
 
         //todos los admins
         $admins = $this->userRepository->findByRole('["ROLE_ADMIN"]');
         
         return $this->render('admin/admins.html.twig', [
             'admins' => $admins,
-            'registroForm' => $crearAdminForm,
+            'registroForm' => $crearAdminForm->createView(),
         ]);
     }
 
@@ -78,56 +80,49 @@ class AdminController extends AbstractController
     #[Route('/admin/terapeutas', name: 'app_admin_terapeutas')]
     public function administrarTerapeutas(Request $request): Response
     {
-        $usuario = new User();
-        $usuario->setEmail('asd');
-        $terapeuta = new Terapeuta();
-        $terapeuta->setUsuario($usuario);
+        //formulario para añadir user terapeuta
+        $crearAdminForm=$this->crearUserForm($request, "ROLE_TERAPEUTA");
 
-        $this->entityManager->persist($terapeuta);
-        $this->entityManager->flush();
+        //formulario para añadir terapeuta
+        $terapeuta=new Terapeuta();
+        $form = $this->createForm(RegistrarTerapeutaType::class, $terapeuta);
+        $form->handleRequest($request);
 
-        //formulario para añadir user-terapeuta
-        $crearAdminForm=$this->userService->crearUserForm($request, "ROLE_TERAPEUTA");
+        if ($form->isSubmitted() && $form->isValid()) {
 
-        //todos los admins
-        $admins = $this->userRepository->findByRole('["ROLE_ADMIN"]');
+            $this->entityManager->persist($terapeuta);
+            $this->entityManager->flush();
 
-        //controlar que no se pueda borrar el admin que está logueado
-        $user = $this->getUser();//obtengo el usuario actual
-        $emailUserActual=$user->getUserIdentifier();
-        $idAdminUserActual=$this->userRepository->findOneByEmail($emailUserActual)->getId();
+            //limpio el formulario
+            $terapeuta = new Terapeuta();                            
+            $form = $this->createForm(RegistrarTerapeutaType::class, $terapeuta);
+        }
+
+        //todos los terapeutas
+        $terapeutas = $this->userRepository->findByRole('["ROLE_TERAPEUTA"]');
         
         return $this->render('admin/admins.html.twig', [
-            'admins' => $admins,
-            'registroForm' => $crearAdminForm,
-            'idActual' => $idAdminUserActual,
+            'terapeutas' => $terapeutas,
+            'registroForm1' => $crearAdminForm->createView(),
+            'registroForm2' => $form->createView(),
         ]);
     }
 
-    /*private function crearUserForm(Request $request, string $rol)
+    private function crearUserForm(Request $request, string $rol): FormInterface
     {
         $user = new User();
-        $form = $this->createForm(RegistrarAdminType::class, $user);
+        $form = $this->createForm(RegistrarUserType::class, $user);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            //introduzco los valores que faltan para crear un administrador (el email va en el formulario)
-            //la contraseña para nuevos usuarios es el string de su email que hay antes del @
-            $email = $user->getEmail();
-            $passwordProvisonal = substr($email, 0, strpos($email, '@')); //el 0 es el inicio de la cadena, y strpos busca la primera aparición de @
-            $passwordHashed = $this->userPasswordHasher->hashPassword($user, $passwordProvisonal);
-            $user->setPassword($passwordHashed);
-            $user->setRoles([$rol]);
-            $user->setNuevo(true);
-
-            $this->entityManager->persist($user);
-            $this->entityManager->flush();
+            $this->userService->crearUser($user, $rol);
 
             //limpio el formulario
             $user = new User();                            
-            $form = $this->createForm(RegistrarAdminType::class, $user);        
+            $form = $this->createForm(RegistrarUserType::class, $user);        
         }
-         return $form;  
-    }*/
+
+        return $form;
+    }
 }

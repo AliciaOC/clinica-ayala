@@ -28,11 +28,9 @@ class RegistrarTerapeutaType extends AbstractType
                 'multiple' => true,
                 'required' => false,
             ])
-            ->add('user', RegistrarUserType::class,[
-                'label' => 'Datos de acceso',
+            ->add('usuario', RegistrarUserType::class,[
                 'data_class' => User::class,
-                'required' => true,
-                'mapped' => false,
+                'label' => false,
             ])
         ;
     }

@@ -40,4 +40,21 @@ class TerapeutaRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+    public function findByNombre($nombre): ?Terapeuta
+    {
+        return $this->createQueryBuilder('terapeuta')
+            ->andWhere('terapeuta.nombre = :val')
+            ->setParameter('val', $nombre)
+            ->getQuery()
+            ->getOneOrNullResult() //devuelve un solo resultado o null
+        ;
+    }
+
+    public function getAllTerapeutas(): array
+    {
+        return $this->createQueryBuilder('terapeuta')
+            ->getQuery()
+            ->getResult();
+    }
 }

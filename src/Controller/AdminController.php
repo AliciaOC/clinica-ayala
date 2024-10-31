@@ -9,6 +9,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use App\Entity\User;
 use App\Form\RegistrarTerapeutaType;
 use App\Form\RegistrarUserType;
+use App\Repository\TerapeutaRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -23,13 +24,15 @@ class AdminController extends AbstractController
     private UserPasswordHasherInterface $userPasswordHasher;
     private EntityManagerInterface $entityManager; 
     private UserService $userService;
+    private TerapeutaRepository $terapeutaRepository;
 
-    public function __construct(UserRepository $userRepository, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, UserService $userService)
+    public function __construct(UserRepository $userRepository, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, UserService $userService, TerapeutaRepository $terapeutaRepository)
     {
         $this->userRepository = $userRepository;
         $this->userPasswordHasher = $userPasswordHasher;
         $this->entityManager = $entityManager;
         $this->userService = $userService;
+        $this->terapeutaRepository = $terapeutaRepository;
     }
 
     #[Route('/admin', name: 'app_admin')]
@@ -80,11 +83,16 @@ class AdminController extends AbstractController
     #[Route('/admin/terapeutas', name: 'app_admin_terapeutas')]
     public function administrarTerapeutas(Request $request): Response
     {
+        $formUser=$this->crearUserForm($request, "ROLE_TERAPEUTA");
         $terapeuta=new Terapeuta();
         $form = $this->createForm(RegistrarTerapeutaType::class, $terapeuta);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            //saco el id del usuario
+            $user=$formUser->getData();
+            $terapeuta->setUsuario($user);
 
             $this->entityManager->persist($terapeuta);
             $this->entityManager->flush();
@@ -95,11 +103,12 @@ class AdminController extends AbstractController
         }
 
         //todos los terapeutas
-        $terapeutas = $this->userRepository->findByRole('["ROLE_TERAPEUTA"]');
+        $terapeutas = $this->terapeutaRepository->getAllTerapeutas();
         
         return $this->render('admin/terapeuta.html.twig', [
             'terapeutas' => $terapeutas,
-            'registroForm' => $form->createView(),
+            'registroFormUser' => $formUser->createView(),
+            'registroFormTerapeuta' => $form->createView(),
         ]);
     }
 

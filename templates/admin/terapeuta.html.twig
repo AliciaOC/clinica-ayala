@@ -6,7 +6,10 @@
 {% block main %}
 	<h3>Crear Cuenta de Terapeuta</h1>
 	<section id="nuevo-terapeuta">
-        {{ form(registroForm) }}
+		{{ form_start(registroFormTerapeuta) }}
+			{{ form_widget(registroFormTerapeuta) }}
+			<button type="submit">Guardar</button>
+		{{ form_end(registroFormTerapeuta) }}
 	</section>
 
 	<section id="terapeutas">

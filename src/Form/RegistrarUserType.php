@@ -22,10 +22,7 @@ class RegistrarUserType extends AbstractType
                 'label' => 'Informe al nuevo usuario que su contraseña provisional es lo que hay antes del @ en su email y que el programa le pedirá cambiar la contraseña en el primer acceso.',
                 'required' => true,
             ])
-            ->add('submit', SubmitType::class, [
-                'label' => 'Registrar',
-                'attr' => ['class' => 'boton'],
-            ])
+
         ;
     }
 

@@ -6,8 +6,10 @@
 {% block main %}
 	<h3>Crear Cuenta de Administrador/a</h1>
 	<section id="nuevo-admin">
-		{{ form(registroForm) }}
-		<button type="submit">Crear</button>
+		{{ form_start(registroForm) }}
+			{{ form_widget(registroForm) }}
+			<button type="submit">Crear</button>
+		{{ form_end(registroForm) }}
 		
 	</section>
 	<section id="admins">

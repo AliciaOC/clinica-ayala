@@ -8,7 +8,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;  
 
 
 class RegistrarUserType extends AbstractType
@@ -21,7 +21,12 @@ class RegistrarUserType extends AbstractType
                 'mapped' => false, //no se mapea con la entidad
                 'label' => 'Informe al nuevo usuario que su contraseña provisional es lo que hay antes del @ en su email y que el programa le pedirá cambiar la contraseña en el primer acceso.',
                 'required' => true,
-            ]);
+            ])
+            ->add('submit', SubmitType::class, [
+                'label' => 'Registrar',
+                'attr' => ['class' => 'boton'],
+            ])
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

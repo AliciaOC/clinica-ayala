@@ -80,10 +80,6 @@ class AdminController extends AbstractController
     #[Route('/admin/terapeutas', name: 'app_admin_terapeutas')]
     public function administrarTerapeutas(Request $request): Response
     {
-        //formulario para añadir user terapeuta
-        $crearAdminForm=$this->crearUserForm($request, "ROLE_TERAPEUTA");
-
-        //formulario para añadir terapeuta
         $terapeuta=new Terapeuta();
         $form = $this->createForm(RegistrarTerapeutaType::class, $terapeuta);
         $form->handleRequest($request);
@@ -101,10 +97,9 @@ class AdminController extends AbstractController
         //todos los terapeutas
         $terapeutas = $this->userRepository->findByRole('["ROLE_TERAPEUTA"]');
         
-        return $this->render('admin/admins.html.twig', [
+        return $this->render('admin/terapeuta.html.twig', [
             'terapeutas' => $terapeutas,
-            'registroForm1' => $crearAdminForm->createView(),
-            'registroForm2' => $form->createView(),
+            'registroForm' => $form->createView(),
         ]);
     }
 

@@ -24,9 +24,15 @@ class RegistrarTerapeutaType extends AbstractType
             ->add('horario')
             ->add('tratamientos', EntityType::class, [
                 'class' => Tratamiento::class,
-                'choice_label' => 'id',
+                'choice_label' => 'nombre',
                 'multiple' => true,
                 'required' => false,
+            ])
+            ->add('user', RegistrarUserType::class,[
+                'label' => 'Datos de acceso',
+                'data_class' => User::class,
+                'required' => true,
+                'mapped' => false,
             ])
         ;
     }

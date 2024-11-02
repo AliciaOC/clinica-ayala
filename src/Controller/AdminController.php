@@ -17,6 +17,7 @@ use App\Repository\UserRepository;
 use App\Services\UserService;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class AdminController extends AbstractController
 {
@@ -89,14 +90,20 @@ class AdminController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
-            //saco el id del usuario
-            $user=$formUser->getData();
-            $terapeuta->setUsuario($user);
-
-            $this->entityManager->persist($terapeuta);
-            $this->entityManager->flush();
-
+            //si no hay errores de los formularios.
+            if ($formUser) {//es false si ha dado error
+                try{
+                    $user=$formUser->getData();
+                    $terapeuta->setUsuario($user);
+                    $this->entityManager->persist($terapeuta);
+                    $this->entityManager->flush();
+                    $this->addFlash('success', 'Terapeuta creado correctamente');
+                }catch(\Exception $e){
+                    //$this->addFlash('error', $e->getMessage());
+                }
+            }else{
+                $this->addFlash('error', 'No ha podido crearse el terapeuta');
+            }
             //limpio el formulario
             $terapeuta = new Terapeuta();                            
             $form = $this->createForm(RegistrarTerapeutaType::class, $terapeuta);
@@ -104,7 +111,7 @@ class AdminController extends AbstractController
 
         //todos los terapeutas
         $terapeutas = $this->terapeutaRepository->getAllTerapeutas();
-        
+            
         return $this->render('admin/terapeuta.html.twig', [
             'terapeutas' => $terapeutas,
             'registroFormUser' => $formUser->createView(),
@@ -120,13 +127,12 @@ class AdminController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->userService->crearUser($user, $rol);
-
-            //limpio el formulario
-            $user = new User();                            
-            $form = $this->createForm(RegistrarUserType::class, $user);        
+            if($error= $this->userService->crearUser($user, $rol))//solo hay un return con contenido si hay error  
+            {
+                $this->addFlash('error', 'No ha podido crearse el usuario, compruebe que el email no esté ya registrado. Error: '.$error);
+                return false;
+            }
         }
-
         return $form;
     }
 }

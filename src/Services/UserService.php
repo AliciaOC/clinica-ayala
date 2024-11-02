@@ -28,8 +28,11 @@ class UserService
         $user->setPassword($passwordHashed);
         $user->setRoles([$rol]);
         $user->setNuevo(true);
-
-        $this->entityManager->persist($user);
-        $this->entityManager->flush();
+        try{
+            $this->entityManager->persist($user);
+            $this->entityManager->flush();
+        } catch (\Exception $e) {// el \ es para que busque en la raíz del proyecto
+            return $e->getMessage();
+        }
     }
 }

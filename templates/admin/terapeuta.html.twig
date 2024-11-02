@@ -6,10 +6,22 @@
 {% block main %}
 	<h3>Crear Cuenta de Terapeuta</h1>
 	<section id="nuevo-terapeuta">
+		{{ form_start(registroFormUser) }}
 		{{ form_start(registroFormTerapeuta) }}
+
+			{{ form_widget(registroFormUser) }}
 			{{ form_widget(registroFormTerapeuta) }}
 			<button type="submit">Guardar</button>
+
 		{{ form_end(registroFormTerapeuta) }}
+		{{ form_end(registroFormUser) }}
+
+		{% for message in app.flashes('error') %}
+			<div class="flash-error">
+				{{ message }}
+			</div>
+		{% endfor %}
+
 	</section>
 
 	<section id="terapeutas">
@@ -28,17 +40,21 @@
 			<tbody>
 				{% for terapeuta in terapeutas %}
 					<tr>
-						<td>{{ terapeuta.email }}</td>
+						<td>{{ terapeuta.usuario.email }}</td>
                         <td>{{ terapeuta.nombre }}</td>
                         <td>{{ terapeuta.titulacion }}</td>
-                        <td>{{ terapeuta.tratamientos }}</td>
+                        <td>
+							{% for tratamiento in terapeuta.tratamientos %}
+								{{ tratamiento.nombre }}<br/>
+							{% endfor %}
+						</td>
                         <td>{{ terapeuta.horario }}</td>
 						<td>
-						{% if not terapeuta.nuevo %}
-							<a href="{{ path('admin_reiniciarPassword', {'id': admin.id}) }}">Reiniciar Contraseña</a>
+						{% if not terapeuta.usuario.nuevo %}
+							<a href="{{ path('admin_reiniciarPassword', {'id': terapeuta.usuario.id}) }}">Reiniciar Contraseña</a>
 						{% endif %}
 
-							<a href="{{ path('admin_admins_borrarUser', {'id': admin.id}) }}">Borrar</a>
+							<a href="{{ path('admin_admins_borrarUser', {'id': terapeuta.usuario.id}) }}">Borrar</a>
 						</td>
 					</tr>
 				{% endfor %}

@@ -6,10 +6,16 @@
 {% block main %}
 	<h3>Crear Cuenta de Administrador/a</h1>
 	<section id="nuevo-admin">
-			{{ form_start(registroForm) }}
+		{{ form_start(registroForm) }}
 			{{ form_widget(registroForm) }}
 			<button type="submit">Guardar</button>
-			{{ form_end(registroForm) }}
+		{{ form_end(registroForm) }}
+		
+		{% for message in app.flashes('error') %}
+			<div class="flash-error">
+				{{ message }}
+			</div>
+		{% endfor %}
 	</section>
 	<section id="admins">
 		<h3>Administradores/as</h3>

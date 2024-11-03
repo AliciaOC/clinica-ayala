@@ -8,10 +8,11 @@
 		{{ nombreTratamiento }}</h1>
 	<section id="editar-tratamiento">
 		{{ form(editarTratamientoForm) }}
-			{% for message in app.flashes('error') %}
-				<div class="flash-error">
-					{{ message }}
-				</div>
-			{% endfor %}
-		</section>
-	{% endblock %}
+		{% for message in app.flashes('error') %}
+			<div class="flash-error">
+				{{ message }}
+			</div>
+		{% endfor %}
+		<a href="{{ path('app_admin_tratamientos') }}">Cancelar</a>
+	</section>
+{% endblock %}

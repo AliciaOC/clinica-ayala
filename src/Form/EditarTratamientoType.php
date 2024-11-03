@@ -19,7 +19,9 @@ class EditarTratamientoType extends AbstractType
             ->add('descripcion')
             ->add('terapeuta', EntityType::class, [
                 'class' => Terapeuta::class,
-                'choice_label' => 'id',
+                'choice_label' => 'nombre',
+                'label' => 'Terapeuta',
+                'expanded' => true,
                 'multiple' => true,
                 'required' => false,
             ])

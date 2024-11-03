@@ -20,6 +20,8 @@ class NuevoTratamientoType extends AbstractType
             ->add('terapeuta', EntityType::class, [
                 'class' => Terapeuta::class,
                 'choice_label' => 'nombre',
+                'label' => 'Terapeuta',
+                'expanded' => true,
                 'multiple' => true,
                 'required' => false,
             ])

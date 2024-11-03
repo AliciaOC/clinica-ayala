@@ -25,6 +25,8 @@ class RegistrarTerapeutaType extends AbstractType
             ->add('tratamientos', EntityType::class, [
                 'class' => Tratamiento::class,
                 'choice_label' => 'nombre',
+                'label' => 'Tratamientos',
+                'expanded' => true,
                 'multiple' => true,
                 'required' => false,
             ])

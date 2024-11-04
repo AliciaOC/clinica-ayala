@@ -17,7 +17,7 @@ class NuevoTratamientoType extends AbstractType
         $builder
             ->add('nombre')
             ->add('descripcion')
-            ->add('terapeuta', EntityType::class, [
+            ->add('terapeutas', EntityType::class, [
                 'class' => Terapeuta::class,
                 'choice_label' => 'nombre',
                 'label' => 'Terapeuta',

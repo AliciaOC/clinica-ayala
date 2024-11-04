@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Terapeuta;
+use App\Entity\Tratamiento;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -16,6 +17,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use App\Repository\UserRepository;
 use App\Services\UserService;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
@@ -59,12 +61,20 @@ class AdminController extends AbstractController
         ]);
     }
 
-    #[Route('/admin/admins/borrar-user/{id}', name: 'admin_admins_borrarUser')]
-    public function borrarUser($id): RedirectResponse
+    #[Route('/admin/borrar-admin/{id}', name: 'admin_borrarAdmin')]
+    public function borrarAdmin($id): RedirectResponse
     {
         $userSeleccionado = $this->userRepository->findOneById($id);
         $this->userRepository->borrar($userSeleccionado);
         return $this->redirectToRoute('app_admin_admins');
+    }
+
+    #[Route('/admin/borrar-terapeuta/{id}', name: 'admin_borrarTerapeuta')]
+    public function borrarTerapeuta($id): RedirectResponse
+    {
+        $userSeleccionado = $this->userRepository->findOneById($id);
+        $this->userRepository->borrar($userSeleccionado);
+        return $this->redirectToRoute('app_admin_terapeutas');
     }
 
     #[Route('/admin/reiniciar-password/{id}', name: 'admin_reiniciarPassword')]
@@ -92,21 +102,24 @@ class AdminController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             //si no hay errores de los formularios.
             if ($formUser) {//es false si ha dado error
-                try{
+                //try{
                     $user=$formUser->getData();
                     $terapeuta->setUsuario($user);
+
+                    foreach ($terapeuta->getTratamientos() as $tratamiento) {
+                        $tratamiento->addTerapeuta($terapeuta);
+                    }
+
                     $this->entityManager->persist($terapeuta);
                     $this->entityManager->flush();
+
                     $this->addFlash('success', 'Terapeuta creado correctamente');
-                }catch(\Exception $e){
-                    //$this->addFlash('error', $e->getMessage());
-                }
+                /*}catch(\Exception $e){
+                    $this->addFlash('error', $e->getMessage());
+                }*/
             }else{
                 $this->addFlash('error', 'No ha podido crearse el terapeuta');
             }
-            //limpio el formulario
-            $terapeuta = new Terapeuta();                            
-            $form = $this->createForm(RegistrarTerapeutaType::class, $terapeuta);
         }
 
         //todos los terapeutas

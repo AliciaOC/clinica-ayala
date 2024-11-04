@@ -37,7 +37,7 @@
 						{% endif %}
 
 						{% if admin.id != app.user.id %}<!-- No se puede borrar a si mismo -->
-							<a href="{{ path('admin_admins_borrarUser', {'id': admin.id, 'path': 'app_admin_admins'}) }}">Borrar</a>
+							<a href="{{ path('admin_borrarAdmin', {'id': admin.id}) }}">Borrar</a>
 						{% endif %}
 						</td>
 					</tr>

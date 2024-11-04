@@ -26,11 +26,11 @@ class Tratamiento
      * @var Collection<int, Terapeuta>
      */
     #[ORM\ManyToMany(targetEntity: Terapeuta::class, inversedBy: 'tratamientos')]
-    private Collection $terapeuta;
+    private Collection $terapeutas;
 
     public function __construct()
     {
-        $this->terapeuta = new ArrayCollection();
+        $this->terapeutas = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -65,15 +65,15 @@ class Tratamiento
     /**
      * @return Collection<int, Terapeuta>
      */
-    public function getTerapeuta(): Collection
+    public function getTerapeutas(): Collection
     {
-        return $this->terapeuta;
+        return $this->terapeutas;
     }
 
     public function addTerapeuta(Terapeuta $terapeuta): static
     {
-        if (!$this->terapeuta->contains($terapeuta)) {
-            $this->terapeuta->add($terapeuta);
+        if (!$this->terapeutas->contains($terapeuta)) {
+            $this->terapeutas->add($terapeuta);
         }
 
         return $this;
@@ -81,7 +81,7 @@ class Tratamiento
 
     public function removeTerapeuta(Terapeuta $terapeuta): static
     {
-        $this->terapeuta->removeElement($terapeuta);
+        $this->terapeutas->removeElement($terapeuta);
 
         return $this;
     }

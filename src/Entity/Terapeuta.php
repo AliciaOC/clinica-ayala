@@ -31,7 +31,7 @@ class Terapeuta
     /**
      * @var Collection<int, Tratamiento>
      */
-    #[ORM\ManyToMany(targetEntity: Tratamiento::class, mappedBy: 'terapeuta')]
+    #[ORM\ManyToMany(targetEntity: Tratamiento::class, mappedBy: 'terapeutas')]
     private Collection $tratamientos;
 
     public function __construct()

@@ -1,0 +1,22 @@
+{% extends 'terapeuta/index.html.twig' %}
+{% block title %}Tratamientos
+{% endblock %}
+{% block main %}
+	<section id="tratamientos">
+		<h3>Tratamientos</h3>
+		<table>
+			<thead>
+				<tr>
+					<th>Nombre</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for tratamiento in tratamientosTerapeuta %}
+					<tr>
+						<td>{{ tratamiento.nombre }}</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</section>
+{% endblock %}

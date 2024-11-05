@@ -140,11 +140,7 @@ class AdminController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            if($error= $this->userService->crearUser($user, $rol))//solo hay un return con contenido si hay error  
-            {
-                $this->addFlash('error', 'No ha podido crearse el usuario, compruebe que el email no esté ya registrado. Error: '.$error);
-                return false;
-            }
+            $this->userService->crearUser($user, $rol);
         }
         return $form;
     }

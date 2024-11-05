@@ -1,0 +1,42 @@
+{% extends 'terapeuta/index.html.twig' %}
+{% block title %}Clientes
+{% endblock %}
+{% block main %}
+	<h1>Administración de los Clientes</h1>
+	<section id="nuevo-cliente">
+		<h3>Añadir un nuevo Cliente</h3>
+
+		{{ form_start(registroFormUser) }}
+		{{ form_start(registroClienteForm) }}
+
+			{{ form_widget(registroFormUser) }}
+			{{ form_widget(registroClienteForm) }}
+			<button type="submit">Guardar</button>
+
+		{{ form_end(registroClienteForm) }}
+		{{ form_end(registroFormUser) }}		
+        
+        {% for message in app.flashes('error') %}
+			<div class="flash-error">
+				{{ message }}
+			</div>
+		{% endfor %}
+	</section>
+	<section id="clientes">
+		<h3>Clientes</h3>
+		<table>
+			<thead>
+				<tr>
+					<th>Nombre</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for cliente in clientes %}
+					<tr>
+						<td>{{ cliente.nombre }}</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</section>
+{% endblock %}

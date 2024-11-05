@@ -11,35 +11,35 @@
 					{{ message }}
 				</div>
 			{% endfor %}
-		</section>
-		<section id="tratamientos">
-			<h5>Tratamientos disponibles</h5>
-			<table>
-				<thead>
+	</section>
+	<section id="tratamientos">
+		<h5>Tratamientos disponibles</h5>
+		<table>
+			<thead>
+				<tr>
+					<th>Nombre</th>
+					<th>Descripción</th>
+					<th>Terapeutas que lo aplican</th>
+					<th>Acciones</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for tratamiento in tratamientos %}
 					<tr>
-						<th>Nombre</th>
-						<th>Descripción</th>
-						<th>Terapeutas que lo aplican</th>
-						<th>Acciones</th>
+						<td>{{ tratamiento.nombre }}</td>
+						<td>{{ tratamiento.descripcion }}</td>
+						<td>
+							{% for terapeuta in tratamiento.terapeutas %}
+								{{ terapeuta.nombre }}<br/>
+							{% endfor %}
+						</td>
+						<td>
+							<a href="{{ path('admin_editarTratamiento', {'id': tratamiento.id}) }}">Editar</a>
+							<a href="{{ path('admin_borrarTratamiento', {'id': tratamiento.id}) }}">Borrar</a>
+						</td>
 					</tr>
-				</thead>
-				<tbody>
-					{% for tratamiento in tratamientos %}
-						<tr>
-							<td>{{ tratamiento.nombre }}</td>
-							<td>{{ tratamiento.descripcion }}</td>
-							<td>
-								{% for terapeuta in tratamiento.terapeutas %}
-									{{ terapeuta.nombre }}<br/>
-								{% endfor %}
-							</td>
-							<td>
-								<a href="{{ path('admin_editarTratamiento', {'id': tratamiento.id}) }}">Editar</a>
-								<a href="{{ path('admin_borrarTratamiento', {'id': tratamiento.id}) }}">Borrar</a>
-							</td>
-						</tr>
-					{% endfor %}
-				</tbody>
-			</table>
-		</section>
-	{% endblock %}
+				{% endfor %}
+			</tbody>
+		</table>
+	</section>
+{% endblock %}

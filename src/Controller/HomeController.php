@@ -7,23 +7,32 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Entity\User;
 
 class HomeController extends AbstractController
 {
+    /**
+     * @var App\Entity\User $user
+     */
     #[Route('/home', name: 'app_home')]
     public function index(Request $peticion, EntityManagerInterface $entity): Response
     {
         $nombrePerfil="Inicio de Sesión";
+        
+        /**
+        * @var App\Entity\User $user
+        */
+        $user=$this->getUser();
 
-        if($this->getUser())
+        if($user)
         {
-            $userRol=$this->getUser()->getRoles();
+            $userRol=$user->getRoles();
             if(in_array('ROLE_ADMIN', $userRol)){
-                $nombrePerfil="Perfil: Admin";
+                $nombrePerfil="Admin";
             }elseif(in_array('ROLE_TERAPEUTA', $userRol)){
-                $nombrePerfil="Perfil: Terapeuta";
+                $nombrePerfil=$user->getTerapeuta()->getNombre();
             }elseif(in_array('ROLE_Cliente', $userRol)){
-                $nombrePerfil="Perfil: Cliente";
+                $nombrePerfil="Cliente";
             }
         }
         return $this->render('home/index.html.twig', [

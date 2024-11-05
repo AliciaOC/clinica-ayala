@@ -34,9 +34,16 @@ class Terapeuta
     #[ORM\ManyToMany(targetEntity: Tratamiento::class, mappedBy: 'terapeutas')]
     private Collection $tratamientos;
 
+    /**
+     * @var Collection<int, Cliente>
+     */
+    #[ORM\ManyToMany(targetEntity: Cliente::class, inversedBy: 'terapeutas')]
+    private Collection $clientes;
+
     public function __construct()
     {
         $this->tratamientos = new ArrayCollection();
+        $this->clientes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -115,6 +122,30 @@ class Terapeuta
         if ($this->tratamientos->removeElement($tratamiento)) {
             $tratamiento->removeTerapeuta($this);
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Cliente>
+     */
+    public function getClientes(): Collection
+    {
+        return $this->clientes;
+    }
+
+    public function addCliente(Cliente $cliente): static
+    {
+        if (!$this->clientes->contains($cliente)) {
+            $this->clientes->add($cliente);
+        }
+
+        return $this;
+    }
+
+    public function removeCliente(Cliente $cliente): static
+    {
+        $this->clientes->removeElement($cliente);
 
         return $this;
     }

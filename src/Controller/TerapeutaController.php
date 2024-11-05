@@ -26,12 +26,12 @@ class TerapeutaController extends AbstractController
     }
 
     #[Route('/terapeuta', name: 'app_terapeuta')]
-    public function index()//: Response
+    public function index(): Response
     {
-        /*
+        
         return $this->render('terapeuta/index.html.twig', [
             'controller_name' => 'TerapeutaController',
         ]);
-        */
+        
     }
 }

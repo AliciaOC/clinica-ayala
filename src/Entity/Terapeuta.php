@@ -21,9 +21,6 @@ class Terapeuta
     #[ORM\Column(length: 255)]
     private ?string $nombre = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $horario = null;
-
     #[ORM\OneToOne(inversedBy: 'terapeuta', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $usuario = null;
@@ -40,10 +37,17 @@ class Terapeuta
     #[ORM\ManyToMany(targetEntity: Cliente::class, inversedBy: 'terapeutas')]
     private Collection $clientes;
 
+    /**
+     * @var Collection<int, Horario>
+     */
+    #[ORM\ManyToMany(targetEntity: Horario::class, inversedBy: 'terapeutas')]
+    private Collection $horario;
+
     public function __construct()
     {
         $this->tratamientos = new ArrayCollection();
         $this->clientes = new ArrayCollection();
+        $this->horario = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -71,18 +75,6 @@ class Terapeuta
     public function setNombre(string $nombre): static
     {
         $this->nombre = $nombre;
-
-        return $this;
-    }
-
-    public function getHorario(): ?string
-    {
-        return $this->horario;
-    }
-
-    public function setHorario(string $horario): static
-    {
-        $this->horario = $horario;
 
         return $this;
     }
@@ -146,6 +138,30 @@ class Terapeuta
     public function removeCliente(Cliente $cliente): static
     {
         $this->clientes->removeElement($cliente);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Horario>
+     */
+    public function getHorario(): Collection
+    {
+        return $this->horario;
+    }
+
+    public function addHorario(Horario $horario): static
+    {
+        if (!$this->horario->contains($horario)) {
+            $this->horario->add($horario);
+        }
+
+        return $this;
+    }
+
+    public function removeHorario(Horario $horario): static
+    {
+        $this->horario->removeElement($horario);
 
         return $this;
     }

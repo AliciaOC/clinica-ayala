@@ -58,6 +58,8 @@ class TerapeutaController extends AbstractController
             $this->userService->crearUser($user, "ROLE_CLIENTE");
             $cliente->setUsuario($user);
             $cliente->addTerapeuta($userActual->getTerapeuta());
+            //me aseguro que el nombre del cliente empiece con mayuscula cada palabra
+            $cliente->setNombre(ucwords(strtolower($cliente->getNombre())));
             
             foreach ($cliente->getTerapeutas() as $terapeuta) {
                 $terapeuta->addCliente($cliente);

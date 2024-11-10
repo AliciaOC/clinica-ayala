@@ -1,0 +1,42 @@
+{% extends 'admin/indexAdmin.html.twig' %}
+
+{% block title %}Horarios para Trabajadores
+{% endblock %}
+
+{% block main %}
+	<h3>Crear nueva Franja Horaria de trabajo</h1>
+	<section id="nuevo-horario">
+		{{ form(form) }}
+
+		{% for message in app.flashes('error') %}
+			<div class="flash-error">
+				{{ message }}
+			</div>
+		{% endfor %}
+
+	</section>
+
+	<section id="horarios">
+		<h3>Horarios</h3>
+		<table>
+			<thead>
+				<tr>
+					<th>Franja Horaria</th>
+                    <th>Terapeutas que la cubren</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for horario in horarios %}
+					<tr>
+                        <td>{{ horario.franja_horaria }}</td>
+                        <td>
+							{% for terapeuta in horario.terapeutas %}
+								{{ terapeuta.nombre }}<br/>
+							{% endfor %}
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+    </section>
+{% endblock %}

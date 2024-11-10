@@ -2,12 +2,14 @@
 
 namespace App\Controller;
 
+use App\Entity\Horario;
 use App\Entity\Terapeuta;
 use App\Entity\Tratamiento;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use App\Entity\User;
+use App\Form\NuevoHorarioType;
 use App\Form\RegistrarTerapeutaType;
 use App\Form\RegistrarUserType;
 use App\Repository\TerapeutaRepository;
@@ -143,5 +145,30 @@ class AdminController extends AbstractController
             $this->userService->crearUser($user, $rol);
         }
         return $form;
+    }
+
+    #[Route('/admin/horarios', name: 'app_admin_horarios')]
+    public function adminHorarios(Request $request): Response
+    {
+        $horario = new Horario();
+        $form = $this->createForm(NuevoHorarioType::class, $horario);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            foreach ($horario->getTerapeutas() as $terapeuta) {
+                $terapeuta->addHorario($horario);
+            }
+
+            $this->entityManager->persist($horario);
+            $this->entityManager->flush();
+        }
+
+        $horarios = $this->entityManager->getRepository(Horario::class)->findAll();
+
+        return $this->render('admin/horario.html.twig', [
+            'form' => $form->createView(),
+            'horarios' => $horarios,
+        ]);
     }
 }

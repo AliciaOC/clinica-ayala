@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\Horario;
 use App\Entity\Terapeuta;
 use App\Entity\Tratamiento;
 use App\Entity\User;
@@ -21,7 +22,14 @@ class RegistrarTerapeutaType extends AbstractType
         $builder
             ->add('titulacion')
             ->add('nombre')
-            ->add('horario')
+            ->add('horario', EntityType::class, [
+                'class' => Horario::class,
+                'choice_label' => 'franja_horaria',
+                'label' => 'Horario',
+                'expanded' => true,
+                'multiple' => true,
+                'required' => false,
+            ])
             ->add('tratamientos', EntityType::class, [
                 'class' => Tratamiento::class,
                 'choice_label' => 'nombre',

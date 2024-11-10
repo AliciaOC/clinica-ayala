@@ -48,7 +48,10 @@
 								{{ tratamiento.nombre }}<br/>
 							{% endfor %}
 						</td>
-                        <td>{{ terapeuta.horario }}</td>
+                        <td>
+							{% for horario in terapeuta.horario %}
+								{{ horario.franja_horaria }}<br/>
+							{% endfor %}</td>
 						<td>
 						{% if not terapeuta.usuario.nuevo %}
 							<a href="{{ path('admin_reiniciarPassword', {'id': terapeuta.usuario.id}) }}">Reiniciar Contraseña</a>

@@ -34,6 +34,7 @@
                     <th>Titulación</th>
                     <th>Tratamientos</th>
                     <th>Horario</th>
+					<th>Número de Clientes</th>
 					<th>Acciones</th>
 				</tr>
 			</thead>
@@ -50,8 +51,10 @@
 						</td>
                         <td>
 							{% for horario in terapeuta.horario %}
-								{{ horario.franja_horaria }}<br/>
-							{% endfor %}</td>
+								{{ horario.franjaHoraria }}<br/>
+							{% endfor %}
+						</td>
+						<td>{{ terapeuta.clientes|length }}</td>
 						<td>
 						{% if not terapeuta.usuario.nuevo %}
 							<a href="{{ path('admin_reiniciarPassword', {'id': terapeuta.usuario.id}) }}">Reiniciar Contraseña</a>

@@ -20,6 +20,8 @@ class NuevoHorarioType extends AbstractType
                 'class' => Terapeuta::class,
                 'choice_label' => 'nombre',
                 'multiple' => true,
+                'expanded' => true,
+                'required' => false,
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Añadir horario',

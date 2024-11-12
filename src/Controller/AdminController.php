@@ -134,6 +134,35 @@ class AdminController extends AbstractController
         ]);
     }
 
+    #[Route('/admin/terapeutas/editar/{id}', name: 'app_admin_terapeutas_editar')]
+    public function editarTerapeutas(Request $request, $id): Response
+    {
+        $user=$this->userRepository->findOneById($id);
+        $terapeuta=$user->getTerapeuta();
+        $form = $this->createForm(RegistrarTerapeutaType::class, $terapeuta);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            foreach ($terapeuta->getTratamientos() as $tratamiento) {
+                $tratamiento->addTerapeuta($terapeuta);
+            }
+
+            $this->entityManager->persist($terapeuta);
+            $this->entityManager->flush();
+
+            return $this->redirectToRoute('app_admin_terapeutas');
+
+        }
+            
+        return $this->render('admin/editarTerapeuta.html.twig', [
+            'formEditTerapeuta' => $form->createView(),
+            'terapeuta' => $terapeuta,
+        ]);
+    }
+
+    //todo clientes
+
     private function crearUserForm(Request $request, string $rol): FormInterface
     {
         $user = new User();

@@ -59,8 +59,8 @@
 						{% if not terapeuta.usuario.nuevo %}
 							<a href="{{ path('admin_reiniciarPassword', {'id': terapeuta.usuario.id}) }}">Reiniciar Contraseña</a>
 						{% endif %}
-						
 							<a href="{{ path('admin_borrarTerapeuta', {'id': terapeuta.usuario.id}) }}">Borrar</a>
+							<a href="{{ path('app_admin_terapeutas_editar', {'id': terapeuta.usuario.id}) }}">Editar</a>
 						</td> 
 					</tr>
 				{% endfor %}

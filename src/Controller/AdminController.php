@@ -144,6 +144,10 @@ class AdminController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+            //Por si se han eliminado tratamientos del terapeuta
+            $this->terapeutaRepository->borrarTerapeutaDeTratamientoHuerfano($terapeuta);
+
+            //Por si se han añadido tratamientos al terapeuta
             foreach ($terapeuta->getTratamientos() as $tratamiento) {
                 $tratamiento->addTerapeuta($terapeuta);
             }

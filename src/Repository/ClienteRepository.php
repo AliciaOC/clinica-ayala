@@ -42,19 +42,34 @@ class ClienteRepository extends ServiceEntityRepository
     //        ;
     //    }
 
+    public function getAllClientes(): array
+    {
+        return $this->createQueryBuilder('cliente')
+            ->getQuery()
+            ->getResult();
+    }
+
     public function borrarClienteDeTerapeutaHuerfano(Cliente $cliente): void
     {
-        $terapeutasIds = array_map(function($terapeuta) {
-            return $terapeuta->getId();
-        }, $cliente->getTerapeutas()->toArray());
+        if ($cliente->getTerapeutas()->isEmpty()) {
+            $this->getEntityManager()->getConnection()->createQueryBuilder()
+                ->delete('terapeuta_cliente')
+                ->where('cliente_id = :clienteId')
+                ->setParameter('clienteId', $cliente->getId())
+                ->executeStatement();
+        }else{
+            $terapeutasIds = array_map(function($terapeuta) {
+                return $terapeuta->getId();
+            }, $cliente->getTerapeutas()->toArray());
     
-        //Es una consulta DBAL, no ORM
-        $this->getEntityManager()->getConnection()->createQueryBuilder()
-            ->delete('terapeuta_cliente')
-            ->where('terapeuta_id NOT IN (:terapeutasIds)')
-            ->andWhere('cliente_id = :clienteId')
-            ->setParameter('terapeutasIds', $terapeutasIds, ArrayParameterType::INTEGER)//los arrays no son un tipo de dato nativo y no los entiende sin el ArrayParameterType
-            ->setParameter('clienteId', $cliente->getId())
-            ->executeStatement();
+            //Es una consulta DBAL, no ORM
+            $this->getEntityManager()->getConnection()->createQueryBuilder()
+                ->delete('terapeuta_cliente')
+                ->where('terapeuta_id NOT IN (:terapeutasIds)')
+                ->andWhere('cliente_id = :clienteId')
+                ->setParameter('terapeutasIds', $terapeutasIds, ArrayParameterType::INTEGER)//los arrays no son un tipo de dato nativo y no los entiende sin el ArrayParameterType
+                ->setParameter('clienteId', $cliente->getId())
+                ->executeStatement();
+        }
     }
 }

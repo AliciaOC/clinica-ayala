@@ -2,16 +2,16 @@
 
 namespace App\Controller;
 
-use App\Entity\Horario;
+use App\Entity\Cliente;
 use App\Entity\Terapeuta;
-use App\Entity\Tratamiento;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use App\Entity\User;
-use App\Form\NuevoHorarioType;
+use App\Form\EditarClienteAdminType;
 use App\Form\RegistrarTerapeutaType;
 use App\Form\RegistrarUserType;
+use App\Repository\ClienteRepository;
 use App\Repository\TerapeutaRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,14 +30,16 @@ class AdminController extends AbstractController
     private EntityManagerInterface $entityManager; 
     private UserService $userService;
     private TerapeutaRepository $terapeutaRepository;
+    private ClienteRepository $clienteRepository;
 
-    public function __construct(UserRepository $userRepository, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, UserService $userService, TerapeutaRepository $terapeutaRepository)
+    public function __construct(UserRepository $userRepository, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, UserService $userService, TerapeutaRepository $terapeutaRepository, ClienteRepository $clienteRepository)
     {
         $this->userRepository = $userRepository;
         $this->userPasswordHasher = $userPasswordHasher;
         $this->entityManager = $entityManager;
         $this->userService = $userService;
         $this->terapeutaRepository = $terapeutaRepository;
+        $this->clienteRepository = $clienteRepository;
     }
 
     #[Route('/admin', name: 'app_admin')]
@@ -172,13 +174,44 @@ class AdminController extends AbstractController
     #[Route('/admin/clientes', name: 'app_admin_clientes')]
     public function administrarClientes(): Response
     {
-        $clientes = $this->userRepository->findByRole('["ROLE_CLIENTE"]');
+        $clientes = $this->clienteRepository->getAllClientes();
 
         return $this->render('admin/cliente.html.twig', [
             'clientes' => $clientes,
         ]);
     }
 
+    #[Route('/admin/clientes/editar/{id}', name: 'app_admin_cliente_editar')]
+    public function adminEditarClientes(Request $request, $id): Response
+    {
+        $user=$this->userRepository->findOneById($id);
+        $cliente=$user->getCliente();
+        $form = $this->createForm(EditarClienteAdminType::class, $cliente);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            //Por si se han eliminado terapeutas del cliente
+            $this->clienteRepository->borrarClienteDeTerapeutaHuerfano($cliente);
+
+            //Por si se han añadido terapeutas al cliente
+            foreach ($cliente->getTerapeutas() as $terapeuta) {
+                $terapeuta->addCliente($cliente);
+            }
+
+            $this->entityManager->persist($cliente);
+            $this->entityManager->flush();
+
+            return $this->redirectToRoute('app_admin_clientes');
+
+        }
+            
+        return $this->render('admin/editarCliente.html.twig', [
+            'formEditCliente' => $form->createView(),
+            'cliente' => $cliente,
+        ]);
+    }
+ 
     private function crearUserForm(Request $request, string $rol): FormInterface
     {
         $user = new User();
@@ -190,30 +223,5 @@ class AdminController extends AbstractController
             $this->userService->crearUser($user, $rol);
         }
         return $form;
-    }
-
-    #[Route('/admin/horarios', name: 'app_admin_horarios')]
-    public function adminHorarios(Request $request): Response
-    {
-        $horario = new Horario();
-        $form = $this->createForm(NuevoHorarioType::class, $horario);
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            foreach ($horario->getTerapeutas() as $terapeuta) {
-                $terapeuta->addHorario($horario);
-            }
-
-            $this->entityManager->persist($horario);
-            $this->entityManager->flush();
-        }
-
-        $horarios = $this->entityManager->getRepository(Horario::class)->findAll();
-
-        return $this->render('admin/horario.html.twig', [
-            'form' => $form->createView(),
-            'horarios' => $horarios,
-        ]);
     }
 }

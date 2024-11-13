@@ -61,17 +61,25 @@ class TerapeutaRepository extends ServiceEntityRepository
 
     public function borrarTerapeutaDeTratamientoHuerfano(Terapeuta $terapeuta): void
     {
-        $tratamientosIds = array_map(function($tratamiento) {
-            return $tratamiento->getId();
-        }, $terapeuta->getTratamientos()->toArray());
+        if ($terapeuta->getTratamientos()->isEmpty()) {
+            $this->getEntityManager()->getConnection()->createQueryBuilder()
+                ->delete('tratamiento_terapeuta')
+                ->where('terapeuta_id = :terapeutaId')
+                ->setParameter('terapeutaId', $terapeuta->getId())
+                ->executeStatement();
+        }else{
+            $tratamientosIds = array_map(function($tratamiento) {
+                return $tratamiento->getId();
+            }, $terapeuta->getTratamientos()->toArray());
     
-        //Es una consulta DBAL, no ORM
-        $this->getEntityManager()->getConnection()->createQueryBuilder()
-            ->delete('tratamiento_terapeuta')
-            ->where('tratamiento_id NOT IN (:tratamientosIds)')
-            ->andWhere('terapeuta_id = :terapeutaId')
-            ->setParameter('tratamientosIds', $tratamientosIds, ArrayParameterType::INTEGER)//los arrays no son un tipo de dato nativo y no los entiende sin el ArrayParameterType
-            ->setParameter('terapeutaId', $terapeuta->getId())
-            ->executeStatement();
+            //Es una consulta DBAL, no ORM
+            $this->getEntityManager()->getConnection()->createQueryBuilder()
+                ->delete('tratamiento_terapeuta')
+                ->where('tratamiento_id NOT IN (:tratamientosIds)')
+                ->andWhere('terapeuta_id = :terapeutaId')
+                ->setParameter('tratamientosIds', $tratamientosIds, ArrayParameterType::INTEGER)//los arrays no son un tipo de dato nativo y no los entiende sin el ArrayParameterType
+                ->setParameter('terapeutaId', $terapeuta->getId())
+                ->executeStatement();
+        }
     }
 }

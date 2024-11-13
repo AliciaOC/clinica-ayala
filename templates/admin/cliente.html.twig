@@ -21,7 +21,7 @@
 						<td>{{ cliente.usuario.email }}</td>
                         <td>{{ cliente.nombre }}</td>
                         <td>
-							{% for terapeuta in cliente.terapeuta %}
+							{% for terapeuta in cliente.terapeutas %}
 								{{ terapeuta.nombre }}<br/>
 							{% endfor %}
 						</td>
@@ -30,7 +30,7 @@
 							<a href="{{ path('admin_reiniciarPassword', {'id': cliente.usuario.id}) }}">Reiniciar Contraseña</a>
 						{% endif %}
 							<a href="{{ path('admin_borrarCliente', {'id': cliente.usuario.id}) }}">Borrar</a>
-							<!-- <a href="{{ path('app_admin_cliente_editar', {'id': cliente.usuario.id}) }}">Editar</a> -->
+							<a href="{{ path('app_admin_cliente_editar', {'id': cliente.usuario.id}) }}">Editar</a>
 						</td> 
 					</tr>
 				{% endfor %}

@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Cliente;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -40,4 +41,20 @@ class ClienteRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
+    public function borrarClienteDeTerapeutaHuerfano(Cliente $cliente): void
+    {
+        $terapeutasIds = array_map(function($terapeuta) {
+            return $terapeuta->getId();
+        }, $cliente->getTerapeutas()->toArray());
+    
+        //Es una consulta DBAL, no ORM
+        $this->getEntityManager()->getConnection()->createQueryBuilder()
+            ->delete('terapeuta_cliente')
+            ->where('terapeuta_id NOT IN (:terapeutasIds)')
+            ->andWhere('cliente_id = :clienteId')
+            ->setParameter('terapeutasIds', $terapeutasIds, ArrayParameterType::INTEGER)//los arrays no son un tipo de dato nativo y no los entiende sin el ArrayParameterType
+            ->setParameter('clienteId', $cliente->getId())
+            ->executeStatement();
+    }
 }

@@ -1,0 +1,40 @@
+{% extends 'admin/indexAdmin.html.twig' %}
+
+{% block title %}Clientes
+{% endblock %}
+
+{% block main %}
+	<section id="clientes">
+		<h3>Clientes</h3>
+		<table>
+			<thead>
+				<tr>
+					<th>Correo Electrónico</th>
+                    <th>Nombre</th>
+                    <th>Terapeutas</th>
+					<th>Acciones</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for cliente in clientes %}
+					<tr>
+						<td>{{ cliente.usuario.email }}</td>
+                        <td>{{ cliente.nombre }}</td>
+                        <td>
+							{% for terapeuta in cliente.terapeuta %}
+								{{ terapeuta.nombre }}<br/>
+							{% endfor %}
+						</td>
+						<td>
+						{% if not cliente.usuario.nuevo %}
+							<a href="{{ path('admin_reiniciarPassword', {'id': cliente.usuario.id}) }}">Reiniciar Contraseña</a>
+						{% endif %}
+							<a href="{{ path('admin_borrarCliente', {'id': cliente.usuario.id}) }}">Borrar</a>
+							<!-- <a href="{{ path('app_admin_cliente_editar', {'id': cliente.usuario.id}) }}">Editar</a> -->
+						</td> 
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+    </section>
+{% endblock %}

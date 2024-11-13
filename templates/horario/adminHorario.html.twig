@@ -23,6 +23,7 @@
 				<tr>
 					<th>Franja Horaria</th>
                     <th>Terapeutas que la cubren</th>
+					<th>Acciones</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -33,6 +34,10 @@
 							{% for terapeuta in horario.terapeutas %}
 								{{ terapeuta.nombre }}<br/>
 							{% endfor %}
+						</td>
+						<td>
+							<a href="{{ path('app_admin_horarios_editar', {'id': horario.id}) }}">Editar</a>
+							<a href="{{ path('app_admin_horarios_borrar', {'id': horario.id}) }}">Eliminar</a>
 						</td>
 					</tr>
 				{% endfor %}

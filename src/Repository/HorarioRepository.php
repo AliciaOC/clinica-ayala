@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Horario;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -40,4 +41,28 @@ class HorarioRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+    public function borrarHorarioDeTerapeutaHuerfano(Horario $horario): void
+    {
+        if ($horario->getTerapeutas()->isEmpty()) {
+            $this->getEntityManager()->getConnection()->createQueryBuilder()
+                ->delete('terapeuta_horario')
+                ->where('horario_id = :horarioId')
+                ->setParameter('horarioId', $horario->getId())
+                ->executeStatement();
+        }else{
+            $terapeutasIds = array_map(function($terapeuta) {
+                return $terapeuta->getId();
+            }, $horario->getTerapeutas()->toArray());
+    
+            //Es una consulta DBAL, no ORM
+            $this->getEntityManager()->getConnection()->createQueryBuilder()
+                ->delete('terapeuta_horario')
+                ->where('terapeuta_id NOT IN (:terapeutasIds)')
+                ->andWhere('horario_id = :horarioId')
+                ->setParameter('terapeutasIds', $terapeutasIds, ArrayParameterType::INTEGER)//los arrays no son un tipo de dato nativo y no los entiende sin el ArrayParameterType
+                ->setParameter('horarioId', $horario->getId())
+                ->executeStatement();
+        }
+    }
 }

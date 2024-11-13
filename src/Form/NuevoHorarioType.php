@@ -24,7 +24,7 @@ class NuevoHorarioType extends AbstractType
                 'required' => false,
             ])
             ->add('submit', SubmitType::class, [
-                'label' => 'Añadir horario',
+                'label' => 'Guardar',
             ])
         ;
     }

@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Cita;
 use App\Entity\Cliente;
 use App\Entity\User;
+use App\Form\NuevaCitaType;
 use App\Form\RegistrarClienteType;
 use App\Form\RegistrarUserType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -67,6 +69,8 @@ class TerapeutaController extends AbstractController
 
             $this->entityManager->persist($cliente);
             $this->entityManager->flush();
+
+            return $this->redirectToRoute('app_terapeuta_clientes');
         }
 
         $clientesTerapeuta = $userActual->getTerapeuta()->getClientes();
@@ -77,4 +81,55 @@ class TerapeutaController extends AbstractController
             'registroClienteForm' => $formCliente->createView(),
         ]);
     }
+
+    #[Route('terapeuta/citas', name: 'app_terapeuta_citas')]
+    public function gestionarCitas(Request $request): Response
+    {
+        /** @var \App\Entity\User $userActual */
+        $userActual = $this->getUser();
+        $terapeuta = $userActual->getTerapeuta();
+
+        $cita= new Cita();
+        $form = $this->createForm(NuevaCitaType::class, $cita, [
+            'terapeuta' => $terapeuta, // En el formulario se filtrarán los clientes por terapeuta
+        ]);
+        
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $cita->setTerapeuta($terapeuta);
+            $cita->setEstado("pendiente");
+
+            if($cita->getCliente()!=null){
+                $cita->getCliente()->addCita($cita);
+            }elseif($cita->getCliente()==null && $cita->getMotivo()==null){
+                $cita->setMotivo("Primera cita para cliente sin ficha.");
+            }
+
+            if($cita->getFecha()<new \DateTimeImmutable('now')){
+                $this->addFlash('error', 'Error: La fecha de la cita no puede ser anterior a la fecha actual.');
+                return $this->redirectToRoute('app_terapeuta_citas');
+            }
+
+            $this->entityManager->persist($cita);
+            $this->entityManager->flush();
+
+            return $this->redirectToRoute('app_terapeuta_citas');
+        }
+
+        $citasTerapeuta = $userActual->getTerapeuta()->getCitas();
+        //si la fecha de la cita es anterior a la fecha actual, la cita se marca como finalizada, con un margen de 1 hora
+        foreach ($citasTerapeuta as $cita) {
+            if($cita->getFecha()<new \DateTimeImmutable('now') && $cita->getFecha()>new \DateTimeImmutable('-1 hour')){
+                $cita->setEstado("finalizada");
+            }
+        }
+
+        return $this->render('terapeuta/citas.html.twig', [
+            'citas' => $citasTerapeuta,
+            'form' => $form->createView(),
+        ]);
+    }
+
 }

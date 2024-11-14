@@ -82,4 +82,28 @@ class TerapeutaRepository extends ServiceEntityRepository
                 ->executeStatement();
         }
     }
+
+    public function quitarTratamientoDeTerapeuta($tratamientoId, $terapeutaId): void
+    {
+        $this->getEntityManager()->getConnection()->createQueryBuilder()
+            ->delete('tratamiento_terapeuta')
+            ->where('tratamiento_id = :tratamientoId')
+            ->andWhere('terapeuta_id = :terapeutaId')
+            ->setParameter('tratamientoId', $tratamientoId)
+            ->setParameter('terapeutaId', $terapeutaId)
+            ->executeStatement();
+    }
+
+    public function addTratamientoATerapeuta($tratamientoId, $terapeutaId): void
+    {
+        $this->getEntityManager()->getConnection()->createQueryBuilder()
+            ->insert('tratamiento_terapeuta')
+            ->values([
+                'tratamiento_id' => ':tratamientoId',
+                'terapeuta_id' => ':terapeutaId'
+            ])
+            ->setParameter('tratamientoId', $tratamientoId)
+            ->setParameter('terapeutaId', $terapeutaId)
+            ->executeStatement();
+    }
 }

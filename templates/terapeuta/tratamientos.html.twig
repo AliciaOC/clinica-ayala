@@ -2,21 +2,41 @@
 {% block title %}Tratamientos
 {% endblock %}
 {% block main %}
-	<section id="tratamientos">
+	<section id="tratamientosTerapeuta">
 		<h3>Tratamientos</h3>
 		<table>
 			<thead>
 				<tr>
-					<th>Nombre</th>
+					<th>Mis Tratamientos</th>
+					<th>Acciones</th>
 				</tr>
 			</thead>
 			<tbody>
 				{% for tratamiento in tratamientosTerapeuta %}
 					<tr>
 						<td>{{ tratamiento.nombre }}</td>
+						<td><a href='{{ path('terapeuta_borrarTratamiento', {'id': tratamiento.id}) }}'>Borrar</a></td>
 					</tr>
 				{% endfor %}
 			</tbody>
 		</table>
 	</section>
+	<section id='tratamientosDisponibles'>
+		<h3>Tratamientos Disponibles</h3>
+		<table>
+			<thead>
+				<tr>
+					<th>Tratamientos Disponibles</th>
+					<th>Acciones</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for tratamiento in tratamientosClinica %}
+					<tr>
+						<td>{{ tratamiento.nombre }}</td>
+						<td><a href='{{ path('terapeuta_anadirTratamiento', {'id': tratamiento.id}) }}'>Añadir</a></td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
 {% endblock %}

@@ -10,20 +10,23 @@ use App\Entity\Tratamiento;
 use App\Repository\TratamientoRepository;
 use App\Form\NuevoTratamientoType;
 use App\Form\EditarTratamientoType;
+use App\Repository\TerapeutaRepository;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class TratamientoController extends AbstractController
 {
     private TratamientoRepository $tratamientoRepository;
+    private TerapeutaRepository $terapeutaRepository;
 
-    public function __construct(TratamientoRepository $tratamientoRepository)
+    public function __construct(TratamientoRepository $tratamientoRepository, TerapeutaRepository $terapeutaRepository)
     {
         $this->tratamientoRepository = $tratamientoRepository;
+        $this->terapeutaRepository = $terapeutaRepository;
     } 
 
     #[Route('/admin/tratamientos', name: 'app_admin_tratamientos')]
-    public function administrarTratamientos(Request $peticion): Response
+    public function administrarTratamientosAdmin(Request $peticion): Response
     {
         //parte para añadir nuevos tratamientos
         $nuevoTratamientoForm = $this->crearFormularioNuevoTratamiento($peticion);
@@ -100,10 +103,50 @@ class TratamientoController extends AbstractController
     }
 
     #[Route('/admin/tratamientos/borrar/{id}', name: 'admin_borrarTratamiento')]
-    public function borrarTratamiento($id): RedirectResponse
+    public function borrarTratamientoAdmin($id): RedirectResponse
     {
         $tratamientoSeleccionado = $this->tratamientoRepository->find($id);
         $this->tratamientoRepository->borrar($tratamientoSeleccionado);
         return $this->redirectToRoute('app_admin_tratamientos');
+    }
+
+    #[Route('/terapeuta/tratamientos/borrar/{id}', name: 'terapeuta_borrarTratamiento')]
+    public function quitarTratamientoTerapeuta($id): RedirectResponse
+    {
+        /** @var \App\Entity\User $userActual */
+        $userActual = $this->getUser();
+        $terapeutaId = $userActual->getTerapeuta()->getId();
+        $this->terapeutaRepository->quitarTratamientoDeTerapeuta($id, $terapeutaId);
+
+        return $this->redirectToRoute('app_terapeuta_tratamientos');
+    }
+
+    #[Route('/terapeuta/tratamientos', name: 'app_terapeuta_tratamientos')]
+    public function administrarTratamientosTerapeuta(): Response
+    {
+        //primero saco los tratamientos del terapeuta activo
+        /** @var \App\Entity\User $userActual */
+        $userActual = $this->getUser();
+        $terapeuta = $userActual->getTerapeuta();
+        $tratamientos = $terapeuta->getTratamientos();
+
+        //ahora saco los tratamientos de la clinica
+        $tratamientosLibresClinica = $this->tratamientoRepository->seleccionarTratamientosTerapeutaNoTiene($terapeuta);
+
+        return $this->render('terapeuta/tratamientos.html.twig', [
+            'tratamientosTerapeuta' => $tratamientos,
+            'tratamientosClinica' => $tratamientosLibresClinica,
+        ]);
+    }
+
+    #[Route('/terapeuta/tratamientos/anadir/{id}', name: 'terapeuta_anadirTratamiento')]
+    public function anadirTratamientoTerapeuta($id): RedirectResponse
+    {
+        /** @var \App\Entity\User $userActual */
+        $userActual = $this->getUser();
+        $terapeutaId = $userActual->getTerapeuta()->getId();
+        $this->terapeutaRepository->addTratamientoATerapeuta($id, $terapeutaId);
+
+        return $this->redirectToRoute('app_terapeuta_tratamientos');
     }
 }

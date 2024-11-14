@@ -72,4 +72,20 @@ class TratamientoRepository extends ServiceEntityRepository
             ->getOneOrNullResult()
         ;
     }
+
+    public function seleccionarTratamientosTerapeutaNoTiene($terapeuta): array
+    {
+        $queryBuilder = $this->getEntityManager()->getConnection()->createQueryBuilder();
+    
+        $result = $queryBuilder
+            ->select('tratamiento.id, tratamiento.nombre')
+            ->from('tratamiento', 'tratamiento')
+            ->where('tratamiento.id NOT IN (SELECT tratamiento_id FROM tratamiento_terapeuta WHERE terapeuta_id = :terapeutaId)')
+            ->setParameter('terapeutaId', $terapeuta->getId())
+            ->executeQuery()
+            ->fetchAllAssociative(); // Obtenemos el resultado como un array asociativo
+    
+        return $result;
+    }
+    
 }

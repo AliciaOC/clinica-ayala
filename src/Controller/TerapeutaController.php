@@ -77,20 +77,4 @@ class TerapeutaController extends AbstractController
             'registroClienteForm' => $formCliente->createView(),
         ]);
     }
-
-    #[Route('/terapeuta/tratamientos', name: 'app_terapeuta_tratamientos')]
-    public function administrarTratamientos(): Response
-    {
-        //primero saco los tratamientos del terapeuta activo
-        /** @var \App\Entity\User $userActual */
-        $userActual = $this->getUser();
-        $terapeuta = $userActual->getTerapeuta();
-        $tratamientos = $terapeuta->getTratamientos();
-
-        
-
-        return $this->render('terapeuta/tratamientos.html.twig', [
-            'tratamientosTerapeuta' => $tratamientos,
-        ]);
-    }
 }

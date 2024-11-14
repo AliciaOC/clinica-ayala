@@ -22,6 +22,13 @@ class Cita
     #[ORM\Column(length: 50)]
     private ?string $estado = null;
 
+    #[ORM\ManyToOne(inversedBy: 'citas')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Terapeuta $terapeuta = null;
+
+    #[ORM\ManyToOne(inversedBy: 'citas')]
+    private ?Cliente $cliente = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -59,6 +66,30 @@ class Cita
     public function setEstado(string $estado): static
     {
         $this->estado = $estado;
+
+        return $this;
+    }
+
+    public function getTerapeuta(): ?Terapeuta
+    {
+        return $this->terapeuta;
+    }
+
+    public function setTerapeuta(?Terapeuta $terapeuta): static
+    {
+        $this->terapeuta = $terapeuta;
+
+        return $this;
+    }
+
+    public function getCliente(): ?Cliente
+    {
+        return $this->cliente;
+    }
+
+    public function setCliente(?Cliente $cliente): static
+    {
+        $this->cliente = $cliente;
 
         return $this;
     }

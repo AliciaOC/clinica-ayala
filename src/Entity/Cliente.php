@@ -28,9 +28,16 @@ class Cliente
     #[ORM\ManyToMany(targetEntity: Terapeuta::class, mappedBy: 'clientes')]
     private Collection $terapeutas;
 
+    /**
+     * @var Collection<int, Cita>
+     */
+    #[ORM\OneToMany(targetEntity: Cita::class, mappedBy: 'cliente')]
+    private Collection $citas;
+
     public function __construct()
     {
         $this->terapeutas = new ArrayCollection();
+        $this->citas = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -84,6 +91,36 @@ class Cliente
     {
         if ($this->terapeutas->removeElement($terapeuta)) {
             $terapeuta->removeCliente($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Cita>
+     */
+    public function getCitas(): Collection
+    {
+        return $this->citas;
+    }
+
+    public function addCita(Cita $cita): static
+    {
+        if (!$this->citas->contains($cita)) {
+            $this->citas->add($cita);
+            $cita->setCliente($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCita(Cita $cita): static
+    {
+        if ($this->citas->removeElement($cita)) {
+            // set the owning side to null (unless already changed)
+            if ($cita->getCliente() === $this) {
+                $cita->setCliente(null);
+            }
         }
 
         return $this;

@@ -43,11 +43,18 @@ class Terapeuta
     #[ORM\ManyToMany(targetEntity: Horario::class, inversedBy: 'terapeutas')]
     private Collection $horario;
 
+    /**
+     * @var Collection<int, Cita>
+     */
+    #[ORM\OneToMany(targetEntity: Cita::class, mappedBy: 'terapeuta', orphanRemoval: true)]
+    private Collection $citas;
+
     public function __construct()
     {
         $this->tratamientos = new ArrayCollection();
         $this->clientes = new ArrayCollection();
         $this->horario = new ArrayCollection();
+        $this->citas = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -162,6 +169,36 @@ class Terapeuta
     public function removeHorario(Horario $horario): static
     {
         $this->horario->removeElement($horario);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Cita>
+     */
+    public function getCitas(): Collection
+    {
+        return $this->citas;
+    }
+
+    public function addCita(Cita $cita): static
+    {
+        if (!$this->citas->contains($cita)) {
+            $this->citas->add($cita);
+            $cita->setTerapeuta($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCita(Cita $cita): static
+    {
+        if ($this->citas->removeElement($cita)) {
+            // set the owning side to null (unless already changed)
+            if ($cita->getTerapeuta() === $this) {
+                $cita->setTerapeuta(null);
+            }
+        }
 
         return $this;
     }

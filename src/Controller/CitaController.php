@@ -17,14 +17,14 @@ class CitaController extends AbstractController
         $this->entityManager = $entityManager;
     }
 
-    #[Route('terapeuta/citas/cancelar/{id}', name: 'terapeuta_cancelarCita')]
-    public function cancelarCita($id): Response
+    #[Route('terapeuta/citas/cancelar/{id}/{origen}', name: 'terapeuta_cancelarCita')]
+    public function cancelarCita($id, $origen): Response
     {
         $cita = $this->entityManager->getRepository(Cita::class)->findOneById($id);
         $cita->setEstado("cancelada");
         $this->entityManager->persist($cita);
         $this->entityManager->flush();
 
-        return $this->redirectToRoute('app_terapeuta_citas');
+        return $this->redirectToRoute($origen);
     }
 }

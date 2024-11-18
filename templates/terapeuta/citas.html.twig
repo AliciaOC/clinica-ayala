@@ -41,7 +41,7 @@
                         </td>
                         <td>
                             {% if cita.estado == 'pendiente' %}
-                                <a href='{{ path('terapeuta_cancelarCita', {'id': cita.id}) }}'>Cancelar Cita</a>
+                                <a href='{{ path('terapeuta_cancelarCita', {'id': cita.id, 'origen': 'app_terapeuta_citas'}) }}'>Cancelar Cita</a>
                             {% endif %}
                         </td>
 					</tr>

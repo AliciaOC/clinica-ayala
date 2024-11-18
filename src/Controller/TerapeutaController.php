@@ -8,6 +8,7 @@ use App\Entity\User;
 use App\Form\NuevaCitaType;
 use App\Form\RegistrarClienteType;
 use App\Form\RegistrarUserType;
+use App\Repository\CitaRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -23,13 +24,15 @@ class TerapeutaController extends AbstractController
     private EntityManagerInterface $entityManager; 
     private UserService $userService;
     private TerapeutaRepository $terapeutaRepository;
+    private CitaRepository $citaRepository;
 
-    public function __construct(UserRepository $userRepository, EntityManagerInterface $entityManager, UserService $userService, TerapeutaRepository $terapeutaRepository)
+    public function __construct(UserRepository $userRepository, EntityManagerInterface $entityManager, UserService $userService, TerapeutaRepository $terapeutaRepository, CitaRepository $citaRepository)
     {
         $this->userRepository = $userRepository;
         $this->entityManager = $entityManager;
         $this->userService = $userService;
         $this->terapeutaRepository = $terapeutaRepository;
+        $this->citaRepository = $citaRepository;
     }
 
     #[Route('/terapeuta', name: 'app_terapeuta')]
@@ -73,7 +76,12 @@ class TerapeutaController extends AbstractController
             return $this->redirectToRoute('app_terapeuta_clientes');
         }
 
+        //Actualizo el estado de las citas pendientes por si alguna debiera haberse marcado como finalizada
+        $this->citaRepository->actualizarEstadoCitasPendientes($userActual->getTerapeuta()->getId());
+
         $clientesTerapeuta = $userActual->getTerapeuta()->getClientes();
+
+        
 
         return $this->render('terapeuta/clientes.html.twig', [
             'clientes' => $clientesTerapeuta,
@@ -119,12 +127,9 @@ class TerapeutaController extends AbstractController
         }
 
         $citasTerapeuta = $userActual->getTerapeuta()->getCitas();
-        //si la fecha de la cita es anterior a la fecha actual, la cita se marca como finalizada, con un margen de 1 hora
-        foreach ($citasTerapeuta as $cita) {
-            if($cita->getFecha()<new \DateTimeImmutable('now') && $cita->getFecha()>new \DateTimeImmutable('-1 hour')){
-                $cita->setEstado("finalizada");
-            }
-        }
+        
+        //si la fecha de la cita es anterior a la fecha actual, la cita se marca como finalizada
+        $this->citaRepository->actualizarEstadoCitasPendientes($terapeuta->getId());
 
         return $this->render('terapeuta/citas.html.twig', [
             'citas' => $citasTerapeuta,

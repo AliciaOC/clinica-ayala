@@ -40,4 +40,48 @@ class CitaRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
+    public function findCitasPendientesByTerapeuta($terapeutaId): array
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.terapeuta = :terapeutaId')
+            ->andWhere('c.fecha >= :fecha')
+            ->andWhere('c.estado = :estado')
+            ->setParameter('terapeutaId', $terapeutaId)
+            ->setParameter('fecha', new \DateTimeImmutable('now'))
+            ->setParameter('estado', 'pendiente')
+            ->orderBy('c.fecha', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findCitasPasadasByTerapeuta($terapeutaId): array
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.terapeuta = :terapeutaId')
+            ->andWhere('c.fecha < :fecha')
+            ->andWhere('c.estado != :estado')
+            ->setParameter('terapeutaId', $terapeutaId)
+            ->setParameter('fecha', new \DateTimeImmutable('now'))
+            ->setParameter('estado', 'cancelada')
+            ->orderBy('c.fecha', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function actualizarEstadoCitasPendientes($terapeutaId): void
+    {
+        $this->createQueryBuilder('c')
+            ->update()
+            ->set('c.estado', ':nuevoEstado')
+            ->where('c.terapeuta = :terapeutaId')
+            ->andWhere('c.fecha < :fecha')
+            ->andWhere('c.estado = :estado')
+            ->setParameter('terapeutaId', $terapeutaId)
+            ->setParameter('fecha', new \DateTimeImmutable('now'))
+            ->setParameter('estado', 'pendiente')
+            ->setParameter('nuevoEstado', 'finalizada')
+            ->getQuery()
+            ->execute();
+    }
 }

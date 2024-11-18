@@ -15,7 +15,7 @@
 
 		{{ form_end(registroClienteForm) }}
 		{{ form_end(registroFormUser) }}		
-        
+		
         {% for message in app.flashes('error') %}
 			<div class="flash-error">
 				{{ message }}
@@ -28,12 +28,44 @@
 			<thead>
 				<tr>
 					<th>Nombre</th>
+					<th>Ultima Cita</th>
+					<th>Citas Pendientes</th>
 				</tr>
 			</thead>
 			<tbody>
 				{% for cliente in clientes %}
 					<tr>
 						<td>{{ cliente.nombre }}</td>
+						<td>
+							{% if cliente.citas|length > 0 %}
+								{% set citasFinalizadas = [] %}
+								{% for cita in cliente.citas %}
+									{% if cita.estado == 'finalizada' %}
+										{% set citasFinalizadas = citasFinalizadas | merge([cita]) %}
+									{% endif %}
+								{% endfor %}
+								{% if citasFinalizadas|length > 0 %}
+									{% set citasFinalizadas = citasFinalizadas|sort((a, b) => a.fecha <=> b.fecha) %}
+									{{ citasFinalizadas|last.fecha|date('d-m-Y H:i') }}
+								{% endif %}
+							{% endif %}
+						</td>
+						<td>
+							{% if cliente.citas|length > 0 %}
+								{% set citasPendientes = [] %}
+								{% for cita in cliente.citas %}
+									{% if cita.estado == 'pendiente' %}
+										{% set citasPendientes = citasPendientes | merge([cita]) %}
+									{% endif %}
+								{% endfor %}
+								{% if citasPendientes|length > 0 %}
+									{% set citasPendientes = citasPendientes|sort((a, b) => a.fecha <=> b.fecha) %}
+									{% for cita in citasPendientes %}
+										<p>{{ cita.fecha|date('d-m-Y H:i') }} <a href='{{ path('terapeuta_cancelarCita', {'id': cita.id, 'origen': 'app_terapeuta_clientes'}) }}'>Cancelar Cita</a></p>
+									{% endfor %}
+								{% endif %}
+							{% endif %}
+						</td>
 					</tr>
 				{% endfor %}
 			</tbody>

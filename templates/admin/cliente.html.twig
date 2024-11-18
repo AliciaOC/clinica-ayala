@@ -12,6 +12,7 @@
 					<th>Correo Electrónico</th>
                     <th>Nombre</th>
                     <th>Terapeutas</th>
+					<th>Próximas Citas</th>
 					<th>Acciones</th>
 				</tr>
 			</thead>
@@ -24,6 +25,22 @@
 							{% for terapeuta in cliente.terapeutas %}
 								{{ terapeuta.nombre }}<br/>
 							{% endfor %}
+						</td>
+						<td>
+							{% if cliente.citas|length > 0 %}
+								{% set citasPendientes = [] %}
+								{% for cita in cliente.citas %}
+									{% if cita.estado == 'pendiente' %}
+										{% set citasPendientes = citasPendientes | merge([cita]) %}
+									{% endif %}
+								{% endfor %}
+								{% if citasPendientes|length > 0 %}
+									{% set citasPendientes = citasPendientes|sort((a, b) => a.fecha <=> b.fecha) %}
+									{% for cita in citasPendientes %}
+										<p>{{ cita.fecha|date('d-m-Y H:i') }} {{cita.terapeuta.nombre}}</p>
+									{% endfor %}
+								{% endif %}
+							{% endif %}
 						</td>
 						<td>
 						{% if not cliente.usuario.nuevo %}

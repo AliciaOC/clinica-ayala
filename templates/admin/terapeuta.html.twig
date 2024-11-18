@@ -35,6 +35,7 @@
                     <th>Tratamientos</th>
                     <th>Horario</th>
 					<th>Número de Clientes</th>
+					<th>Citas Próximas</th>
 					<th>Acciones</th>
 				</tr>
 			</thead>
@@ -55,6 +56,22 @@
 							{% endfor %}
 						</td>
 						<td>{{ terapeuta.clientes|length }}</td>
+						<td>
+							{% if terapeuta.citas|length > 0 %}
+								{% set citasPendientes = [] %}
+								{% for cita in terapeuta.citas %}
+									{% if cita.estado == 'pendiente' %}
+										{% set citasPendientes = citasPendientes | merge([cita]) %}
+									{% endif %}
+								{% endfor %}
+								{% if citasPendientes|length > 0 %}
+									{% set citasPendientes = citasPendientes|sort((a, b) => a.fecha <=> b.fecha) %}
+									{% for cita in citasPendientes %}
+										<p>{{ cita.fecha|date('d-m-Y H:i') }} {{cita.cliente.nombre}}</p>
+									{% endfor %}
+								{% endif %}
+							{% endif %}
+						</td>
 						<td>
 						{% if not terapeuta.usuario.nuevo %}
 							<a href="{{ path('admin_reiniciarPassword', {'id': terapeuta.usuario.id}) }}">Reiniciar Contraseña</a>

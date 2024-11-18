@@ -65,28 +65,12 @@ class AdminController extends AbstractController
         ]);
     }
 
-    #[Route('/admin/borrar-admin/{id}', name: 'admin_borrarAdmin')]
-    public function borrarAdmin($id): RedirectResponse
+    #[Route('/admin/borrar-user/{id}/{origen}', name: 'admin_borrarUser')]
+    public function borrarUser($id, $origen): RedirectResponse
     {
         $userSeleccionado = $this->userRepository->findOneById($id);
         $this->userRepository->borrar($userSeleccionado);
-        return $this->redirectToRoute('app_admin_admins');
-    }
-
-    #[Route('/admin/borrar-terapeuta/{id}', name: 'admin_borrarTerapeuta')]
-    public function borrarTerapeuta($id): RedirectResponse
-    {
-        $userSeleccionado = $this->userRepository->findOneById($id);
-        $this->userRepository->borrar($userSeleccionado);
-        return $this->redirectToRoute('app_admin_terapeutas');
-    }
-
-    #[Route('/admin/borrar-cliente/{id}', name: 'admin_borrarCliente')]
-    public function borrarCliente($id): RedirectResponse
-    {
-        $userSeleccionado = $this->userRepository->findOneById($id);
-        $this->userRepository->borrar($userSeleccionado);
-        return $this->redirectToRoute('app_admin_clientes');
+        return $this->redirectToRoute($origen);
     }
 
     #[Route('/admin/reiniciar-password/{id}', name: 'admin_reiniciarPassword')]

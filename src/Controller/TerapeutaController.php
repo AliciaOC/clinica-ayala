@@ -38,9 +38,11 @@ class TerapeutaController extends AbstractController
     #[Route('/terapeuta', name: 'app_terapeuta')]
     public function index(): Response
     {
-        
+        /** @var \App\Entity\User $userActual */
+        $userActual = $this->getUser();
+        $terapeuta = $userActual->getTerapeuta();
         return $this->render('terapeuta/index.html.twig', [
-            'controller_name' => 'TerapeutaController',
+            'terapeuta' => $terapeuta,
         ]);
     }
 

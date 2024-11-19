@@ -84,4 +84,30 @@ class CitaRepository extends ServiceEntityRepository
             ->getQuery()
             ->execute();
     }
+
+    public function actualizarEstadoCitasPendientesCliente($clienteId): void
+    {
+        $this->createQueryBuilder('c')
+            ->update()
+            ->set('c.estado', ':nuevoEstado')
+            ->where('c.cliente = :clienteId')
+            ->andWhere('c.fecha < :fecha')
+            ->andWhere('c.estado = :estado')
+            ->setParameter('clienteId', $clienteId)
+            ->setParameter('fecha', new \DateTimeImmutable('now'))
+            ->setParameter('estado', 'pendiente')
+            ->setParameter('nuevoEstado', 'finalizada')
+            ->getQuery()
+            ->execute();
+    }
+
+    public function citasClienteOrdenadas($clienteId): array
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.cliente = :clienteId')
+            ->orderBy('c.fecha', 'DESC')
+            ->setParameter('clienteId', $clienteId)
+            ->getQuery()
+            ->getResult();
+    }
 }

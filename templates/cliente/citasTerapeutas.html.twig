@@ -1,0 +1,43 @@
+{% extends 'cliente/index.html.twig' %}
+{% block title %}Citas y Terapeutas
+{% endblock %}
+{% block main %}
+	<h1>Citas y Terapeutas</h1>
+	<section id="terapeutas_cliente">
+        <h3>Terapeutas</h3>
+        <ul>
+		    {% for terapeuta in terapeutas %}
+                <li>{{ terapeuta.nombre }}</li>
+            {% endfor %}
+        </ul>
+	</section>
+	<section id="citas_clientes">
+		<h3>Citas</h3>
+		<table>
+			<thead>
+				<tr>
+					<th>Fecha</th>
+					<th>Motivo</th>
+					<th>Terapeuta</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for cita in citas %}
+					<tr>
+						<td>{{ cita.fecha|date('d-m-Y H:i') }}</td>
+                        <td>{{ cita.motivo }}</td>
+                        <td>{{ cita.terapeuta.nombre }}</td>
+                        <td>{{ cita.estado }}</td>
+						<td>
+                        {% if cita.estado=='pendiente' %}
+                            <a href='{{ path('terapeuta_cancelarCita', {'id': cita.terapeuta.id, 'origen': 'app_cliente_citas_terapeutas'}) }}'>Cancelar Cita</a></p>
+                        {% endif %}
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</section>
+{% endblock %}

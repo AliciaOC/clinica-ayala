@@ -31,8 +31,8 @@ class HomeController extends AbstractController
                 $nombrePerfil="Admin";
             }elseif(in_array('ROLE_TERAPEUTA', $userRol)){
                 $nombrePerfil=$user->getTerapeuta()->getNombre();
-            }elseif(in_array('ROLE_Cliente', $userRol)){
-                $nombrePerfil="Cliente";
+            }elseif(in_array('ROLE_CLIENTE', $userRol)){
+                $nombrePerfil=$user->getCliente()->getNombre();
             }
         }
         return $this->render('home/index.html.twig', [

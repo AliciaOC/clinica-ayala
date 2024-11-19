@@ -11,6 +11,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use App\Entity\User;
 use App\Form\CitaAdminTerapeutaType;
 use App\Form\EditarClienteAdminType;
+use App\Form\EditarTerapeutaAdminType;
 use App\Form\NuevaCitaType;
 use App\Form\RegistrarTerapeutaType;
 use App\Form\RegistrarUserType;
@@ -139,11 +140,20 @@ class AdminController extends AbstractController
     public function editarTerapeutas(Request $request, $id): Response
     {
         $user=$this->userRepository->findOneById($id);
+        $email=$user->getEmail();
         $terapeuta=$user->getTerapeuta();
-        $form = $this->createForm(RegistrarTerapeutaType::class, $terapeuta);
+        $form = $this->createForm(EditarTerapeutaAdminType::class, $terapeuta, [
+            'email' => $email,
+        ]);
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            if($form->get('email')->getData() != $email && $form->get('email')->getData() != null){
+                $user->setEmail($form->get('email')->getData());
+                $this->entityManager->persist($user);
+            }
 
             //Por si se han eliminado tratamientos del terapeuta
             $this->terapeutaRepository->borrarTerapeutaDeTratamientoHuerfano($terapeuta);
@@ -221,11 +231,21 @@ class AdminController extends AbstractController
     public function adminEditarClientes(Request $request, $id): Response
     {
         $user=$this->userRepository->findOneById($id);
+        $email=$user->getEmail();
         $cliente=$user->getCliente();
-        $form = $this->createForm(EditarClienteAdminType::class, $cliente);
+
+        $form = $this->createForm(EditarClienteAdminType::class, $cliente,[
+            'email' => $email,
+        ]);
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            if($form->get('email')->getData() != $email && $form->get('email')->getData() != null){
+                $user->setEmail($form->get('email')->getData());
+                $this->entityManager->persist($user);
+            }
 
             //Por si se han eliminado terapeutas del cliente
             $this->clienteRepository->borrarClienteDeTerapeutaHuerfano($cliente);

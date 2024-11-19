@@ -67,7 +67,13 @@
 								{% if citasPendientes|length > 0 %}
 									{% set citasPendientes = citasPendientes|sort((a, b) => a.fecha <=> b.fecha) %}
 									{% for cita in citasPendientes %}
-										<p>{{ cita.fecha|date('d-m-Y H:i') }} {{cita.cliente.nombre}}</p>
+										<p>{{ cita.fecha|date('d-m-Y H:i') }} 
+											{% if cita.cliente %}
+												{{cita.cliente.nombre}}
+											{% else %}
+												Cliente sin Ficha
+											{% endif %}
+										</p>
 									{% endfor %}
 								{% endif %}
 							{% endif %}
@@ -78,6 +84,7 @@
 						{% endif %}
 							<a href="{{ path('admin_borrarUser', {'id': terapeuta.usuario.id, 'origen': 'app_admin_terapeutas'}) }}">Borrar</a>
 							<a href="{{ path('app_admin_terapeutas_editar', {'id': terapeuta.usuario.id}) }}">Editar</a>
+							<a href="{{ path('app_admin_terapeuta_cita', {'id': terapeuta.id}) }}">Generar una nueva cita para este Terapeuta</a>
 						</td> 
 					</tr>
 				{% endfor %}

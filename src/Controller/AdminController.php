@@ -2,15 +2,19 @@
 
 namespace App\Controller;
 
+use App\Entity\Cita;
 use App\Entity\Cliente;
 use App\Entity\Terapeuta;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use App\Entity\User;
+use App\Form\CitaAdminTerapeutaType;
 use App\Form\EditarClienteAdminType;
+use App\Form\NuevaCitaType;
 use App\Form\RegistrarTerapeutaType;
 use App\Form\RegistrarUserType;
+use App\Repository\CitaRepository;
 use App\Repository\ClienteRepository;
 use App\Repository\TerapeutaRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -31,8 +35,9 @@ class AdminController extends AbstractController
     private UserService $userService;
     private TerapeutaRepository $terapeutaRepository;
     private ClienteRepository $clienteRepository;
+    private CitaRepository $citaRepository;
 
-    public function __construct(UserRepository $userRepository, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, UserService $userService, TerapeutaRepository $terapeutaRepository, ClienteRepository $clienteRepository)
+    public function __construct(UserRepository $userRepository, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, UserService $userService, TerapeutaRepository $terapeutaRepository, ClienteRepository $clienteRepository, CitaRepository $citaRepository)
     {
         $this->userRepository = $userRepository;
         $this->userPasswordHasher = $userPasswordHasher;
@@ -40,6 +45,7 @@ class AdminController extends AbstractController
         $this->userService = $userService;
         $this->terapeutaRepository = $terapeutaRepository;
         $this->clienteRepository = $clienteRepository;
+        $this->citaRepository = $citaRepository;
     }
 
     #[Route('/admin', name: 'app_admin')]
@@ -116,6 +122,11 @@ class AdminController extends AbstractController
 
         //todos los terapeutas
         $terapeutas = $this->terapeutaRepository->getAllTerapeutas();
+
+        //Se van a mostrar citas así que vamos a actualizar el estado de las citas pendientes
+        foreach ($terapeutas as $terapeuta) {
+            $this->citaRepository->actualizarEstadoCitasPendientes($terapeuta->getId());
+        }
             
         return $this->render('admin/terapeuta.html.twig', [
             'terapeutas' => $terapeutas,
@@ -155,10 +166,51 @@ class AdminController extends AbstractController
         ]);
     }
 
+    #[Route('/admin/terapeutas/cita/{id}', name: 'app_admin_terapeuta_cita')]
+    public function crearCitaTerapeuta(Request $request, $id): Response
+    {
+        $terapeuta = $this->terapeutaRepository->findOneById($id);
+        $cita = new Cita();
+        $form = $this->createForm(CitaAdminTerapeutaType::class, $cita);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            if($cita->getFecha()<new \DateTimeImmutable('now')){
+                $this->addFlash('error', 'Error: La fecha de la cita no puede ser anterior a la fecha actual.');
+                return $this->redirectToRoute('app_admin_terapeuta_cita', ['id' => $id]);
+            }
+
+            $cita->setTerapeuta($terapeuta);
+            $cita->setEstado('pendiente');
+
+            if($cita->getMotivo()==null){
+                $cita->setMotivo("Primera cita para cliente sin ficha.");
+            }
+            $motivo = $cita->getMotivo();
+            $motivo .=" <<Admin>>"; //al motivo le añado el texto <<Admin>> para poder aplicar estilos después
+            $cita->setMotivo($motivo);
+            $cita->setCliente(null);
+
+            $this->entityManager->persist($cita);
+            $this->entityManager->flush();
+            return $this->redirectToRoute('app_admin_terapeutas');
+        }
+
+        return $this->render('admin/crearCita.html.twig', [
+            'form' => $form->createView(),
+            'terapeuta' => $terapeuta,
+        ]);
+    }
+
     #[Route('/admin/clientes', name: 'app_admin_clientes')]
     public function administrarClientes(): Response
     {
         $clientes = $this->clienteRepository->getAllClientes();
+
+        //Se van a mostrar las citas así que vamos a actualizar el estado de las citas pendientes
+        foreach ($clientes as $cliente) {
+            $this->citaRepository->actualizarEstadoCitasPendientes($cliente->getId());
+        }
 
         return $this->render('admin/cliente.html.twig', [
             'clientes' => $clientes,

@@ -1,0 +1,19 @@
+{% extends 'admin/indexAdmin.html.twig' %}
+
+{% block title %}Editar Admin
+{% endblock %}
+
+{% block main %}
+	<h3>Editar Admin: {{ admin.email }}</h1>
+	<section id="editar-admin">
+		{{form(form) }}
+
+		{% for message in app.flashes('error') %}
+			<div class="flash-error">
+				{{ message }}
+			</div>
+		{% endfor %}
+	</section>
+    <a href="{{ path('app_admin_admins') }}">Cancelar</a>
+
+{% endblock %}

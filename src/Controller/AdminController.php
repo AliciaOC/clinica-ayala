@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use App\Entity\User;
 use App\Form\CitaAdminTerapeutaType;
+use App\Form\EditarAdminType;
 use App\Form\EditarClienteAdminType;
 use App\Form\EditarTerapeutaAdminType;
 use App\Form\NuevaCitaType;
@@ -69,6 +70,35 @@ class AdminController extends AbstractController
         return $this->render('admin/admins.html.twig', [
             'admins' => $admins,
             'registroForm' => $crearAdminForm->createView(),
+        ]);
+    }
+
+    #[Route('/admin/editar-admin/{id}', name: 'app_admin_editarAdmin')]
+    public function editarAdmin(Request $request, $id): Response
+    {
+        $user=$this->userRepository->findOneById($id);
+        $email=$user->getEmail();
+        $form = $this->createForm(EditarAdminType::class, $user, [
+            'email' => $email,
+        ]);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            if($form->get('email')->getData() != $email && $form->get('email')->getData() != null){
+                $user->setEmail($form->get('email')->getData());
+            }
+
+            $this->entityManager->persist($user);
+            $this->entityManager->flush();
+
+            return $this->redirectToRoute('app_admin_admins');
+
+        }
+            
+        return $this->render('admin/editarAdmin.html.twig', [
+            'form' => $form->createView(),
+            'admin' => $user,
         ]);
     }
 

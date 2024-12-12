@@ -35,7 +35,7 @@ class TerapeutaController extends AbstractController
         $this->citaRepository = $citaRepository;
     }
 
-    #[Route('/terapeuta', name: 'app_terapeuta')]
+    #[Route('/_terapeuta', name: 'app_terapeuta')]
     public function index(): Response
     {
         /** @var \App\Entity\User $userActual */
@@ -46,7 +46,7 @@ class TerapeutaController extends AbstractController
         ]);
     }
 
-    #[Route('/terapeuta/clientes', name: 'app_terapeuta_clientes')]
+    #[Route('/_terapeuta/clientes', name: 'app_terapeuta_clientes')]
     public function administrarClientes(Request $request): Response
     {
         /** @var \App\Entity\User $userActual */
@@ -92,7 +92,7 @@ class TerapeutaController extends AbstractController
         ]);
     }
 
-    #[Route('terapeuta/citas', name: 'app_terapeuta_citas')]
+    #[Route('_terapeuta/citas', name: 'app_terapeuta_citas')]
     public function gestionarCitas(Request $request): Response
     {
         /** @var \App\Entity\User $userActual */

@@ -19,7 +19,7 @@ class ClienteController extends AbstractController
         $this->citaRepository = $citaRepository;
     }
 
-    #[Route('/cliente', name: 'app_cliente')]
+    #[Route('/_cliente', name: 'app_cliente')]
     public function index(): Response
     {
         /**
@@ -32,7 +32,7 @@ class ClienteController extends AbstractController
         ]);
     }
 
-    #[Route('/cliente/citas-y-terapeutas', name: 'app_cliente_citas_terapeutas')]
+    #[Route('/_cliente/citas-y-terapeutas', name: 'app_cliente_citas_terapeutas')]
     public function terapeutasCliente(): Response
     {
         /**

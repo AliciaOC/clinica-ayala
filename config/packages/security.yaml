@@ -36,7 +36,9 @@ security:
   # Note: Only the *first* access control that matches will be used
   access_control:
     - { path: ^/admin, roles: ROLE_ADMIN }
-    - { path: ^/terapeuta/clientes, roles: ROLE_TERAPEUTA }
+    - { path: ^/_terapeuta, roles: ROLE_TERAPEUTA }
+    - { path: ^/_cliente, roles: ROLE_CLIENTE }
+    - { path: ^/cancelar-cita, roles: [ROLE_TERAPEUTA, ROLE_CLIENTE] }
     # - { path: ^/registro, roles: [ROLE_ADMIN, ROLE_TERAPEUTA] }
     # - { path: ^/profile, roles: ROLE_USER }
 

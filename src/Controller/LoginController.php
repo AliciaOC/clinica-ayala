@@ -61,10 +61,10 @@ class LoginController extends AbstractController
 
             //si no es su primer login, lo redirijo a la página correspondiente según su rol
             if ($security->isGranted('ROLE_ADMIN')) {
-                $redirectUrl = $this->generateUrl('app_admin');
+                $redirectUrl = $this->generateUrl('app_admin_terapeutas');
             } elseif ($security->isGranted('ROLE_TERAPEUTA')) {
                 // TODO: Redirect to the terapeuta dashboard
-                $redirectUrl = $this->generateUrl('app_terapeuta');
+                $redirectUrl = $this->generateUrl('app_terapeuta_citas');
             } elseif ($security->isGranted('ROLE_CLIENTE')) {
                 // TODO: Redirect to the cliente dashboard
                 $redirectUrl = $this->generateUrl('app_cliente');

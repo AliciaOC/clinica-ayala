@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Cita;
-use App\Entity\Cliente;
 use App\Entity\Terapeuta;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,7 +12,6 @@ use App\Form\CitaAdminTerapeutaType;
 use App\Form\EditarAdminType;
 use App\Form\EditarClienteAdminType;
 use App\Form\EditarTerapeutaAdminType;
-use App\Form\NuevaCitaType;
 use App\Form\RegistrarTerapeutaType;
 use App\Form\RegistrarUserType;
 use App\Repository\CitaRepository;
@@ -25,9 +23,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use App\Repository\UserRepository;
 use App\Services\UserService;
 use Symfony\Component\Form\FormInterface;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class AdminController extends AbstractController
 {
@@ -48,14 +44,6 @@ class AdminController extends AbstractController
         $this->terapeutaRepository = $terapeutaRepository;
         $this->clienteRepository = $clienteRepository;
         $this->citaRepository = $citaRepository;
-    }
-
-    #[Route('/admin', name: 'app_admin')]
-    public function index(): Response
-    {
-        return $this->render('admin/indexAdmin.html.twig', [
-            'controller_name' => 'AdminController',
-        ]);
     }
 
     #[Route('/admin/admins', name: 'app_admin_admins')]

@@ -6,11 +6,11 @@
 {% block header %}
 	<h1>Espacio para Terapeutas</h1>
 	<ul>
-		<li><a href=" {{ path('app_logout') }} ">Cerrar Sesión</a></li>
+		<li><a href=" {{ path('app_terapeuta_citas') }} ">Citas</a></li>
+		<li><a href=" {{ path('app_terapeuta_clientes') }} ">Clientes</a></li>
+		<li><a href=" {{ path('app_terapeuta_tratamientos') }} ">Tratamientos</a></li>
 		<li><a href=" {{ path('app_home') }} ">Volver a la página principal</a></li>
 		<li><a href=" {{ path('app_cambio_password') }} ">Cambiar Contraseña</a></li>
-		<li><a href=" {{ path('app_terapeuta_tratamientos') }} ">Tratamientos</a></li>
-		<li><a href=" {{ path('app_terapeuta_clientes') }} ">Clientes</a></li>
-		<li><a href=" {{ path('app_terapeuta_citas') }} ">Citas</a></li>
+		<li><a href=" {{ path('app_logout') }} ">Cerrar Sesión</a></li>
 	</ul>
 {% endblock %}

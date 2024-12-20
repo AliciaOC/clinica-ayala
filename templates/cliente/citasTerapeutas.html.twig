@@ -2,12 +2,12 @@
 {% block title %}Citas y Terapeutas
 {% endblock %}
 {% block main %}
-	<h1>Citas y Terapeutas</h1>
+	<h1>Terapeutas y Citas</h1>
 	<section id="terapeutas_cliente">
         <h3>Terapeutas</h3>
         <ul>
 		    {% for terapeuta in terapeutas %}
-                <li>{{ terapeuta.nombre }}</li>
+                <li>{{ terapeuta.nombre }} - {{ terapeuta.titulacion }}</li>
             {% endfor %}
         </ul>
 	</section>
@@ -26,7 +26,7 @@
 			<tbody>
 				{% for cita in citas %}
 					<tr>
-						<td>{{ cita.fecha|date('d-m-Y H:i') }}</td>
+						<td>{{ cita.fecha|date('d/m/Y H:i') }}</td>
                         <td>{{ cita.motivo }}</td>
                         <td>{{ cita.terapeuta.nombre }}</td>
                         <td>{{ cita.estado }}</td>

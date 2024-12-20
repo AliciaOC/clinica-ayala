@@ -27,19 +27,6 @@ class ClienteController extends AbstractController
          */
         $user=$this->getUser();
         $cliente=$user->getCliente();
-        return $this->render('cliente/index.html.twig', [
-            'cliente' => $cliente,
-        ]);
-    }
-
-    #[Route('/_cliente/citas-y-terapeutas', name: 'app_cliente_citas_terapeutas')]
-    public function terapeutasCliente(): Response
-    {
-        /**
-         * @var App\Entity\User $user
-         */
-        $user=$this->getUser();
-        $cliente=$user->getCliente();
 
         $terapeutas=$cliente->getTerapeutas();
 

@@ -35,17 +35,6 @@ class TerapeutaController extends AbstractController
         $this->citaRepository = $citaRepository;
     }
 
-    #[Route('/_terapeuta', name: 'app_terapeuta')]
-    public function index(): Response
-    {
-        /** @var \App\Entity\User $userActual */
-        $userActual = $this->getUser();
-        $terapeuta = $userActual->getTerapeuta();
-        return $this->render('terapeuta/index.html.twig', [
-            'terapeuta' => $terapeuta,
-        ]);
-    }
-
     #[Route('/_terapeuta/clientes', name: 'app_terapeuta_clientes')]
     public function administrarClientes(Request $request): Response
     {

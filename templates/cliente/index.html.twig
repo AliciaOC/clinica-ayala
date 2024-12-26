@@ -3,12 +3,13 @@
 {% block title %}Cliente
 {% endblock %}
 
-{% block header %}
+{% block encabezado %}
 	<h1>Espacio para Clientes: {{ cliente.nombre }}</h1>
-	<ul>
-		<li><a href=" {{ path('app_home') }} ">Volver a la página principal</a></li>
-		<li><a href=" {{ path('app_cambio_password') }} ">Cambiar Contraseña</a></li>
-		<li><a href=" {{ path('app_logout') }} ">Cerrar Sesión</a></li>
-	</ul>
+	<nav>
+		<ul>
+			<li><a href=" {{ path('app_cambio_password') }} ">Cambiar Contraseña</a></li>
+			<li><a href=" {{ path('app_logout') }} ">Cerrar Sesión</a></li>
+		</ul>
+	</nav>
 {% endblock %}
 

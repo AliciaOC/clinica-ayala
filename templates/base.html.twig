@@ -16,16 +16,22 @@
 	<body>
 		{% block body %}
 			<header>
-				{% block header %}
-					<h1>Clínica Ayala</h1>
-					<a href="{{ path(perfil) }}">{{ nombre }}</a>
+				<a class="logo" href=" {{ path('app_home') }} ">Clínica Ayala</a>	
+
+				{% block encabezado %}
+					<a id="enlace_perfil" href="{{ path(perfil) }}">{{ nombre }}</a>
 				{% endblock %}
 			</header>
 			<main>
 				{% block main %}{% endblock %}
 			</main>
 			<footer>
-				{% block footer %}{% endblock %}
+				<a class="logo" href=" {{ path('app_home') }} ">Clínica Ayala</a>	
+				<ul id="contacto_footer">
+						<li>Avenida Francisco Ayala s/n</li>
+						<li>+34 000000000</li>
+						<li>correo@correo.correo</li>
+				</ul>
 			</footer>
 		{% endblock %}
 	</body>

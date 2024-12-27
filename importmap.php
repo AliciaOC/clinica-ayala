@@ -1,7 +1,5 @@
 <?php
 
-use Symfonycasts\SassBundle\SassBuilder;
-
 /**
  * Returns the importmap for this application.
  *
@@ -36,5 +34,8 @@ return [
     'bootstrap/dist/css/bootstrap.min.css' => [
         'version' => '5.3.3',
         'type' => 'css',
+    ],
+    'jquery' => [
+        'version' => '3.7.1',
     ],
 ];

@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Terapeuta;
+use App\Entity\Tratamiento;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -35,9 +37,16 @@ class HomeController extends AbstractController
                 $nombrePerfil=$user->getCliente()->getNombre();
             }
         }
+
+        //obtengo todos los tratamientos y todos los terapeutas
+        $tratamientos=$entity->getRepository(Tratamiento::class)->findAll();
+        $terapeutas=$entity->getRepository(Terapeuta::class)->findAll();
+
         return $this->render('home/index.html.twig', [
             'perfil' => 'app_login_redirect',
-            'nombre' => $nombrePerfil
+            'nombre' => $nombrePerfil,
+            'tratamientos' => $tratamientos,
+            'terapeutas' => $terapeutas
         ]);
     }
 }

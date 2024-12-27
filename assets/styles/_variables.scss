@@ -1,0 +1,24 @@
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&family=Lexend:wght@100..900&display=swap');
+
+//Colores
+$blanco: #fafafa;
+$verde: #31c5b7;
+$azul-claro: #afe4f3;
+$azul-oscuro: #065f88;
+$negro:#031a03;
+
+//Fuentes
+$fuente-principal: 'Comfortaa';
+$fuente-texto: 'Lexend';
+
+//Rupturas para media query
+$ruptura: (
+    sm: 576px,
+    md: 768px,
+    lg: 992px,
+    xl: 1200px,
+    xxl: 1400px
+);
+
+//logo
+$logo-imagen-ruta: "../imagenes/logo.png";

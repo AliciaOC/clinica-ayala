@@ -1,5 +1,7 @@
 <?php
 
+use Symfonycasts\SassBundle\SassBuilder;
+
 /**
  * Returns the importmap for this application.
  *

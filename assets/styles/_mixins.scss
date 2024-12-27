@@ -1,0 +1,32 @@
+//Para el menú del móvil
+//span::before y ::after
+@mixin posicion-palitos-hamburguesa($pseudo-elemento){
+    content: "";
+    position: absolute;
+    top: 8px;
+    background-color: $blanco;
+    height: 3px;
+    width: 30px;
+    transition: 0.3s;
+    //mediante un if filtro si es ::before o after para darles un top diferente
+    @if $pseudo-elemento == "before"{
+        top: -8px;
+    }@else{
+        top: 8px;
+    }
+}
+
+//Para los menu .a de los navbar medianos y grandes
+@mixin formato-enlaces-headersGrandes{
+    text-decoration: none;
+    color: #031a03;
+    font-weight: bold;
+}
+
+//Para centrar el contenido del main cuando solo hay una columna
+@mixin display-contenido-movil{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 2rem;
+}

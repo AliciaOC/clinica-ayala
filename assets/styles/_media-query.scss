@@ -1,0 +1,26 @@
+@use "sass:map";
+
+@mixin mixin-media-query-MAX($valor) {
+    $tamano: map.get($ruptura, $valor);
+
+    @media screen and (max-width: $tamano) {
+        @content;
+    }
+}
+
+@mixin mixin-media-query-MIN($valor) {
+    $tamano: map.get($ruptura, $valor);
+
+    @media screen and (min-width: $tamano) {
+        @content;
+    }
+}
+
+@mixin mixin-media-query-Min-Max($min-valor, $max-valor) {
+    $min-tamano: map.get($ruptura, $min-valor);
+    $max-tamano: map.get($ruptura, $max-valor);
+
+    @media screen and (min-width: $min-tamano) and (max-width: $max-tamano) {
+        @content;
+    }
+}

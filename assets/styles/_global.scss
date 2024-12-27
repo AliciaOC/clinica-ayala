@@ -1,0 +1,50 @@
+@use "sass:map";
+
+/*Primero los estilos que afectan a varias partes de la página*/
+*{
+    font-family: $fuente-principal, $fuente-texto, 'sans-serif';
+    box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  background-color: $blanco;
+}
+
+/*estilos comunes de header, main y footer*/
+header,
+main,
+footer{
+  padding: 2em;
+}
+
+/*pantallas grandes*/
+@include mixin-media-query-MIN(xxl){
+  header,
+  main,
+  footer{
+    width: 1400px;
+    margin: 0 auto;
+  }
+}
+
+/*logo*/
+header,
+footer{
+  .logo{
+    display: block;
+    color: $verde;
+    width: fit-content;
+    height: 60px;
+    padding-top: 0.4em;
+    padding-left: 100px;
+    text-align: end;
+    text-decoration: none;
+    background-image: url($logo-imagen-ruta);
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+}

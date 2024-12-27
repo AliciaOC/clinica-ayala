@@ -6,7 +6,7 @@
 			{% block title %}Clínica Ayala
 			{% endblock %}
 		</title>
-
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		{% block javascripts %}
 			{% block importmap %}
 				{{ importmap('app') }}
@@ -16,21 +16,19 @@
 	<body>
 		{% block body %}
 			<header>
-				<a class="logo" href=" {{ path('app_home') }} ">Clínica Ayala</a>	
-
+				<h1><a class="logo" href=" {{ path('app_home') }} ">Clínica Ayala</a></h1>	
+				<section id="hamburguesa-navbar"><span></span></section>
 				{% block encabezado %}
-					<a id="enlace_perfil" href="{{ path(perfil) }}">{{ nombre }}</a>
 				{% endblock %}
 			</header>
 			<main>
 				{% block main %}{% endblock %}
 			</main>
 			<footer>
-				<a class="logo" href=" {{ path('app_home') }} ">Clínica Ayala</a>	
-				<ul id="contacto_footer">
-						<li>Avenida Francisco Ayala s/n</li>
-						<li>+34 000000000</li>
-						<li>correo@correo.correo</li>
+				<h1><a class="logo" href=" {{ path('app_home') }} ">Clínica Ayala</a></h1>	
+				<ul id="contacto_footer" class="contacto_lista">
+					<li>Avenida Francisco Ayala s/n</li>
+					<li><a href="+34000000000"> +34 000000000</a></li>
 				</ul>
 			</footer>
 		{% endblock %}

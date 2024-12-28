@@ -4,18 +4,42 @@
 {% endblock %}
 
 {% block encabezado %}
-	<h2>Administración</h2>
-	<nav id="menu_header">
-		<ul>
-			<li><a href=" {{ path('app_admin_terapeutas') }} ">Terapeutas</a></li>
-			<li><a href=" {{ path('app_admin_clientes') }} ">Clientes</a></li>
-			<li><a href=" {{ path('app_admin_admins') }} ">Administradores/as</a></li>
-			<li><a href=" {{ path('app_admin_tratamientos') }} ">Tratamientos</a></li>
-			<li><a href=" {{ path('app_admin_horarios') }} ">Horarios</a></li>
-			<li><a href=" {{ path('app_cambio_password') }} ">Cambiar Contraseña</a></li>
-			<li><a href=" {{ path('app_logout') }} ">Cerrar Sesión</a></li>
-		</ul>
+	<nav class="navbar navbar-expand-lg bg-body-tertiary navbar_perfiles">
+		<div class="container-fluid">
+			<h5 id="titulo_perfil">Administración</h5>
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+					<li class="nav-item">
+						<a class="nav-link" href=" {{ path('app_admin_terapeutas') }} ">Terapeutas</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href=" {{ path('app_admin_clientes') }} ">Clientes</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href=" {{ path('app_admin_admins') }} ">Administradores/as</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href=" {{ path('app_admin_tratamientos') }} ">Tratamientos</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href=" {{ path('app_admin_horarios') }} ">Horarios</a>
+					</li>
+				</ul>
+			</div>
+		</div>
 	</nav>
+	<div class="dropdown">
+		<button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+			<img src=" {{ asset('imagenes/setting_icon.svg') }} " alt="Ajustes de la cuenta" class="icono_setting">		
+		</button>
+		<ul class="dropdown-menu">
+			<li><a class="dropdown-item" href=" {{ path('app_cambio_password') }} ">Cambiar Contraseña</a></li>
+			<li><a class="dropdown-item" href=" {{ path('app_logout') }} ">Cerrar Sesión</a></li>
+		</ul>
+	</div>
 {% endblock %}
 
 

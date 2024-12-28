@@ -55,23 +55,33 @@ header {
       }
     }
   }
-  
-  .navbar_home{
-    display: flex;
-    width: 100%;
-    justify-content: center;
-    font-size: large;
-    li a {
-        text-decoration: none;
+
+  .dropdown{
+
+    .dropdown-toggle{
+      background-color: $blanco;
+      border: none;
+      &:hover,
+      &:focus,
+      &:active{
+          background-color: $verde;
+      }
+      &:after{
         color: $azul-oscuro;
-        font-weight: bold;
-        transition: all 0.3s;
+      }
+      .icono_setting{
+        width: 30px;
+      }
+    }
+  
+    .dropdown-menu{
+      .dropdown-item{
         &:hover,
         &:focus,
         &:active{
-            color: $verde;
-            text-decoration: underline;
+            background-color: $azul-claro;
         }
+      }
     }
-}
+  }
 }

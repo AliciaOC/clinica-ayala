@@ -1,0 +1,20 @@
+/*------------------------*/
+/* Navbar */
+
+#titulo_perfil{
+    color: $azul-oscuro;
+}
+
+.nav-item{
+    display: flex;
+    align-items: center;
+    .nav-link{
+        &:hover,
+        &:focus,
+        &:active{
+            color: $verde;
+            text-decoration: underline;
+        }
+    }
+}
+

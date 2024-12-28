@@ -1,21 +1,41 @@
 {% extends 'base.html.twig' %}
 
 {% block encabezado %}
-    <div id="cta_perfil_home">
-        <a class="cta" href="tel:+34000000000"> Llamanos </a>
-        <a id="enlace_perfil_login" href="{{ path(perfil) }}"><img id="icon_user" src="{{ asset('imagenes/user.svg') }}" /> {{ nombre }}</a>
-    </div>
-    <ul class="nav navbar_home">
-        <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#tratamientos_home">Tratamientos</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#terapeutas_home">Terapeutas</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#contacto_home">Contacto</a>
-        </li>
-    </ul>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 navbar_home">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#tratamientos_home">Tratamientos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#terapeutas_home">Terapeutas</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contacto_home">Contacto</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+        <div id="cta_perfil_home">
+            <a class="cta" href="tel:+34000000000"> Llamanos </a>
+            <a id="enlace_perfil_login" href="{{ path(perfil) }}"><img id="icon_user" src="{{ asset('imagenes/user.svg') }}" /> {{ nombre }}</a>
+            {% if nombre != "Inicio de Sesión"  %}
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src=" {{ asset('imagenes/setting_icon.svg') }} " alt="Ajustes de la cuenta" class="icono_setting">		
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href=" {{ path('app_cambio_password') }} ">Cambiar Contraseña</a></li>
+                        <li><a class="dropdown-item" href=" {{ path('app_logout') }} ">Cerrar Sesión</a></li>
+                    </ul>
+                </div>
+            {% endif %}
+        </div>
 {% endblock %}
 
 {% block main %}

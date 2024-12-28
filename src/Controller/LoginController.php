@@ -87,7 +87,6 @@ class LoginController extends AbstractController
         $form->handleRequest($peticion);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $password = $form->get('nuevaPassword')->getData();
             $confirmacionPassword = $form->get('confirmacionPassword')->getData();
 

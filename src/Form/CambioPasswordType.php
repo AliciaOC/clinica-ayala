@@ -17,13 +17,16 @@ class CambioPasswordType extends AbstractType
             ->add('nuevaPassword', PasswordType::class, [
                 'mapped' => false,
                 'required' => true,
+                'attr' => ['class' => 'form-control'],
             ])
             ->add('confirmacionPassword', PasswordType::class, [
                 'mapped' => false,
                 'required' => true,
+                'attr' => ['class' => 'form-control'],
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Guardar',
+                'attr' => ['class' => 'btn btn-primary'],
             ])
         ;
     }

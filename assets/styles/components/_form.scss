@@ -1,0 +1,43 @@
+/*------------------------*/
+/* Form*/
+
+form{
+    margin: 2em;
+    .h3{
+        color: $azul-oscuro;
+    }
+    .form-control{
+        font-family: $fuente-texto;
+    }
+    .btn{
+        width: fit-content;
+        margin-top: 1em;
+        font-size: medium;
+        background-color: $verde;
+        border-color: $verde;
+        color: $negro;
+        &:hover,
+        &:focus,
+        &:active{
+            background-color: $azul-oscuro;
+            border-color: $azul-oscuro;
+            color: $azul-claro;
+        }
+    }
+}
+
+#cambio_password{
+    margin: 2em;
+    #enlace_volver{
+        text-decoration: none;
+        color: $azul-oscuro;
+        font-weight: bold;
+        transition: all 0.3s;
+        &:hover,
+        &:focus,
+        &:active{
+            color: $verde;
+            text-decoration: underline;
+        }
+    }
+}

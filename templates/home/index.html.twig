@@ -1,8 +1,8 @@
 {% extends 'base.html.twig' %}
 
 {% block encabezado %}
-    <a class="cta" href="+34000000000"> Llamanos </a>
-    <a id="enlace_perfil_login" href="{{ path(perfil) }}">{{ nombre }}</a>
+    <a class="cta" href="tel:+34000000000"> Llamanos </a>
+    <a id="enlace_perfil_login" href="{{ path(perfil) }}"><img id="icon_user" src="{{ asset('imagenes/user.svg') }}" /> {{ nombre }}</a>
 {% endblock %}
 
 {% block main %}
@@ -14,21 +14,13 @@
 
                 {% for tratamiento in tratamientos %}
                     <div class="accordion-item">
-                        <h2 class="accordion-header">
-                        {% if tratamiento.id > 1 %}
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ tratamiento.id }}" aria-expanded="false" aria-controls="collapse{{ tratamiento.id }}">
-                        {% else %}
-                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ tratamiento.id }}" aria-expanded="true" aria-controls="collapse{{ tratamiento.id }}">
-                        {% endif %}
-                            {{ tratamiento.nombre }}
-                        </button>
+                        <h2 class="accordion-header texto">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ tratamiento.id }}" aria-expanded="false" aria-controls="collapse{{ tratamiento.id }}">
+                                {{ tratamiento.nombre }}
+                            </button>
                         </h2>
-                        {% if tratamiento.id > 1 %}
                         <div id="collapse{{ tratamiento.id }}" class="accordion-collapse collapse" data-bs-parent="#accordionTratamientosHome">
-                        {% else %}
-                        <div id="collapse{{ tratamiento.id }}" class="accordion-collapse collapse show" data-bs-parent="#accordionTratamientosHome">
-                        {% endif %}
-                            <div class="accordion-body">
+                            <div class="accordion-body texto">
                                 {{ tratamiento.descripcion }}
                             </div>
                         </div>
@@ -41,13 +33,23 @@
 
     <section id="terapeutas_home">
         <h3>Terapeutas</h3>
+        <p>Conoce a nuestro equipo de terapeutas altamente cualificados.</p>
+        <article id="terapeutas_lista_home">
+            <ul class="terapeutas_lista_simple list-group list-group-flush">
+                {% for terapeuta in terapeutas %}
+                    <li class="list-group-item">
+                        <p>{{ terapeuta.nombre }}: {{ terapeuta.titulacion }}</p>
+                    </li>
+                {% endfor %}
+            </ul>
+        </article>
     </section>
 
     <section id="contacto_home">
         <h3>Contacto</h3>
         <ul id="contacto_main" class="contacto_lista">
 			<li>Avenida Francisco Ayala s/n</li>
-			<li><a href="+34000000000"> +34 000000000</a></li>
+			<li><a href="tel:+34000000000"> +34 000000000</a></li>
 		</ul>
         <article id="mapa_home">
             <iframe

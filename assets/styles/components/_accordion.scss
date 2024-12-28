@@ -1,0 +1,10 @@
+/*-----------------------*/
+/* Accordion*/
+
+@include mixin-media-query-MIN(lg){
+    .accordion{
+        width: 90%;
+        margin: 0 auto;
+        background-color: $blanco;
+    }
+  }

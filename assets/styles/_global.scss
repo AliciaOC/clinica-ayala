@@ -21,6 +21,12 @@ footer{
   padding: 2em;
 }
 
+/*separación entre sections y articles*/
+section,
+article{
+  margin-bottom: 2em;
+}
+
 /*pantallas grandes*/
 @include mixin-media-query-MIN(xxl){
   header,
@@ -46,5 +52,16 @@ footer{
     background-image: url($logo-imagen-ruta);
     background-size: contain;
     background-repeat: no-repeat;
+    &:hover,
+    &:focus,
+    &:active{
+      opacity: 0.8;
+    }
   }
+}
+
+/*aplicación de lexend a p y .texto*/
+p,
+.texto{
+  font-family: $fuente-texto, 'sans-serif';
 }

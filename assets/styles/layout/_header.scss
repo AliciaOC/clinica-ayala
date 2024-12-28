@@ -3,4 +3,43 @@
 
 header {
   border-bottom: 1px solid $negro;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  .cta{
+    align-self: center;
+    text-decoration: none;
+    width: fit-content;
+    padding: 10px;
+    border-radius: 25px;
+    background-color: $azul-claro;
+    color: $azul-oscuro;
+    font-weight: bold;
+    transition: all 0.3s;
+    &:hover,
+    &:focus,
+    &:active{
+      background-color: $azul-oscuro;
+      color: $azul-claro;
+    }
+  }
+  #enlace_perfil_login{
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    text-decoration: none;
+    color: $azul-oscuro;
+    font-weight: bold;
+    transition: all 0.3s;
+    &:hover,
+    &:focus,
+    &:active{
+      color: $verde;
+      opacity: 0.8;
+      text-decoration: underline;
+    }
+    #icon_user{
+      width: 50px;
+    }
+  }
 }

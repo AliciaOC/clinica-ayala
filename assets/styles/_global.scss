@@ -14,10 +14,13 @@ body {
   background-color: $blanco;
 }
 
-/*estilos comunes de header, main y footer*/
+/*estilos de separación entre partes de header, main y footer*/
 header,
-main,
 footer{
+  padding: 1em 2em 0;
+}
+
+main{
   padding: 2em;
 }
 
@@ -42,20 +45,20 @@ header,
 footer{
   .logo{
     display: block;
-    color: $verde;
     width: fit-content;
-    height: 60px;
-    padding-top: 0.4em;
-    padding-left: 100px;
-    text-align: end;
+    height: 50px;
+    align-self: center;
+    color: $verde;
+    font-size: xx-large;
     text-decoration: none;
-    background-image: url($logo-imagen-ruta);
-    background-size: contain;
-    background-repeat: no-repeat;
     &:hover,
     &:focus,
     &:active{
-      opacity: 0.8;
+      color: $azul-oscuro;
+    }
+    @media screen and (max-width: 376px){
+      font-size: x-large;
+      
     }
   }
 }
@@ -64,4 +67,20 @@ footer{
 p,
 .texto{
   font-family: $fuente-texto, 'sans-serif';
+}
+
+/*lo tienen en común el footer y el main del home*/
+footer,
+#contacto_home{
+  .contacto_lista{
+    a{
+      text-decoration: none;
+      color: $negro;
+      &:hover,
+      &:focus,
+      &:active{
+        color: $verde;
+      }
+    }
+  }
 }

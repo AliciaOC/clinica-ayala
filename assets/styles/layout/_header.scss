@@ -5,41 +5,73 @@ header {
   border-bottom: 1px solid $negro;
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   justify-content: space-between;
-  .cta{
-    align-self: center;
-    text-decoration: none;
-    width: fit-content;
-    padding: 10px;
-    border-radius: 25px;
-    background-color: $azul-claro;
-    color: $azul-oscuro;
-    font-weight: bold;
-    transition: all 0.3s;
-    &:hover,
-    &:focus,
-    &:active{
-      background-color: $azul-oscuro;
-      color: $azul-claro;
-    }
-  }
-  #enlace_perfil_login{
-    display: flex;
+  align-content: center;
+  @include mixin-media-query-MAX(md){
     flex-direction: column;
-    align-self: center;
-    text-decoration: none;
-    color: $azul-oscuro;
-    font-weight: bold;
-    transition: all 0.3s;
-    &:hover,
-    &:focus,
-    &:active{
-      color: $verde;
-      opacity: 0.8;
-      text-decoration: underline;
+    align-items: center;
+    gap: 2em;
+    padding-bottom: 1em;
+  }
+  #cta_perfil_home{
+    display: flex;
+    .cta{
+      align-self: center;
+      text-decoration: none;
+      width: fit-content;
+      margin-right: 4em;
+      padding: 10px;
+      border-radius: 25px;
+      background-color: $azul-claro;
+      color: $azul-oscuro;
+      transition: all 0.3s;
+      &:hover,
+      &:focus,
+      &:active{
+        background-color: $azul-oscuro;
+        color: $verde;
+      }
     }
-    #icon_user{
-      width: 50px;
+    #enlace_perfil_login{
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-self: center;
+      text-decoration: none;
+      color: $azul-oscuro;
+      font-weight: bold;
+      transition: all 0.3s;
+      &:hover,
+      &:focus,
+      &:active{
+        color: $verde;
+        opacity: 0.8;
+        text-decoration: underline;
+      }
+      #icon_user{
+        align-self: center;
+        width: 40px;
+      }
     }
   }
+  
+  .navbar_home{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    font-size: large;
+    li a {
+        text-decoration: none;
+        color: $azul-oscuro;
+        font-weight: bold;
+        transition: all 0.3s;
+        &:hover,
+        &:focus,
+        &:active{
+            color: $verde;
+            text-decoration: underline;
+        }
+    }
+}
 }

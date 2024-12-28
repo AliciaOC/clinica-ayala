@@ -3,4 +3,36 @@
 
 footer{
     border-top: 1px solid $negro;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-right: 1em;
+    background-color: $azul-oscuro;
+    .contacto_lista,
+    .contacto_lista li a{
+        color: $verde !important;
+        margin-right: 3em;
+    }
+    .contacto_lista li a{
+        &:hover,
+        &:focus,
+        &:active{
+            color: $azul-claro !important;
+        }
+    }
+    .logo{
+        &:hover,
+        &:focus,
+        &:active{
+            color: $azul-claro;
+        }
+    }
+    
+    @include mixin-media-query-MAX(md){
+        flex-direction: column;
+        gap: 1em;
+        .contacto_lista{
+            margin-right: 0;
+        }
+    }
 }

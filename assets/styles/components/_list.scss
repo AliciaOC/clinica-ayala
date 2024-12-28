@@ -1,11 +1,9 @@
 /*-----------------------*/
 /* Listas*/
 
-@include mixin-media-query-MIN(lg){
-    .list-group{
-        width: max-content;
-        max-width: 90%;
-        margin: 0 auto;
-        background-color: $blanco;
-    }
-  }
+.list-group{
+    width: max-content;
+    max-width: 90%;
+    margin: 0 auto;
+    background-color: $blanco;
+}

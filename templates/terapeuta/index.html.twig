@@ -13,13 +13,43 @@
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 					<li class="nav-item">
-						<a class="nav-link" hhref=" {{ path('app_terapeuta_citas') }} ">Citas</a>
+						<a 
+							{% if app.request.attributes.get('_route') == 'app_terapeuta_citas' %}
+								class="nav-link active"
+								aria-current="page"
+								href="#"
+							{% else %}
+								class="nav-link"
+								href="{{ path('app_terapeuta_citas') }}"
+							{% endif %}
+								>Citas
+						</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href=" {{ path('app_terapeuta_clientes') }} ">Clientes</a>
+						<a 
+							{% if app.request.attributes.get('_route') == 'app_terapeuta_clientes' %}
+								class="nav-link active"
+								aria-current="page"
+								href="#"
+							{% else %}
+								class="nav-link"
+								href="{{ path('app_terapeuta_clientes') }}"
+							{% endif %}
+								>Clientes
+						</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href=" {{ path('app_terapeuta_tratamientos') }} ">Tratamientos</a>
+						<a 
+							{% if app.request.attributes.get('_route') == 'app_terapeuta_tratamientos' %}
+								class="nav-link active"
+								aria-current="page"
+								href="#"
+							{% else %}
+								class="nav-link"
+								href="{{ path('app_terapeuta_tratamientos') }}"
+							{% endif %}
+								>Tratamientos
+						</a>
 					</li>
 				</ul>
 			</div>

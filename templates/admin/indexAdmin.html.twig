@@ -13,19 +13,69 @@
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 					<li class="nav-item">
-						<a class="nav-link" href=" {{ path('app_admin_terapeutas') }} ">Terapeutas</a>
+						<a 
+						{% if app.request.attributes.get('_route') == 'app_admin_terapeutas' %}
+							class="nav-link active"
+							aria-current="page"
+							href="#"
+						{% else %}
+							class="nav-link"
+							href="{{ path('app_admin_terapeutas') }}"
+						{% endif %}
+							>Terapeutas
+						</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href=" {{ path('app_admin_clientes') }} ">Clientes</a>
+						<a 
+							{% if app.request.attributes.get('_route') == 'app_admin_clientes' %}
+								class="nav-link active"
+								aria-current="page"
+								href="#"
+							{% else %}
+								class="nav-link"
+								href="{{ path('app_admin_clientes') }}"
+							{% endif %}
+								>Clientes
+						</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href=" {{ path('app_admin_admins') }} ">Administradores/as</a>
+						<a 
+							{% if app.request.attributes.get('_route') == 'app_admin_admins' %}
+								class="nav-link active"
+								aria-current="page"
+								href="#"
+							{% else %}
+								class="nav-link"
+								href="{{ path('app_admin_admins') }}"
+							{% endif %}
+								>Administradores/as
+						</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href=" {{ path('app_admin_tratamientos') }} ">Tratamientos</a>
+						<a 
+							{% if app.request.attributes.get('_route') == 'app_admin_tratamientos' %}
+								class="nav-link active"
+								aria-current="page"
+								href="#"
+							{% else %}
+								class="nav-link"
+								href="{{ path('app_admin_tratamientos') }}"
+							{% endif %}
+								>Tratamientos
+						</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href=" {{ path('app_admin_horarios') }} ">Horarios</a>
+						<a 
+							{% if app.request.attributes.get('_route') == 'app_admin_horarios' %}
+								class="nav-link active"
+								aria-current="page"
+								href="#"
+							{% else %}
+								class="nav-link"
+								href="{{ path('app_admin_horarios') }}"
+							{% endif %}
+								>Horarios
+						</a>
 					</li>
 				</ul>
 			</div>

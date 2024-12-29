@@ -15,6 +15,9 @@
             color: $verde;
             text-decoration: underline;
         }
+        &.active{
+            pointer-events: none;
+        }
     }
 }
 

@@ -15,19 +15,30 @@ class NuevoTratamientoType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('nombre')
-            ->add('descripcion')
+            ->add('nombre', null, [
+            'label' => 'Nombre del tratamiento',
+            'required' => true,
+            'attr' => ['placeholder' => 'Introduce el nombre del tratamiento'],
+            'attr' => ['class' => 'form-control'],
+            ])
+            ->add('descripcion', null, [
+            'label' => 'Descripción',
+            'required' => true,
+            'attr' => ['placeholder' => 'Introduce la descripción del tratamiento'],
+            'attr' => ['class' => 'form-control'],
+            ])
             ->add('terapeutas', EntityType::class, [
                 'class' => Terapeuta::class,
                 'choice_label' => 'nombre',
                 'label' => 'Terapeuta',
-                'expanded' => true,
+                'expanded' => false,
                 'multiple' => true,
                 'required' => false,
+                'attr' => ['class' => 'form-select'],
             ])
             ->add('save', SubmitType::class, [
                 'label' => 'Añadir',
-                'attr' => ['class' => 'boton'],
+                'attr' => ['class' => 'btn btn-primary'],
             ])
         ;
     }

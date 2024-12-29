@@ -16,7 +16,11 @@ class RegistrarClienteType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('nombre')
+            ->add('nombre', null, [
+                'label' => 'Nombre',
+                'required' => true,
+                'attr' => ['class' => 'form-control'],
+            ])
         ;
     }
 

@@ -22,32 +22,39 @@ class EditarTerapeutaAdminType extends AbstractType
                 'required' => false,
                 'mapped' => false,
                 'data' => $options['email'],
+                'attr' => ['class' => 'form-control'],
             ])            
-            ->add('titulacion')
+            ->add('titulacion', null, [
+                'label' => 'Titulación',
+                'attr' => ['class' => 'form-control'],
+            ])
             ->add('nombre')
             ->add('horario', EntityType::class, [
                 'class' => Horario::class,
                 'choice_label' => 'franja_horaria',
                 'label' => 'Horario',
-                'expanded' => true,
+                'expanded' => false,
                 'multiple' => true,
                 'required' => false,
+                'attr' => ['class' => 'form-select'],
             ])
             ->add('tratamientos', EntityType::class, [
                 'class' => Tratamiento::class,
                 'choice_label' => 'nombre',
                 'label' => 'Tratamientos',
-                'expanded' => true,
+                'expanded' => false,
                 'multiple' => true,
                 'required' => false,
+                'attr' => ['class' => 'form-select'],
             ])
             ->add('clientes', EntityType::class, [
                 'class' => Cliente::class,
                 'choice_label' => 'nombre',
                 'label' => 'Clientes',
-                'expanded' => true,
+                'expanded' => false,
                 'multiple' => true,
                 'required' => false,
+                'attr' => ['class' => 'form-select'],
             ])
         ;
     }

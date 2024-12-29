@@ -20,8 +20,15 @@ class NuevaCitaType extends AbstractType
         $builder
             ->add('fecha', DateTimeType::class, [
                 'widget' => 'single_text',
+                'label' => 'Fecha y hora',
+                'required' => true,
+                'attr' => ['class' => 'form-control'],
             ])
-            ->add('motivo')
+            ->add('motivo', null, [
+                'label' => 'Motivo de la cita',
+                'required' => false,
+                'attr' => ['class' => 'form-control'],
+            ])
             ->add('cliente', EntityType::class, [
                 'class' => Cliente::class,
                 'choices' => $options['terapeuta']->getClientes(), // Filtrar solo los clientes del terapeuta
@@ -30,6 +37,7 @@ class NuevaCitaType extends AbstractType
                 'expanded' => false,
                 'multiple' => false,
                 'required' => false,
+                'attr' => ['class' => 'form-select'],
             ])
             ->add('save', SubmitType::class, [
                 'label' => 'Guardar',

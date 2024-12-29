@@ -4,7 +4,7 @@
 {% endblock %}
 
 {% block main %}
-	<h3>Crear Cuenta de Administrador/a</h1>
+	<h3>Crear Cuenta de Administrador/a</h3>
 	<section id="nuevo-admin">
 		{{ form_start(registroForm) }}
 			{{ form_widget(registroForm) }}
@@ -33,7 +33,7 @@
 						<td>
 
 						{% if not admin.nuevo %}
-							<a href="{{ path('admin_reiniciarPassword', {'id': admin.id}) }}">Reiniciar Contraseña</a>
+							<a href="{{ path('admin_reiniciarPassword', {'id': admin.id, 'origen': 'app_admin_admins' }) }}">Reiniciar Contraseña</a>
 						{% endif %}
 
 						{% if admin.id != app.user.id %}<!-- No se puede borrar a si mismo -->

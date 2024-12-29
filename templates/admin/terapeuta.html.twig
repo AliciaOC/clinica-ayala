@@ -80,7 +80,7 @@
 						</td>
 						<td>
 						{% if not terapeuta.usuario.nuevo %}
-							<a href="{{ path('admin_reiniciarPassword', {'id': terapeuta.usuario.id}) }}">Reiniciar Contraseña</a>
+							<a href="{{ path('admin_reiniciarPassword', {'id': terapeuta.usuario.id, 'origen': 'app_admin_terapeutas'}) }}">Reiniciar Contraseña</a>
 						{% endif %}
 							<a href="{{ path('admin_borrarUser', {'id': terapeuta.usuario.id, 'origen': 'app_admin_terapeutas'}) }}">Borrar</a>
 							<a href="{{ path('app_admin_terapeutas_editar', {'id': terapeuta.usuario.id}) }}">Editar</a>

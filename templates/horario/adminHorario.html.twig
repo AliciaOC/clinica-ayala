@@ -4,7 +4,7 @@
 {% endblock %}
 
 {% block main %}
-	<h3>Crear nueva Franja Horaria de trabajo</h1>
+	<h3>Crear nueva Franja Horaria de trabajo</h3>
 	<section id="nuevo-horario">
 		{{ form(form) }}
 
@@ -32,7 +32,7 @@
                         <td>{{ horario.franjaHoraria }}</td>
                         <td>
 							{% for terapeuta in horario.terapeutas %}
-								{{ terapeuta.nombre }}<br/>
+								<p>{{ terapeuta.nombre }}<p/>
 							{% endfor %}
 						</td>
 						<td>

@@ -98,8 +98,8 @@ class AdminController extends AbstractController
         return $this->redirectToRoute($origen);
     }
 
-    #[Route('/admin/reiniciar-password/{id}', name: 'admin_reiniciarPassword')]
-    public function reiniciarPassword($id): RedirectResponse
+    #[Route('/admin/reiniciar-password/{id}/{origen}', name: 'admin_reiniciarPassword')]
+    public function reiniciarPassword($id, $origen): RedirectResponse
     {
         $userSeleccionado = $this->userRepository->findOneById($id);
         $email = $userSeleccionado->getEmail();
@@ -109,7 +109,8 @@ class AdminController extends AbstractController
         $userSeleccionado->setNuevo(true);
         $this->entityManager->persist($userSeleccionado);
         $this->entityManager->flush();
-        return $this->redirectToRoute('app_admin_admins');
+
+        return $this->redirectToRoute($origen);
     }
 
     #[Route('/admin/terapeutas', name: 'app_admin_terapeutas')]

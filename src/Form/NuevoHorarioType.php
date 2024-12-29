@@ -15,16 +15,22 @@ class NuevoHorarioType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('franja_horaria')
+            ->add('franja_horaria', null, [
+                'label' => 'Franja horaria',
+                'required' => true,
+                'attr' => ['class' => 'form-control'],
+            ])
             ->add('terapeutas', EntityType::class, [
                 'class' => Terapeuta::class,
                 'choice_label' => 'nombre',
                 'multiple' => true,
-                'expanded' => true,
+                'expanded' => false,
                 'required' => false,
+                'attr' => ['class' => 'form-select'],
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Guardar',
+                'attr' => ['class' => 'btn btn-primary'],
             ])
         ;
     }

@@ -4,7 +4,7 @@
 {% endblock %}
 
 {% block main %}
-	<h3>Editar Franja Horaria: {{ franja }}</h1>
+	<h3>Editar Franja Horaria: {{ franja }}</h3>
 	<section id="editar-horario">
 		{{ form(form) }}
 
@@ -15,5 +15,5 @@
 		{% endfor %}
 
 	</section>
-    <a href="{{ path('app_admin_horarios') }}">Cancelar</a>
+    <a class="enlace_cancelar" href="{{ path('app_admin_horarios') }}">Cancelar</a>
 {% endblock %}

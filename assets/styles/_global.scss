@@ -74,6 +74,19 @@ p,
   font-family: $fuente-texto, 'sans-serif';
 }
 
+/*enlaces*/
+a.enlace_cancelar{
+  text-decoration: none;
+  color: $azul-oscuro;
+  font-weight: bold;
+  transition: all 0.3s;
+  &:hover,
+  &:focus,
+  &:active{
+    color: $verde;
+  }
+}
+
 /*lo tienen en común el footer y el main del home*/
 footer,
 #contacto_home{

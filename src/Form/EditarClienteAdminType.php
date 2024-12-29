@@ -21,18 +21,23 @@ class EditarClienteAdminType extends AbstractType
                 'required' => false,
                 'mapped' => false,
                 'data' => $options['email'],
+                'attr' => ['class' => 'form-control'],
             ])
-            ->add('nombre')
+            ->add('nombre', null, [
+                'label' => 'Nombre',
+                'attr' => ['class' => 'form-control'],
+            ]) 
             ->add('terapeutas', EntityType::class, [
                 'class' => Terapeuta::class,
                 'choice_label' => 'nombre',
                 'multiple' => true,
-                'expanded' => true,
+                'expanded' => false,
                 'required' => false,
+                'attr' => ['class' => 'form-select'],
             ])
             ->add('save', SubmitType::class, [
                 'label' => 'Guardar cambios',
-                'attr' => ['class' => 'boton'],
+                'attr' => ['class' => 'btn btn-primary'],
             ])
         ;
     }

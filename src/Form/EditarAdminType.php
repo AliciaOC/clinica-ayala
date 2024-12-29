@@ -19,10 +19,12 @@ class EditarAdminType extends AbstractType
         $builder
             ->add('email', EmailType::class, [
                 'data' => $options['email'],
+                'label' => 'Email',
+                'attr' => ['class' => 'form-control'],
             ])
             ->add('save', SubmitType::class, [
                 'label' => 'Guardar cambios',
-                'attr' => ['class' => 'boton'],
+                'attr' => ['class' => 'btn btn-primary'],
             ])
         ;
     }

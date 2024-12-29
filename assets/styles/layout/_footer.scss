@@ -2,7 +2,8 @@
 /* Footer */
 
 footer{
-    border-top: 1px solid $negro;
+    position: relative;
+    z-index: 2;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -34,5 +35,14 @@ footer{
         .contacto_lista{
             margin-right: 0;
         }
+    }
+}
+
+#relleno_footer{
+    @include mixin-media-query-MIN(xxl){
+        position: relative;
+        z-index: -1;
+        background-color: $azul-oscuro;
+        width: 100%;        
     }
 }

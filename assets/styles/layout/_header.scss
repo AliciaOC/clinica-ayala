@@ -2,7 +2,6 @@
 /* HEADER */
 
 header {
-  border-bottom: 1px solid $negro;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -61,9 +60,7 @@ header {
     .dropdown-toggle{
       background-color: $blanco;
       border: none;
-      &:hover,
-      &:focus,
-      &:active{
+      &:hover{
           background-color: $verde;
       }
       &:after{
@@ -83,5 +80,14 @@ header {
         }
       }
     }
+  }
+}
+
+#relleno_header{
+  @include mixin-media-query-MIN(xxl){
+      position: relative;
+      z-index: -1;
+      border: 1px solid $negro;
+      width: 100%;        
   }
 }

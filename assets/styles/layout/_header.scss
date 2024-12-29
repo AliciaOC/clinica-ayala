@@ -62,6 +62,7 @@ header {
       border: none;
       &:hover{
           background-color: $verde;
+          opacity: 0.8;
       }
       &:after{
         color: $azul-oscuro;

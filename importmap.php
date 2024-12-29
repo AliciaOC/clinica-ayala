@@ -28,5 +28,8 @@ return [
     'app' => [
         'path' => './assets/app.js',
         'entrypoint' => true,
-    ]
+    ],
+    'js-cookie' => [
+        'version' => '3.0.5',
+    ],
 ];

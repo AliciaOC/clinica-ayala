@@ -23,6 +23,16 @@
 			<hr/>
 			<main>
 				{% block main %}{% endblock %}
+				<div id="toast_primera_vez" class="toast align-items-center text-bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true">
+					<div class="d-flex">
+						<div class="toast-body">
+							<p>¡Hola! Esta web es mi proyecto final de mi FP de desarrollo web. <span>NO ES UNA CLÍNICA REAL</span>. Los datos de contacto tampoco son reales. 
+								Si has llegado hasta aquí sabiendo ¡eso espero que te guste la experiencia!
+							</p>
+						</div>
+						<button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+					</div>
+				</div>
 			</main>
 			<footer>
 				<a class="logo" href=" {{ path('app_home') }} ">Clínica Ayala</a>	

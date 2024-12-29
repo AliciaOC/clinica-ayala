@@ -1,0 +1,20 @@
+/*---------------------------*/
+/* Toast */
+
+#toast_primera_vez{
+    position: fixed;
+    top: 25%;
+    left: 10%;
+    z-index: 9;
+    width: 80%;
+    padding: 3em;
+    font-size: large;
+    color: $negro !important;
+    background-color: $verde !important;
+
+    span{
+        font-weight: bold;
+        color: $azul-oscuro;
+        font-family: $fuente-texto;
+    }
+}

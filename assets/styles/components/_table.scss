@@ -1,0 +1,25 @@
+/*------------------*/
+/* Table*/
+
+table{
+    tbody{
+        tr{
+            td{
+                font-family: $fuente-texto;
+                a{
+                    display: inline-block;
+                    margin-bottom: 0.5em;
+                    font-family: $fuente-texto;
+                    color: $azul-oscuro;
+                    text-decoration: none;
+                    margin-right: 1rem;
+                    &:hover,
+                    &:focus,
+                    &:active{
+                        color: $verde;
+                    }
+                }
+            }
+        }
+    }
+}

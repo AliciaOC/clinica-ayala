@@ -11,7 +11,7 @@
 
 			{{ form_widget(registroFormUser) }}
 			{{ form_widget(registroFormTerapeuta) }}
-			<button type="submit">Guardar</button>
+			<button class="btn btn-primary" type="submit">Guardar</button>
 
 		{{ form_end(registroFormTerapeuta) }}
 		{{ form_end(registroFormUser) }}
@@ -26,7 +26,7 @@
 
 	<section id="terapeutas">
 		<h3>Terapeutas</h3>
-		<table>
+		<table class="table table-striped table-hover">
 			<thead>
 				<tr>
 					<th>Correo Electrónico</th>
@@ -47,12 +47,12 @@
                         <td>{{ terapeuta.titulacion }}</td>
                         <td>
 							{% for tratamiento in terapeuta.tratamientos %}
-								{{ tratamiento.nombre }}<br/>
+								<p>{{ tratamiento.nombre }}</p>
 							{% endfor %}
 						</td>
                         <td>
 							{% for horario in terapeuta.horario %}
-								{{ horario.franjaHoraria }}<br/>
+								<p>{{ horario.franjaHoraria }}</p>
 							{% endfor %}
 						</td>
 						<td>{{ terapeuta.clientes|length }}</td>
@@ -84,7 +84,7 @@
 						{% endif %}
 							<a href="{{ path('admin_borrarUser', {'id': terapeuta.usuario.id, 'origen': 'app_admin_terapeutas'}) }}">Borrar</a>
 							<a href="{{ path('app_admin_terapeutas_editar', {'id': terapeuta.usuario.id}) }}">Editar</a>
-							<a href="{{ path('app_admin_terapeuta_cita', {'id': terapeuta.id}) }}">Generar una nueva cita para este Terapeuta</a>
+							<a href="{{ path('app_admin_terapeuta_cita', {'id': terapeuta.id}) }}">Nueva cita</a>
 						</td> 
 					</tr>
 				{% endfor %}

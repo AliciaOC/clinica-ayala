@@ -20,23 +20,33 @@ class RegistrarTerapeutaType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('titulacion')
-            ->add('nombre')
+            ->add('titulacion' , null, [
+                'label' => 'Titulación',
+                'required' => true,
+                'attr' => ['class' => 'form-control'],
+                ])
+            ->add('nombre', null, [
+                'label' => 'Nombre',
+                'required' => true,
+                'attr' => ['class' => 'form-control'],
+                ])
             ->add('horario', EntityType::class, [
                 'class' => Horario::class,
                 'choice_label' => 'franja_horaria',
                 'label' => 'Horario',
-                'expanded' => true,
+                'expanded' => false,
                 'multiple' => true,
                 'required' => false,
+                'attr' => ['class' => 'form-select'],
             ])
             ->add('tratamientos', EntityType::class, [
                 'class' => Tratamiento::class,
                 'choice_label' => 'nombre',
                 'label' => 'Tratamientos',
-                'expanded' => true,
+                'expanded' => false,
                 'multiple' => true,
                 'required' => false,
+                'attr' => ['class' => 'form-select'],
             ])
         ;
     }

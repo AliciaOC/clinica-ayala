@@ -134,6 +134,8 @@ class AdminController extends AbstractController
                 $this->entityManager->flush();
 
                 $this->addFlash('success', 'Terapeuta creado correctamente');
+
+                return $this->redirectToRoute('app_admin_terapeutas');
             }else{
                 $this->addFlash('error', 'No ha podido crearse el terapeuta');
             }

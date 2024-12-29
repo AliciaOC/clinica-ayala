@@ -33,11 +33,14 @@ $(document).ready(function() {
 
     //función para mostrar el toast cuando es la primera vez que se accede a la página. Con la librería js-cookie
     if (!Cookies.get('visitada')) {
-        const toast = document.getElementById('toast_primera_vez');
-        toast.classList.add('show');
+        $("body").attr("style", "overflow: hidden;");
+        $("#toast_primera_vez button.btn-close").click(function() {
+            $("body").attr("style", "overflow: auto;");
+            $("#toast_primera_vez").hide();
+        });
 
         // Crear la cookie para evitar que el toast se muestre nuevamente
-        Cookies.set('visitada', 1, { expires: 30 })//30 días
+        Cookies.set('visitada', 1);
     }
 });
 

@@ -16,7 +16,7 @@ class HomeController extends AbstractController
     /**
      * @var App\Entity\User $user
      */
-    #[Route('/home', name: 'app_home')]
+    #[Route('/', name: 'app_home')]
     public function index(Request $peticion, EntityManagerInterface $entity): Response
     {
         $nombrePerfil="Inicio de Sesión";

@@ -37,7 +37,7 @@ article{
 @include mixin-media-query-MIN(xxl){
   header,
   main,
-  #contenedor_footer{
+  footer #contenedor_footer{
     width: 1400px;
     margin: 0 auto;
   }

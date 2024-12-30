@@ -1,5 +1,20 @@
 /*--------------------*/
 /*Home*/
+.carousel-caption{
+    background-color: rgb(175, 228, 243, 0.5);
+    padding: 0.5em;
+    border-radius: 25px;
+    h5.titulo_diapositiva{
+        font-family: $fuente-texto;
+        color: $negro;
+        margin-bottom: 1em;
+    }
+    p{
+        color: $negro;
+    }
+}
+
+
 
 #contacto_main{
     list-style: none;

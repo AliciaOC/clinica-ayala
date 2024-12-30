@@ -36,69 +36,76 @@
                 </div>
             {% endif %}
         </div>
+    </nav>
 {% endblock %}
 
 {% block main %}
     <section id="tratamientos_home">
         <h3>Tratamientos</h3>
-        <p>En Clínica Ayala ofrecemos una amplia variedad de tratamientos para mejorar tu salud y bienestar.</p>
-        <article id="tratamientos_acordion_home">
-            <div class="accordion" id="accordionTratamientosHome">
-
-                {% for tratamiento in tratamientos %}
-                    <div class="accordion-item">
-                        <h2 class="accordion-header texto">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ tratamiento.id }}" aria-expanded="false" aria-controls="collapse{{ tratamiento.id }}">
-                                {{ tratamiento.nombre }}
-                            </button>
-                        </h2>
-                        <div id="collapse{{ tratamiento.id }}" class="accordion-collapse collapse" data-bs-parent="#accordionTratamientosHome">
-                            <div class="accordion-body texto">
-                                {{ tratamiento.descripcion }}
-                            </div>
-                        </div>
-                    </div>
-                {% endfor %}
-                
-            </div>
-        </article>
+        <p>En Clínica Ayala ofrecemos una amplia variedad de tratamientos para mejorar tu salud y bienestar. Aplicamos las metodologías que más eficacia han demostrado empíricamente destacando la <span>Cognitiva-Conductual</span>.</p>
+        <p>Algunos de los tratamientos que ofrecemos son:</p>
         <div id="carouselContainer" class="carousel slide">
             <div class="carousel-indicators">
                 <button type="button" data-bs-target="#carouselContainer" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
                 <button type="button" data-bs-target="#carouselContainer" data-bs-slide-to="1" aria-label="Slide 2"></button>
                 <button type="button" data-bs-target="#carouselContainer" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                <button type="button" data-bs-target="#carouselContainer" data-bs-slide-to="3" aria-label="Slide 4"></button>
             </div>
             <div class="carousel-inner">
                 <div class="carousel-item active">
-                    <img src=" {{ asset('imagenes/ansiedad_1000_horizontal.png') }} " class="d-block w-100" alt="Ansiedad">
-                    <div class="carousel-caption d-none d-md-block">
-                        <h5>Trastornos de ansiedad</h5>
+                    <img
+                        data-src-small="{{ asset('imagenes/ansiedad-movil.webp') }}" 
+                        data-src-medium="{{ asset('imagenes/ansiedad-tablet.webp') }}" 
+                        data-src-large="{{ asset('imagenes/ansiedad-escritorio.webp') }}" 
+                        src="{{ asset('imagenes/ansiedad-escritorio.webp') }}" 
+                        class="d-block w-100 imagen_diapositiva" alt="Ansiedad">
+                    <div class="carousel-caption d-md-block">
+                        <h5 class="titulo_diapositiva">Trastornos de ansiedad</h5>
                         <p>La ansiedad es una emoción normal que experimentamos todos en algún momento de nuestra vida. Sin embargo, cuando esta emoción se vuelve excesiva y desproporcionada, puede condicionar nuestra vida.</p>
                         <p>Algunos de los trastornos de ansiedad más comunes son: trastorno de ansiedad generalizada, trastorno de pánico, fobias, trastorno obsesivo-compulsivo y trastorno de estrés postraumático.</p>
                     </div>
                 </div>
                 <div class="carousel-item">
-                    <img src="{{ asset('imagenes/depresion_200.png') }}" class="d-block w-100" alt="Depresion">
-                    <div class="carousel-caption d-none d-md-block">
-                        <h5>Second slide label</h5>
-                        <p>Some representative placeholder content for the second slide.</p>
+                    <img 
+                        data-src-small="{{ asset('imagenes/depresion-movil.webp') }}" 
+                        data-src-medium="{{ asset('imagenes/depresion-tablet.webp') }}" 
+                        data-src-large="{{ asset('imagenes/depresion-escritorio.webp') }}" 
+                        src="{{ asset('imagenes/depresion-escritorio.webp') }}" 
+                        class="d-block w-100 imagen_diapositiva" alt="Depresión">
+                    <div class="carousel-caption d-md-block">
+                        <h5 class="titulo_diapositiva">Trastornos del estado de ánimo</h5>
+                        <p>La depresión es un trastorno del estado de ánimo que afecta a la forma en que una persona se siente, piensa y maneja las actividades diarias. La depresión puede ser un trastorno grave que afecta la vida de la persona y de quienes la rodean.</p>
+                        <p>Algunos de los trastornos depresivos más comunes son: depresión mayor, distimia, trastorno bipolar y trastorno afectivo estacional.</p>
                     </div>
                 </div>
                 <div class="carousel-item">
-                    <img src="{{ asset('imagenes/pareja_200.png') }}" class="d-block w-100" alt="Terapia de Pareja">
-                    <div class="carousel-caption d-none d-md-block">
-                        <h5>Third slide label</h5>
-                        <p>Some representative placeholder content for the third slide.</p>
+                    <img 
+                        data-src-small="{{ asset('imagenes/sexual-movil.webp') }}" 
+                        data-src-medium="{{ asset('imagenes/sexual-tablet.webp') }}" 
+                        data-src-large="{{ asset('imagenes/sexual-escritorio.webp') }}" 
+                        src="{{ asset('imagenes/sexual-escritorio.webp') }}" 
+                        class="d-block w-100 imagen_diapositiva" alt="Terapia Sexual">
+                    <div class="carousel-caption d-md-block">
+                        <h5 class="titulo_diapositiva">Terapia sexual</h5>
+                        <p>La terapia sexual es un tipo de terapia que ayuda a las personas a resolver problemas sexuales y mejorar su vida sexual.</p>
+                        <p>La terapia sexual puede ser útil para personas que están pasando por problemas de deseo sexual, problemas de erección, eyaculación precoz, vaginismo, dispareunia, entre otros.</p>
                     </div>
                 </div>
                 <div class="carousel-item">
-                    <img src="{{ asset('imagenes/sexual_200.png') }}" class="d-block w-100" alt="Terapia Sexual">
-                    <div class="carousel-caption d-none d-md-block">
-                        <h5>Four slide label</h5>
-                        <p>Some representative placeholder content for the third slide.</p>
+                    <img
+                        data-src-small="{{ asset('imagenes/pareja-movil.webp') }}" 
+                        data-src-medium="{{ asset('imagenes/pareja-tablet.webp') }}" 
+                        data-src-large="{{ asset('imagenes/pareja-escritorio.webp') }}" 
+                        src="{{ asset('imagenes/pareja-escritorio.webp') }}" 
+                        class="d-block w-100 imagen_diapositiva" alt="Terapia de Pareja">
+                    <div class="carousel-caption d-md-block">
+                        <h5 class="titulo_diapositiva">Terapia de pareja</h5>
+                        <p>La terapia de pareja es un tipo de terapia que ayuda a las parejas a resolver conflictos y mejorar su relación.</p>
+                        <p>La terapia de pareja puede ser útil para parejas que están pasando por problemas de comunicación, infidelidad, problemas sexuales, problemas de convivencia, entre otros.</p>
                     </div>
                 </div>
             </div>
+
             <button class="carousel-control-prev" type="button" data-bs-target="#carouselContainer" data-bs-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Previous</span>

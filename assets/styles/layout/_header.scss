@@ -90,12 +90,3 @@ header {
     }
   }
 }
-
-#relleno_header{
-  @include mixin-media-query-MIN(xxl){
-      position: relative;
-      z-index: -1;
-      border: 1px solid $negro;
-      width: 100%;        
-  }
-}

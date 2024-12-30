@@ -86,8 +86,8 @@
 			<img src=" {{ asset('imagenes/setting_icon.svg') }} " alt="Ajustes de la cuenta" class="icono_setting">		
 		</button>
 		<ul class="dropdown-menu">
-			<li><a class="dropdown-item" href=" {{ path('app_cambio_password') }} ">Cambiar Contraseña</a></li>
-			<li><a class="dropdown-item" href=" {{ path('app_logout') }} ">Cerrar Sesión</a></li>
+			<li><a class="dropdown-item" href=" {{ path('app_cambio_password') }} "><img src=" {{ asset('imagenes/password.svg') }} " alt="Cambiar contraseña" class="icono_tools">Cambiar Contraseña</a></li>
+            <li><a class="dropdown-item" href=" {{ path('app_logout') }} "><img src=" {{ asset('imagenes/logout.svg') }} " alt="Cierre de sesión" class="icono_tools">Cerrar Sesión</a></li>
 		</ul>
 	</div>
 {% endblock %}

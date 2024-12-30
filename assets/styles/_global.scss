@@ -76,9 +76,18 @@ footer{
   color: $azul-oscuro;
 }
 
+h3{
+  margin-bottom: 1em;
+}
+
 p,
 .texto{
   font-family: $fuente-texto, 'sans-serif';
+  color: $negro;
+  span{
+    font-family: $fuente-texto;
+    font-weight: bold;
+  }
 }
 
 /*enlaces*/

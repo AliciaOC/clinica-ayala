@@ -117,18 +117,50 @@
         </div>
     </section>
 
-    <section id="terapeutas_home">
-        <h3>Terapeutas</h3>
-        <p>Conoce a nuestro equipo de terapeutas altamente cualificados.</p>
-        <article id="terapeutas_lista_home">
-            <ul class="terapeutas_lista_simple list-group list-group-flush">
-                {% for terapeuta in terapeutas %}
-                    <li class="list-group-item">
-                        <p>{{ terapeuta.nombre }}: {{ terapeuta.titulacion }}</p>
-                    </li>
-                {% endfor %}
-            </ul>
+    <section id="terapeuta_home">
+        <h3 class="titulo">Directora de la Clínica: Mari Sol García Martínez</h3>
+        <picture>
+          <source
+            type="image/webp"
+            media="(max-width: 768px)"
+            srcset="{{ asset('imagenes/psicologa_290.webp') }}" />
+          <img
+            class="imagen imagen_terapeuta"
+            src="{{ asset('imagenes/psicologa_400.webp') }}"
+            alt="foto de la psicóloga"
+        /></picture>
+        <article id="texto_terapeuta_home" class="texto">
+            <p>
+                Desde que me gradué en Psicología por la Universidad de Granada he
+                acumulado más de 10 años de experiencia tratando trastornos
+                psicológicos en adultos y adolescentes.
+            </p>
+            <p>
+                Mi compromiso es ofrecer la garantía de calidad y profesionalidad en
+                las terapias que aplico para garantizar así el mejor tratamiento
+                para mis clientes.
+            </p>
+            <p>
+                Me preocupo por crear un entorno seguro y de confianza para que mis clientes puedan lograr sus objetivos.
+            </p>
+            <div id="sesiones_terapeuta_home">
+                <h5>Características de las sesiones</h5>
+                <div class="card" style="width: 18rem;">
+                    <img src="{{ asset('imagenes/conversation.svg') }}" class="card-img-top" alt="Sesión de terapia">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Duración: 1h</li>
+                        <li class="list-group-item">Precio: 60€</li>
+                    </ul>
+                    <div class="card-body">
+                        <p class="card-text">La duración es aproximada, a veces las sesiones necesitan ser un poco más largas.</p>
+                    </div>
+                </div>
+            </div>
         </article>
+    </section>
+
+    <section id="sesiones_home">
+        
     </section>
 
     <section id="contacto_home">

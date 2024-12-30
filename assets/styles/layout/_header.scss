@@ -19,7 +19,7 @@ header {
       align-self: center;
       text-decoration: none;
       width: fit-content;
-      margin-right: 4em;
+      margin-right: 10px;
       padding: 10px;
       border-radius: 25px;
       background-color: $azul-claro;
@@ -50,12 +50,14 @@ header {
       }
       #icon_user{
         align-self: center;
-        width: 40px;
+        width: 30px;
       }
     }
   }
 
   .dropdown{
+    display: flex;
+    padding-left: 10px;
 
     .dropdown-toggle{
       background-color: $blanco;
@@ -74,10 +76,15 @@ header {
   
     .dropdown-menu{
       .dropdown-item{
+        transition: all 0.3s;
         &:hover,
         &:focus,
         &:active{
             background-color: $azul-claro;
+        }
+        .icono_tools{
+          width: 30px;
+          margin-right: 5px;
         }
       }
     }

@@ -1,5 +1,22 @@
 /*--------------------*/
-/*Home*/    
+/*Home*/
+
+#contacto_main{
+    list-style: none;
+    margin: 1em auto;
+    width: fit-content;
+    border: 1px solid $verde;
+    border-radius: 25px;
+    padding-right: 1em;
+    li{
+        margin: 1em 0;
+        .icono_contacto{
+            width: 30px;
+            margin-right: 10px;
+        }
+    }
+}
+
 #mapa_home{
     width: 500px;
     max-width: 100%;

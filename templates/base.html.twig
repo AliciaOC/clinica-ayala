@@ -16,7 +16,7 @@
 	<body>
 		{% block body %}
 			<header>
-				<a class="logo" href=" {{ path('app_home') }} ">Clínica Ayala</a>	
+				<a class="logo" href=" {{ path('app_home') }} "><img src=" {{ asset('imagenes/logo.svg') }} " alt="Teléfono de contacto" class="icono_logo">Clínica Ayala</a>	
 				{% block encabezado %}
 				{% endblock %}
 			</header>
@@ -39,13 +39,14 @@
 				{% endif %}
 			</main>
 			<footer>
-				<a class="logo" href=" {{ path('app_home') }} ">Clínica Ayala</a>	
-				<ul id="contacto_footer" class="contacto_lista">
-					<li>Avenida Francisco Ayala s/n</li>
-					<li><a href="tel:+34000000000"> +34 000000000</a></li>
-				</ul>
+				<section id="contenedor_footer">
+					<a class="logo" href=" {{ path('app_home') }} "><img src=" {{ asset('imagenes/logo.svg') }} " alt="Teléfono de contacto" class="icono_logo">Clínica Ayala</a>	
+					<ul id="contacto_footer" class="contacto_lista">
+						<li><img src=" {{ asset('imagenes/map.svg') }} " alt="Ubicación" class="icono_footer">Avenida Francisco Ayala s/n</li>
+						<li><a href="tel:+34000000000"><img src=" {{ asset('imagenes/tlf.svg') }} " alt="Teléfono de contacto" class="icono_footer"> +34 000000000</a></li>
+					</ul>
+				</section>
 			</footer>
-			<div id="relleno_footer"></div>
 		{% endblock %}
 	</body>
 </html>

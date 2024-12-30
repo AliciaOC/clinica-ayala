@@ -3,29 +3,46 @@
 
 footer{
     position: relative;
-    z-index: 2;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-right: 1em;
     background-color: $azul-oscuro;
-    .contacto_lista,
-    .contacto_lista li a{
-        color: $verde !important;
-        margin-right: 3em;
-    }
-    .contacto_lista li a{
-        &:hover,
-        &:focus,
-        &:active{
-            color: $azul-claro !important;
+    display: flex;
+    #contenedor_footer{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 0;
+        width: 100%;
+        @include mixin-media-query-MAX(md){
+            flex-direction: column;
         }
-    }
-    .logo{
-        &:hover,
-        &:focus,
-        &:active{
-            color: $azul-claro;
+
+        .contacto_lista{
+            list-style: none;
+            li{
+                color: $verde;
+                margin: 1em 3em;
+                @include mixin-media-query-MAX(md){
+                    margin: 2em 0;
+                }
+                .icono_footer{
+                    width: 30px;
+                    margin-right: 10px;
+                }
+                a{
+                    color: $verde !important;
+                    &:hover,
+                    &:focus,
+                    &:active{
+                        color: $azul-claro !important;
+                    }
+                }
+            }
+        }
+        .logo{
+            &:hover,
+            &:focus,
+            &:active{
+                color: $azul-claro;
+            }
         }
     }
     
@@ -35,14 +52,5 @@ footer{
         .contacto_lista{
             margin-right: 0;
         }
-    }
-}
-
-#relleno_footer{
-    @include mixin-media-query-MIN(xxl){
-        position: relative;
-        z-index: -1;
-        background-color: $azul-oscuro;
-        width: 100%;        
     }
 }

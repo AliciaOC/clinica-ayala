@@ -31,6 +31,7 @@
                 margin: 0 auto;
             }
         }
+
         @include mixin-media-query-MIN(md){
             picture{
                 img{
@@ -45,17 +46,12 @@
         }
     }
 }
+
 #sesiones_terapeuta_home{
     max-width: 100vw;
-    margin: 3em auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1em;
-    h5{
-        text-align: center;
-    }
     .card{
+        width: 50vw !important;
+        min-width: 200px;
         max-width: 100% ;
         border: 1px solid $verde;
         border-radius: 25px;
@@ -65,6 +61,9 @@
             min-width: 80px;
             max-width: 200px;
             margin: 1em auto;
+            background-color: rgba(49, 197, 183, 0.3);
+            border-radius: 25px;
+            padding: 1em;
         }
         .card-body{
             max-width: 80vw;
@@ -72,7 +71,6 @@
             text-align: center;
         }
     }
-
 }
 
 

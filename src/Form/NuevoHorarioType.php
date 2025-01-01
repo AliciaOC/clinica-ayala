@@ -28,10 +28,6 @@ class NuevoHorarioType extends AbstractType
                 'required' => false,
                 'attr' => ['class' => 'form-select'],
             ])
-            ->add('submit', SubmitType::class, [
-                'label' => 'Guardar',
-                'attr' => ['class' => 'btn btn-primary'],
-            ])
         ;
     }
 

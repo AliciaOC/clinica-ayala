@@ -6,7 +6,10 @@
 {% block main %}
 	<h3>Crear nueva Franja Horaria de trabajo</h3>
 	<section id="nuevo-horario">
-		{{ form(form) }}
+		{{form_start(form) }}
+			{{ form_widget(form) }}
+			<button class="btn btn-primary" type="submit">Guardar</button>
+		{{ form_end(form) }}
 
 		{% for message in app.flashes('error') %}
 			<div class="flash-error">
@@ -36,8 +39,8 @@
 							{% endfor %}
 						</td>
 						<td>
-							<a href="{{ path('app_admin_horarios_editar', {'id': horario.id}) }}">Editar</a>
 							<a href="{{ path('app_admin_horarios_borrar', {'id': horario.id}) }}">Borrar</a>
+							<a href="{{ path('app_admin_horarios_editar', {'id': horario.id}) }}">Editar</a>
 						</td>
 					</tr>
 				{% endfor %}

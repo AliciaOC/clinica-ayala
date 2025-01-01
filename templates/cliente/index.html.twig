@@ -4,7 +4,7 @@
 {% endblock %}
 
 {% block encabezado %}
-	<h5 id="titulo_perfil">Espacio para Clientes: {{ cliente.nombre }}</h5>
+	<h5 id="titulo_perfil">{{ cliente.nombre }}</h5>
 	<div class="dropdown">
 		<button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
 			<img src=" {{ asset('imagenes/setting_icon.svg') }} " alt="Ajustes de la cuenta" class="icono_setting">		

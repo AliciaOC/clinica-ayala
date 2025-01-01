@@ -24,10 +24,6 @@ class CambioPasswordType extends AbstractType
                 'required' => true,
                 'attr' => ['class' => 'form-control'],
             ])
-            ->add('submit', SubmitType::class, [
-                'label' => 'Guardar',
-                'attr' => ['class' => 'btn btn-primary'],
-            ])
         ;
     }
 

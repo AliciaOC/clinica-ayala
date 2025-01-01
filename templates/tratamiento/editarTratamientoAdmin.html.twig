@@ -9,6 +9,7 @@
 	<section id="editar-tratamiento">
 		{{form_start(editarTratamientoForm) }}
 			{{ form_widget(editarTratamientoForm) }}
+			<button class="btn btn-primary" type="submit">Guardar</button>
 			<a class="enlace_cancelar enlace_form" href="{{ path('app_admin_tratamientos') }}">Cancelar</a>
 		{{ form_end(editarTratamientoForm) }}
 		{% for message in app.flashes('error') %}

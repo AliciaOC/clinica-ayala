@@ -35,10 +35,6 @@ class EditarClienteAdminType extends AbstractType
                 'required' => false,
                 'attr' => ['class' => 'form-select'],
             ])
-            ->add('save', SubmitType::class, [
-                'label' => 'Guardar cambios',
-                'attr' => ['class' => 'btn btn-primary'],
-            ])
         ;
     }
 

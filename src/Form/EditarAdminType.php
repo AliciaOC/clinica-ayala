@@ -22,10 +22,6 @@ class EditarAdminType extends AbstractType
                 'label' => 'Email',
                 'attr' => ['class' => 'form-control'],
             ])
-            ->add('save', SubmitType::class, [
-                'label' => 'Guardar cambios',
-                'attr' => ['class' => 'btn btn-primary'],
-            ])
         ;
     }
 

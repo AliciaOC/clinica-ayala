@@ -24,7 +24,7 @@ class RegistrarUserType extends AbstractType
             ])
             ->add('confirmacion', CheckboxType::class, [
                 'mapped' => false, //no se mapea con la entidad
-                'label' => 'Informe al nuevo usuario que su contraseña provisional es lo que hay antes del @ en su email y que el programa le pedirá cambiar la contraseña en el primer acceso.',
+                'label' => 'La contraseña provisional será lo que haya antes del @ del email y se deberá cambiar tras el primer acceso. ',
                 'required' => true,
                 'attr' => ['class' => 'form-check-input'],
             ])

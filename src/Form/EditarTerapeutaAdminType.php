@@ -28,7 +28,10 @@ class EditarTerapeutaAdminType extends AbstractType
                 'label' => 'Titulación',
                 'attr' => ['class' => 'form-control'],
             ])
-            ->add('nombre')
+            ->add('nombre', null, [
+                'label' => 'Nombre',
+                'attr' => ['class' => 'form-control'],
+            ])
             ->add('horario', EntityType::class, [
                 'class' => Horario::class,
                 'choice_label' => 'franja_horaria',

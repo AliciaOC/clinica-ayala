@@ -6,7 +6,11 @@
 {% block main %}
 	<h3>Editar Admin: {{ admin.email }}</h1>
 	<section id="editar-admin">
-		{{form(form) }}
+
+		{{form_start(form) }}
+			{{ form_widget(form) }}
+			<a class="enlace_cancelar enlace_form" href="{{ path('app_admin_admins') }}">Cancelar</a>
+		{{ form_end(form) }}
 
 		{% for message in app.flashes('error') %}
 			<div class="flash-error">
@@ -14,6 +18,4 @@
 			</div>
 		{% endfor %}
 	</section>
-    <a class="enlace_cancelar" href="{{ path('app_admin_admins') }}">Cancelar</a>
-
 {% endblock %}

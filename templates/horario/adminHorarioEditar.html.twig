@@ -6,7 +6,11 @@
 {% block main %}
 	<h3>Editar Franja Horaria: {{ franja }}</h3>
 	<section id="editar-horario">
-		{{ form(form) }}
+
+		{{form_start(form) }}
+			{{ form_widget(form) }}
+			<a class="enlace_cancelar enlace_form" href="{{ path('app_admin_horarios') }}">Cancelar</a>
+		{{ form_end(form) }}
 
 		{% for message in app.flashes('error') %}
 			<div class="flash-error">
@@ -15,5 +19,4 @@
 		{% endfor %}
 
 	</section>
-    <a class="enlace_cancelar" href="{{ path('app_admin_horarios') }}">Cancelar</a>
 {% endblock %}

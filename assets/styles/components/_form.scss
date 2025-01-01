@@ -2,12 +2,22 @@
 /* Form*/
 
 form{
-    margin: 2em;
+    margin: 1em;
     .h3{
         color: $azul-oscuro;
     }
-    .form-control{
+    input{
+        min-width: 200px;
+        width: 80vw !important;
+        max-width: 500px;
+        margin: 0.5em;
+        border-width: 2px !important;
         font-family: $fuente-texto;
+        &:hover,
+        &:focus,
+        &:active{
+            border-color: $verde !important;
+        }
     }
     .btn{
         width: fit-content;
@@ -24,11 +34,8 @@ form{
             color: $azul-claro;
         }
     }
-}
-
-#cambio_password{
-    margin: 2em;
-    #enlace_volver{
+    .enlace_form
+    {
         text-decoration: none;
         color: $azul-oscuro;
         font-weight: bold;
@@ -40,4 +47,21 @@ form{
             text-decoration: underline;
         }
     }
+
+    @include mixin-media-query-MIN(md){
+        margin: 3em;
+        &.login-change_password{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 2em;
+            border-radius: 25px;
+            box-shadow: 0 0 10px 10px rgba(49, 197, 183,0.2);
+        }
+    }
 }
+
+
+
+

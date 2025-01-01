@@ -6,7 +6,10 @@
 {% block main %}
 	<h3>Editar Cliente: {{ cliente.nombre }}</h1>
 	<section id="editar-cliente">
-		{{form(formEditCliente) }}
+		{{form_start(formEditCliente) }}
+			{{ form_widget(formEditCliente) }}
+			<a class="enlace_cancelar enlace_form" href="{{ path('app_admin_clientes') }}">Cancelar</a>
+		{{ form_end(formEditCliente) }}
 
 		{% for message in app.flashes('error') %}
 			<div class="flash-error">
@@ -14,6 +17,5 @@
 			</div>
 		{% endfor %}
 	</section>
-    <a class="enlace_cancelar" href="{{ path('app_admin_clientes') }}">Cancelar</a>
 
 {% endblock %}

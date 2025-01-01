@@ -8,7 +8,8 @@
 	<section id="editar-terapeuta">
 		{{form_start(formEditTerapeuta) }}
         {{ form_widget(formEditTerapeuta) }}
-        <button class="btn btn-primary" type="submit">Guardar</button>
+        	<button class="btn btn-primary" type="submit">Guardar</button>
+			<a class="enlace_cancelar enlace_form" href="{{ path('app_admin_terapeutas') }}">Cancelar</a>
         {{ form_end(formEditTerapeuta) }}
 
 		{% for message in app.flashes('error') %}
@@ -17,6 +18,5 @@
 			</div>
 		{% endfor %}
 	</section>
-    <a class="enlace_cancelar" href="{{ path('app_admin_terapeutas') }}">Cancelar</a>
 
 {% endblock %}

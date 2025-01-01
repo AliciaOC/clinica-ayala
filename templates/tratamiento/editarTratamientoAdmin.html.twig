@@ -7,12 +7,14 @@
 	<h3>Editar Tratamiento Seleccionado:
 		{{ nombreTratamiento }}</h3>
 	<section id="editar-tratamiento">
-		{{ form(editarTratamientoForm) }}
+		{{form_start(editarTratamientoForm) }}
+			{{ form_widget(editarTratamientoForm) }}
+			<a class="enlace_cancelar enlace_form" href="{{ path('app_admin_tratamientos') }}">Cancelar</a>
+		{{ form_end(editarTratamientoForm) }}
 		{% for message in app.flashes('error') %}
 			<div class="flash-error">
 				{{ message }}
 			</div>
 		{% endfor %}
-		<a class="enlace_cancelar" href="{{ path('app_admin_tratamientos') }}">Cancelar</a>
 	</section>
 {% endblock %}

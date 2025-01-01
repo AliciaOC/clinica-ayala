@@ -60,7 +60,7 @@
 								{% if citasPendientes|length > 0 %}
 									{% set citasPendientes = citasPendientes|sort((a, b) => a.fecha <=> b.fecha) %}
 									{% for cita in citasPendientes %}
-										<p>{{ cita.fecha|date('d-m-Y H:i') }} <a href='{{ path('terapeuta_cancelarCita', {'id': cita.id, 'origen': 'app_terapeuta_clientes'}) }}'>Cancelar Cita</a></p>
+										<p>{{ cita.fecha|date('d-m-Y H:i') }} <a class="cancelar_cita enlace_accion" href='{{ path('terapeuta_cancelarCita', {'id': cita.id, 'origen': 'app_terapeuta_clientes'}) }}'>Cancelar Cita</a></p>
 									{% endfor %}
 								{% endif %}
 							{% endif %}

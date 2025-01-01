@@ -39,7 +39,7 @@
 							{% endfor %}
 						</td>
 						<td>
-							<a href="{{ path('app_admin_horarios_borrar', {'id': horario.id}) }}">Borrar</a>
+							<a class="borrar_horario enlace_accion" href="{{ path('app_admin_horarios_borrar', {'id': horario.id}) }}">Borrar</a>
 							<a href="{{ path('app_admin_horarios_editar', {'id': horario.id}) }}">Editar</a>
 						</td>
 					</tr>

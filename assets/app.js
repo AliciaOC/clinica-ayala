@@ -17,7 +17,6 @@ import './styles/app.scss';
 $(document).ready(function() {
 
     // Función para actualizar la altura del relleno del footer cuando el ancho de la ventana es >= 1400px
-
     actualizarRellenoFooter();
 
     $(window).resize(function() {
@@ -72,6 +71,25 @@ $(document).ready(function() {
             }
         });
     }
+
+    //Confirmación de una acción irreversible
+    $('.enlace_accion').click(function (e) {
+        e.preventDefault(); // Evita que el enlace se siga automáticamente
+        const modal = $('#modalConfirm');
     
+        // Muestra el modal
+        modal.removeClass('hidden');
+    
+        // Maneja la confirmación
+        $('#confirmBtn').click(function () {
+            modal.addClass('hidden'); // Oculta el modal
+            window.location.href = $(e.target).attr('href'); // Navega al enlace
+        });
+    
+        // Maneja la cancelación
+        $('#cancelBtn').click(function () {
+            modal.addClass('hidden'); // Oculta el modal sin realizar la acción
+        });
+    });
 });
 

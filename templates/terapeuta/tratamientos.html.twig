@@ -15,7 +15,7 @@
 				{% for tratamiento in tratamientosTerapeuta %}
 					<tr>
 						<td>{{ tratamiento.nombre }}</td>
-						<td><a href='{{ path('terapeuta_borrarTratamiento', {'id': tratamiento.id}) }}'>Borrar</a></td>
+						<td><a href='{{ path('terapeuta_borrarTratamiento', {'id': tratamiento.id}) }}'>Quitar</a></td>
 					</tr>
 				{% endfor %}
 			</tbody>

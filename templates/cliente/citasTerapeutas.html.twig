@@ -4,9 +4,9 @@
 {% block main %}
 	<section id="terapeutas_cliente">
         <h3>Terapeutas</h3>
-        <ul>
+        <ul class="list-group list-group-flush">
 		    {% for terapeuta in terapeutas %}
-                <li>{{ terapeuta.nombre }} - {{ terapeuta.titulacion }}</li>
+                <li class="list-group-item">{{ terapeuta.nombre }}: {{ terapeuta.titulacion }}</li>
             {% endfor %}
         </ul>
 	</section>
@@ -31,7 +31,7 @@
                         <td>{{ cita.estado }}</td>
 						<td>
                         {% if cita.estado=='pendiente' %}
-                            <a href='{{ path('terapeuta_cancelarCita', {'id': cita.id, 'origen': 'app_cliente_citas_terapeutas'}) }}'>Cancelar Cita</a></p>
+                            <a class="cancelar_cita enlace_accion" href='{{ path('terapeuta_cancelarCita', {'id': cita.id, 'origen': 'app_cliente_citas_terapeutas'}) }}'>Cancelar Cita</a></p>
                         {% endif %}
 						</td>
 					</tr>

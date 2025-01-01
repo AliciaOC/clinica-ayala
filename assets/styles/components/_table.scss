@@ -2,17 +2,34 @@
 /* Table*/
 
 table{
+    min-width: 200px;
+    width: fit-content !important;
+    margin: 0 auto;
+    thead{
+        tr{
+            th{
+                font-family: $fuente-texto;
+                font-weight: bold;
+                &:not(:last-child){
+                    padding-right: 2rem;
+                }
+            }
+        }
+    }
     tbody{
         tr{
             td{
                 font-family: $fuente-texto;
+                &:not(:last-child){
+                    padding-right: 2rem;
+                }
                 a{
                     display: inline-block;
                     margin-bottom: 0.5em;
                     font-family: $fuente-texto;
                     color: $azul-oscuro;
                     text-decoration: none;
-                    margin-right: 1rem;
+                    margin-right: 2rem;
                     &:hover,
                     &:focus,
                     &:active{

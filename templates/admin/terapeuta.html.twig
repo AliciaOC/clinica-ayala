@@ -80,10 +80,10 @@
 						</td>
 						<td>
 							<a href="{{ path('app_admin_terapeuta_cita', {'id': terapeuta.id}) }}">Nueva cita</a>
-							<a href="{{ path('admin_borrarUser', {'id': terapeuta.usuario.id, 'origen': 'app_admin_terapeutas'}) }}">Borrar</a>
+							<a class="borrar_user enlace_accion" href="{{ path('admin_borrarUser', {'id': terapeuta.usuario.id, 'origen': 'app_admin_terapeutas'}) }}">Borrar</a>
 							<a href="{{ path('app_admin_terapeutas_editar', {'id': terapeuta.usuario.id}) }}">Editar</a>
 							{% if not terapeuta.usuario.nuevo %}
-								<a href="{{ path('admin_reiniciarPassword', {'id': terapeuta.usuario.id, 'origen': 'app_admin_terapeutas'}) }}">Reiniciar Contraseña</a>
+								<a class="reiniciar enlace_accion" href="{{ path('admin_reiniciarPassword', {'id': terapeuta.usuario.id, 'origen': 'app_admin_terapeutas'}) }}">Reiniciar Contraseña</a>
 							{% endif %}
 						</td> 
 					</tr>

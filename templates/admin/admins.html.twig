@@ -32,12 +32,12 @@
 						<td>{{ admin.email }}</td>
 						<td>
 						{% if admin.id != app.user.id %}<!-- No se puede borrar a si mismo -->
-							<a href="{{ path('admin_borrarUser', {'id': admin.id, 'origen': 'app_admin_admins'}) }}">Borrar</a>
+							<a class="borrar_user enlace_accion" href="{{ path('admin_borrarUser', {'id': admin.id, 'origen': 'app_admin_admins'}) }}">Borrar</a>
 							<a href="{{ path('app_admin_editarAdmin', {'id': admin.id}) }}">Editar</a>
 						{% endif %}
 
 						{% if not admin.nuevo %}
-							<a href="{{ path('admin_reiniciarPassword', {'id': admin.id, 'origen': 'app_admin_admins' }) }}">Reiniciar Contraseña</a>
+							<a class="reiniciar enlace_accion" href="{{ path('admin_reiniciarPassword', {'id': admin.id, 'origen': 'app_admin_admins' }) }}">Reiniciar Contraseña</a>
 						{% endif %}
 						</td>
 					</tr>

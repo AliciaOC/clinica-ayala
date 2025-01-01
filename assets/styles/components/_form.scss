@@ -2,7 +2,7 @@
 /* Form*/
 
 form{
-    margin: 1em;
+    margin: 1em auto 4em;
     .h3{
         color: $azul-oscuro;
     }
@@ -71,9 +71,17 @@ form{
         }
     }
 
+    &.login-change_password{
+        max-width: 90vw;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
     @include mixin-media-query-MIN(md){
-        margin: 3em;
         &.login-change_password{
+            margin: 0 auto;
             position: absolute;
             top: 50%;
             left: 50%;
@@ -83,13 +91,14 @@ form{
             box-shadow: 0 0 10px 10px rgba(49, 197, 183,0.2);
         }
         &:not(.login-change_password){
-            margin: 0 auto;
+            margin: 3em auto;
             max-width: 600px;
             padding: 2em;
             border-radius: 25px;
             box-shadow: 0 0 10px 10px rgba(49, 197, 183,0.2);
         }
     }
+
 }
 
 

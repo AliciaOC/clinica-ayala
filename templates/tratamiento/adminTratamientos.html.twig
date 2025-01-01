@@ -33,7 +33,7 @@
 							{% endfor %}
 						</td>
 						<td>
-							<a href="{{ path('admin_borrarTratamiento', {'id': tratamiento.id}) }}">Borrar</a>
+							<a class="borrar_tratamiento enlace_accion" href="{{ path('admin_borrarTratamiento', {'id': tratamiento.id}) }}">Borrar</a>
 							<a href="{{ path('admin_editarTratamiento', {'id': tratamiento.id}) }}">Editar</a>
 						</td>
 					</tr>

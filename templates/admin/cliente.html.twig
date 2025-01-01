@@ -43,10 +43,10 @@
 							{% endif %}
 						</td>
 						<td>
-							<a href="{{ path('admin_borrarUser', {'id': cliente.usuario.id, 'origen': 'app_admin_clientes'}) }}">Borrar</a>
+							<a class="borrar_user enlace_accion" href="{{ path('admin_borrarUser', {'id': cliente.usuario.id, 'origen': 'app_admin_clientes'}) }}">Borrar</a>
 							<a href="{{ path('app_admin_cliente_editar', {'id': cliente.usuario.id}) }}">Editar</a>
 							{% if not cliente.usuario.nuevo %}
-								<a href="{{ path('admin_reiniciarPassword', {'id': cliente.usuario.id, 'origen': 'app_admin_clientes'}) }}">Reiniciar Contraseña</a>
+								<a class="reiniciar enlace_accion" href="{{ path('admin_reiniciarPassword', {'id': cliente.usuario.id, 'origen': 'app_admin_clientes'}) }}">Reiniciar Contraseña</a>
 							{% endif %}
 						</td> 
 					</tr>

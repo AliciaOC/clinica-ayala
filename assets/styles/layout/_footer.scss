@@ -30,6 +30,7 @@ footer{
                 }
                 a{
                     color: $verde !important;
+                    transition: all 0.3s;
                     &:hover,
                     &:focus,
                     &:active{

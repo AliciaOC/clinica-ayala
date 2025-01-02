@@ -4,7 +4,6 @@ namespace App\Form;
 
 use App\Entity\Cita;
 use App\Entity\Cliente;
-use App\Entity\Terapeuta;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;

@@ -9,6 +9,7 @@
     display: flex;
     align-items: center;
     .nav-link{
+        transition: all 0.3s;
         &:hover,
         &:focus,
         &:active{

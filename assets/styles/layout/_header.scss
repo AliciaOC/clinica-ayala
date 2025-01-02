@@ -19,9 +19,12 @@ header {
       align-self: center;
       text-decoration: none;
       font-weight: bold;
+      word-break: break-word;
+      text-align: center;
       width: fit-content;
+      max-width: 200px;
       margin-right: 20px;
-      padding: 10px;
+      padding: 10px 15px;
       border-radius: 25px;
       background-color: $azul-claro;
       color: $azul-oscuro;
@@ -64,14 +67,18 @@ header {
       background-color: $blanco;
       border: none;
       &:hover{
-          background-color: $verde;
-          opacity: 0.8;
+          background-color:rgba(49, 197, 183, 0.3);
       }
       &:after{
         color: $azul-oscuro;
       }
       .icono_setting{
         width: 30px;
+        transition: all 0.3s;
+        &:hover,
+        &:focus{
+          transform: rotate(360deg);
+        }
       }
     }
   

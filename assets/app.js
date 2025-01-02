@@ -67,9 +67,9 @@ $(document).ready(function() {
     // Quitar tratamiento
     $("main").on("click", "table#tratamientos_propios button.quitar", function () {
         let id = $(this).data("id");
-        $.get("/terapeuta/tratamientos/borrar/" + id, function (response) {
-            // Actualizar ambas tablas
-            $("table#tratamientos_propios").html(response.tratamientosTerapeuta);
+        $.get("/terapeuta/tratamientos/borrar/" + id, function (response) {//los ajax en jquery son el método $.get o $.post, etc
+            // Actualiza ambas tablas de tratamientos ya que el controlador devuelve un json con ambas
+            $("table#tratamientos_propios").html(response.tratamientosTerapeuta);//html.response es el contenido de la tabla
             $("table#tratamientos_libres").html(response.tratamientosClinica);
         }).fail(function () {
             alert("Ha habido un error. Inténtelo de nuevo o recargue la página");
@@ -80,7 +80,6 @@ $(document).ready(function() {
     $("main").on("click", "table#tratamientos_libres button.anadir", function () {
         let id = $(this).data("id");
         $.get("/terapeuta/tratamientos/anadir/" + id, function (response) {
-            // Actualizar ambas tablas
             $("table#tratamientos_propios").html(response.tratamientosTerapeuta);
             $("table#tratamientos_libres").html(response.tratamientosClinica);
         }).fail(function () {

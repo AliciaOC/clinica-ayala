@@ -158,12 +158,6 @@ class TratamientoController extends AbstractController
         ]);
     }
 
-    #[Route('/terapeuta/tratamientos/propios', name: 'terapeuta_tratamientos_propios')]
-    public function obtenerTratamientosTerapeuta(): Response
-    {
-        return new Response($this->obtenerRenderTratamientosTerapeuta());
-    }
-
     private function obtenerRenderTratamientosTerapeuta(): string
     {
         /** @var \App\Entity\User $userActual */

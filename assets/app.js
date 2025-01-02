@@ -72,24 +72,18 @@ $(document).ready(function() {
         });
     }
 
-    //Confirmación de una acción irreversible
-    $('.enlace_accion').click(function (e) {
-        e.preventDefault(); // Evita que el enlace se siga automáticamente
-        const modal = $('#modalConfirm');
-    
-        // Muestra el modal
-        modal.removeClass('hidden');
-    
-        // Maneja la confirmación
-        $('#confirmBtn').click(function () {
-            modal.addClass('hidden'); // Oculta el modal
-            window.location.href = $(e.target).attr('href'); // Navega al enlace
-        });
-    
-        // Maneja la cancelación
-        $('#cancelBtn').click(function () {
-            modal.addClass('hidden'); // Oculta el modal sin realizar la acción
-        });
+    //Confirmación de una acción irreversible mediante modal
+    //Se recoge la url de la acción a realizar en el botón de confirmación
+    $('.btn-accion').click(function() {
+        let url = $(this).attr('data-url');
+        let btnConfirmModal=$('.btn-accion-modal');
+        btnConfirmModal.attr('data-url', url);
+    });
+
+    //Si pulsa en el botón de confirmar del botón de confirmación, se redirige a la url de la acción
+    $('.btn-accion-modal').click(function() {
+        let url = $(this).attr('data-url');
+        window.location.href = url;
     });
 });
 

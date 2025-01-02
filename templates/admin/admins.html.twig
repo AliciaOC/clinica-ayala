@@ -32,12 +32,16 @@
 						<td>{{ admin.email }}</td>
 						<td>
 						{% if admin.id != app.user.id %}<!-- No se puede borrar a si mismo -->
-							<a class="borrar_user enlace_accion" href="{{ path('admin_borrarUser', {'id': admin.id, 'origen': 'app_admin_admins'}) }}">Borrar</a>
-							<a href="{{ path('app_admin_editarAdmin', {'id': admin.id}) }}">Editar</a>
+							<button class="btn-accion btn" type="button" data-bs-toggle="modal" data-bs-target="#modalConfirm" data-url="{{ path('admin_borrarUser', {'id': admin.id, 'origen': 'app_admin_admins'}) }}">Borrar</button>
+							<a class="enlace_accion" href="{{ path('app_admin_editarAdmin', {'id': admin.id}) }}">Editar</a>
 						{% endif %}
 
 						{% if not admin.nuevo %}
-							<a class="reiniciar enlace_accion" href="{{ path('admin_reiniciarPassword', {'id': admin.id, 'origen': 'app_admin_admins' }) }}">Reiniciar Contraseña</a>
+							{% if admin.id != app.user.id %}
+								<button class="btn-accion btn" type="button" data-bs-toggle="modal" data-bs-target="#modalConfirm" data-url="{{ path('admin_reiniciarPassword', {'id': admin.id, 'origen': 'app_admin_admins'}) }}">Reiniciar Contraseña</button>
+							{% else %}
+								<button class="btn-accion btn reiniciar_actual" type="button" data-bs-toggle="modal" data-bs-target="#modalConfirm" data-url="{{ path('admin_reiniciarPassword', {'id': admin.id, 'origen': 'app_admin_admins'}) }}">Reiniciar Contraseña</button>
+							{% endif %}
 						{% endif %}
 						</td>
 					</tr>

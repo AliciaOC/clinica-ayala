@@ -15,7 +15,7 @@
 				{% for tratamiento in tratamientosTerapeuta %}
 					<tr>
 						<td>{{ tratamiento.nombre }}</td>
-						<td><a href='{{ path('terapeuta_borrarTratamiento', {'id': tratamiento.id}) }}'>Quitar</a></td>
+						<td><a class="enlace_accion" href='{{ path('terapeuta_borrarTratamiento', {'id': tratamiento.id}) }}'>Quitar</a></td>
 					</tr>
 				{% endfor %}
 			</tbody>
@@ -34,7 +34,7 @@
 				{% for tratamiento in tratamientosClinica %}
 					<tr>
 						<td>{{ tratamiento.nombre }}</td>
-						<td><a href='{{ path('terapeuta_anadirTratamiento', {'id': tratamiento.id}) }}'>Añadir</a></td>
+						<td><a class="enlace_accion" href='{{ path('terapeuta_anadirTratamiento', {'id': tratamiento.id}) }}'>Añadir</a></td>
 					</tr>
 				{% endfor %}
 			</tbody>

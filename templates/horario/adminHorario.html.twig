@@ -39,8 +39,8 @@
 							{% endfor %}
 						</td>
 						<td>
-							<a class="borrar_horario enlace_accion" href="{{ path('app_admin_horarios_borrar', {'id': horario.id}) }}">Borrar</a>
-							<a href="{{ path('app_admin_horarios_editar', {'id': horario.id}) }}">Editar</a>
+							<button class="btn-accion btn" type="button" data-bs-toggle="modal" data-bs-target="#modalConfirm" data-url="{{ path('app_admin_horarios_borrar', {'id': horario.id}) }}">Borrar</button>
+							<a class="enlace_accion" href="{{ path('app_admin_horarios_editar', {'id': horario.id}) }}">Editar</a>
 						</td>
 					</tr>
 				{% endfor %}

@@ -79,11 +79,11 @@
 							{% endif %}
 						</td>
 						<td>
-							<a href="{{ path('app_admin_terapeuta_cita', {'id': terapeuta.id}) }}">Nueva cita</a>
-							<a class="borrar_user enlace_accion" href="{{ path('admin_borrarUser', {'id': terapeuta.usuario.id, 'origen': 'app_admin_terapeutas'}) }}">Borrar</a>
-							<a href="{{ path('app_admin_terapeutas_editar', {'id': terapeuta.usuario.id}) }}">Editar</a>
+							<a class="enlace_accion" href="{{ path('app_admin_terapeuta_cita', {'id': terapeuta.id}) }}">Nueva cita</a>
+							<button class="btn-accion btn" type="button" data-bs-toggle="modal" data-bs-target="#modalConfirm" data-url="{{ path('admin_borrarUser', {'id': terapeuta.usuario.id, 'origen': 'app_admin_terapeutas'}) }}">Borrar</button>
+							<a class="enlace_accion" href="{{ path('app_admin_terapeutas_editar', {'id': terapeuta.usuario.id}) }}">Editar</a>
 							{% if not terapeuta.usuario.nuevo %}
-								<a class="reiniciar enlace_accion" href="{{ path('admin_reiniciarPassword', {'id': terapeuta.usuario.id, 'origen': 'app_admin_terapeutas'}) }}">Reiniciar Contraseña</a>
+								<button class="btn-accion btn" type="button" data-bs-toggle="modal" data-bs-target="#modalConfirm" data-url="{{ path('admin_reiniciarPassword', {'id': terapeuta.usuario.id, 'origen': 'app_admin_terapeutas'}) }}">Reiniciar Contraseña</button>
 							{% endif %}
 						</td> 
 					</tr>

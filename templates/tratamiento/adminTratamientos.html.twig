@@ -33,8 +33,8 @@
 							{% endfor %}
 						</td>
 						<td>
-							<a class="borrar_tratamiento enlace_accion" href="{{ path('admin_borrarTratamiento', {'id': tratamiento.id}) }}">Borrar</a>
-							<a href="{{ path('admin_editarTratamiento', {'id': tratamiento.id}) }}">Editar</a>
+							<button class="btn-accion btn" type="button" data-bs-toggle="modal" data-bs-target="#modalConfirm" data-url="{ path('admin_borrarTratamiento', {'id': tratamiento.id}) }}">Borrar</button>
+							<a class="enlace_accion" href="{{ path('admin_editarTratamiento', {'id': tratamiento.id}) }}">Editar</a>
 						</td>
 					</tr>
 				{% endfor %}

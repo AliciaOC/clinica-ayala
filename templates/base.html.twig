@@ -37,12 +37,20 @@
 						</div>
 					</div>
 				{% endif %}
-				<div id="modalConfirm" class="modal hidden">
-					<div class="modal-content">
-						<p>¿Seguro que quieres realizar esta acción? Los cambios no se podrán deshacer.</p>
-						<div id="botones_modal">
-							<button id="confirmBtn" class="btn-confirm btn">Confirmar</button>
-							<button id="cancelBtn" class="btn-cancel btn">Cancelar</button>
+				<div id="modalConfirm" class="modal" tabindex="-1">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title">Se necesita confirmación</h5>
+								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+							</div>
+							<div class="modal-body">
+								<p>La acción no podrá deshacerse. ¿Desea continuar?</p>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary btn-cancel" data-bs-dismiss="modal">Cancelar</button>
+								<button type="button" class="btn btn-primary btn-accion-modal" data-url="">Continuar</button>
+							</div>
 						</div>
 					</div>
 				</div>

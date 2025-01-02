@@ -1,0 +1,37 @@
+#modalConfirm.show{
+    background:rgba(49, 197, 183, 0.3);
+    .modal-dialog{
+        top: 25%;
+        .modal-content{
+            border: 1px solid $verde;
+            border-radius: 25px;
+            .modal-title{
+                font-weight: bold;
+            }
+            .btn{
+                font-family: $fuente-texto;
+                border:none;
+                &.btn-accion-modal{
+                    color: $azul-claro;
+                    background-color: $azul-oscuro;
+                    &:hover,
+                    &:focus,
+                    &:active{
+                        background-color: $verde;
+                        color: $negro;
+                    }
+                }
+                &.btn-cancel{
+                    background-color: $blanco;
+                    color: $azul-oscuro;
+                    &:hover,
+                    &:focus,
+                    &:active{
+                        color: $verde;
+                        text-decoration: underline;
+                    }
+                }
+            }
+        }
+    }
+}

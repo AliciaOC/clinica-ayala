@@ -80,6 +80,14 @@ $(document).ready(function() {
         btnConfirmModal.attr('data-url', url);
     });
 
+    //Para ubicar el modal abierto en el centro de la pantalla. Especialmente útil en móvil.
+    const modal = document.getElementById('modalConfirm');
+
+    // Agrega un evento cuando el modal se muestra
+    modal.addEventListener('shown.bs.modal', () => {
+        modal.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'start' });
+    });
+
     //Si pulsa en el botón de confirmar del botón de confirmación, se redirige a la url de la acción
     $('.btn-accion-modal').click(function() {
         let url = $(this).attr('data-url');

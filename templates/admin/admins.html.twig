@@ -8,7 +8,7 @@
 	<section id="nuevo-admin">
 		{{ form_start(registroForm) }}
 			{{ form_widget(registroForm) }}
-			<button class="btn btn-primary" type="submit">Guardar</button>
+			<button class="btn btn-primary no_margin" type="submit">Guardar</button>
 		{{ form_end(registroForm) }}
 		
 		{% for message in app.flashes('error') %}

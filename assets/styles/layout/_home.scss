@@ -31,6 +31,9 @@
                 margin: 0 auto;
             }
         }
+        #texto_terapeuta_home{
+            padding: 2em;
+        }
 
         @include mixin-media-query-MIN(md){
             picture{
@@ -81,7 +84,7 @@
         width: fit-content;
         border: 1px solid $verde;
         border-radius: 25px;
-        padding-right: 1em;
+        padding-right: 2em;
         li{
             margin: 1em 0;
             .icono_contacto{

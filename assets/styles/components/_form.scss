@@ -55,6 +55,9 @@ form{
             border-color: $azul-oscuro;
             color: $azul-claro;
         }
+        &.no_margin{
+            margin-top: 0;
+        }
     }
     .enlace_form {
         position: absolute;

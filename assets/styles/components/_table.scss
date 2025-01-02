@@ -5,6 +5,7 @@ table{
     min-width: 200px;
     width: fit-content !important;
     margin: 0 auto;
+    vertical-align: middle !important;
     thead{
         tr{
             th{
@@ -27,7 +28,7 @@ table{
                 .btn-accion{
                     display: block;
                     margin-bottom: 0.5em;
-                    padding: 0 !important;
+                    padding: 8px 0 !important;
                     text-align: start !important;
                     font-family: $fuente-texto;
                     color: $azul-oscuro !important;
@@ -43,6 +44,9 @@ table{
                     &:active{
                         color: $verde !important;
                     }
+                }
+                p:last-of-type{
+                    margin-bottom: 0;
                 }
             }
         }

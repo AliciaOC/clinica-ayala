@@ -33,6 +33,8 @@ table{
                     color: $azul-oscuro !important;
                     text-decoration: none;
                     margin-right: 2rem;
+                    border: none;
+                    background-color: transparent;
                     &.reiniciar_actual{
                         color: $negro !important;
                     }

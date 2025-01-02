@@ -4,40 +4,11 @@
 {% block main %}
 	<section id="tratamientosTerapeuta">
 		<h3>Tratamientos</h3>
-		<table class="table table-striped table-hover">
-			<thead>
-				<tr>
-					<th>Mis Tratamientos</th>
-					<th>Acciones</th>
-				</tr>
-			</thead>
-			<tbody>
-				{% for tratamiento in tratamientosTerapeuta %}
-					<tr>
-						<td>{{ tratamiento.nombre }}</td>
-						<td><a class="enlace_accion" href='{{ path('terapeuta_borrarTratamiento', {'id': tratamiento.id}) }}'>Quitar</a></td>
-					</tr>
-				{% endfor %}
-			</tbody>
-		</table>
+		{{ tratamientosTerapeuta|raw }} <!-- Se ha añadido el filtro raw para que se muestre la tabla -->
 	</section>
+	
 	<section id='tratamientosDisponibles'>
 		<h3>Tratamientos Disponibles</h3>
-		<table class="table table-striped table-hover">
-			<thead>
-				<tr>
-					<th>Tratamientos Disponibles</th>
-					<th>Acciones</th>
-				</tr>
-			</thead>
-			<tbody>
-				{% for tratamiento in tratamientosClinica %}
-					<tr>
-						<td>{{ tratamiento.nombre }}</td>
-						<td><a class="enlace_accion" href='{{ path('terapeuta_anadirTratamiento', {'id': tratamiento.id}) }}'>Añadir</a></td>
-					</tr>
-				{% endfor %}
-			</tbody>
-		</table>
+		{{ tratamientosClinica|raw }} 
 	</section>
 {% endblock %}

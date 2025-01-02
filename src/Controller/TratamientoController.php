@@ -11,18 +11,23 @@ use App\Repository\TratamientoRepository;
 use App\Form\NuevoTratamientoType;
 use App\Form\EditarTratamientoType;
 use App\Repository\TerapeutaRepository;
+use Symfony\Bundle\TwigBundle\DependencyInjection\Compiler\TwigEnvironmentPass;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Twig\Environment as TwigEnvironment;
 
 class TratamientoController extends AbstractController
 {
     private TratamientoRepository $tratamientoRepository;
     private TerapeutaRepository $terapeutaRepository;
+    private TwigEnvironment $twig;
 
-    public function __construct(TratamientoRepository $tratamientoRepository, TerapeutaRepository $terapeutaRepository)
+    public function __construct(TratamientoRepository $tratamientoRepository, TerapeutaRepository $terapeutaRepository, TwigEnvironment $twig)
     {
         $this->tratamientoRepository = $tratamientoRepository;
         $this->terapeutaRepository = $terapeutaRepository;
+        $this->twig = $twig;
     } 
 
     #[Route('/admin/tratamientos', name: 'app_admin_tratamientos')]
@@ -110,43 +115,80 @@ class TratamientoController extends AbstractController
         return $this->redirectToRoute('app_admin_tratamientos');
     }
 
+    #[Route('/terapeuta/tratamientos', name: 'app_terapeuta_tratamientos')]
+    public function administrarTratamientosTerapeuta(): Response
+    {
+        return $this->render('terapeuta/tratamientos.html.twig', [
+            'tratamientosTerapeuta' => $this->obtenerRenderTratamientosTerapeuta(),
+            'tratamientosClinica' => $this->obtenerRenderTratamientosClinica(),
+        ]);
+    }
+
     #[Route('/terapeuta/tratamientos/borrar/{id}', name: 'terapeuta_borrarTratamiento')]
-    public function quitarTratamientoTerapeuta($id): RedirectResponse
+    public function quitarTratamientoTerapeuta($id): JsonResponse
     {
         /** @var \App\Entity\User $userActual */
         $userActual = $this->getUser();
         $terapeutaId = $userActual->getTerapeuta()->getId();
         $this->terapeutaRepository->quitarTratamientoDeTerapeuta($id, $terapeutaId);
 
-        return $this->redirectToRoute('app_terapeuta_tratamientos');
-    }
+        $tratamientosTerapeuta = $this->obtenerRenderTratamientosTerapeuta();
+        $tratamientosClinica = $this->obtenerRenderTratamientosClinica();
 
-    #[Route('/terapeuta/tratamientos', name: 'app_terapeuta_tratamientos')]
-    public function administrarTratamientosTerapeuta(): Response
-    {
-        //primero saco los tratamientos del terapeuta activo
-        /** @var \App\Entity\User $userActual */
-        $userActual = $this->getUser();
-        $terapeuta = $userActual->getTerapeuta();
-        $tratamientos = $terapeuta->getTratamientos();
-
-        //ahora saco los tratamientos de la clinica
-        $tratamientosLibresClinica = $this->tratamientoRepository->seleccionarTratamientosTerapeutaNoTiene($terapeuta);
-
-        return $this->render('terapeuta/tratamientos.html.twig', [
-            'tratamientosTerapeuta' => $tratamientos,
-            'tratamientosClinica' => $tratamientosLibresClinica,
+        return new JsonResponse([
+            'tratamientosTerapeuta' => $tratamientosTerapeuta,
+            'tratamientosClinica' => $tratamientosClinica,
         ]);
     }
 
     #[Route('/terapeuta/tratamientos/anadir/{id}', name: 'terapeuta_anadirTratamiento')]
-    public function anadirTratamientoTerapeuta($id): RedirectResponse
+    public function anadirTratamientoTerapeuta($id): Response
     {
         /** @var \App\Entity\User $userActual */
         $userActual = $this->getUser();
         $terapeutaId = $userActual->getTerapeuta()->getId();
         $this->terapeutaRepository->addTratamientoATerapeuta($id, $terapeutaId);
 
-        return $this->redirectToRoute('app_terapeuta_tratamientos');
+        $tratamientosTerapeuta = $this->obtenerRenderTratamientosTerapeuta();
+        $tratamientosClinica = $this->obtenerRenderTratamientosClinica();
+
+        return new JsonResponse([
+            'tratamientosTerapeuta' => $tratamientosTerapeuta,
+            'tratamientosClinica' => $tratamientosClinica,
+        ]);
     }
+
+    #[Route('/terapeuta/tratamientos/propios', name: 'terapeuta_tratamientos_propios')]
+    public function obtenerTratamientosTerapeuta(): Response
+    {
+        return new Response($this->obtenerRenderTratamientosTerapeuta());
+    }
+
+    private function obtenerRenderTratamientosTerapeuta(): string
+    {
+        /** @var \App\Entity\User $userActual */
+        $userActual = $this->getUser();
+        $terapeuta = $userActual->getTerapeuta();
+        $tratamientos = $terapeuta->getTratamientos();
+
+        return $this->twig->render('terapeuta/tratamientos/tratamientos-terapeuta.html.twig', [
+            'tratamientos' => $tratamientos
+        ]);
+    }
+
+    private function obtenerRenderTratamientosClinica(): string
+    {
+        //primero saco los tratamientos del terapeuta activo
+        /** @var \App\Entity\User $userActual */
+        $userActual = $this->getUser();
+        $terapeuta = $userActual->getTerapeuta();
+
+        //ahora saco los tratamientos de la clinica
+        $tratamientos = $this->tratamientoRepository->seleccionarTratamientosTerapeutaNoTiene($terapeuta);
+
+        return $this->twig->render('terapeuta/tratamientos/tratamientos-libres.html.twig', [
+            'tratamientos' => $tratamientos
+        ]);
+    }
+
 }

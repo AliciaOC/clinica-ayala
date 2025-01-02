@@ -23,17 +23,23 @@ table{
                 &:not(:last-child){
                     padding-right: 2rem;
                 }
-                a{
-                    display: inline-block;
+                .enlace_accion,
+                .btn-accion{
+                    display: block;
                     margin-bottom: 0.5em;
+                    padding: 0 !important;
+                    text-align: start !important;
                     font-family: $fuente-texto;
-                    color: $azul-oscuro;
+                    color: $azul-oscuro !important;
                     text-decoration: none;
                     margin-right: 2rem;
+                    &.reiniciar_actual{
+                        color: $negro !important;
+                    }
                     &:hover,
                     &:focus,
                     &:active{
-                        color: $verde;
+                        color: $verde !important;
                     }
                 }
             }

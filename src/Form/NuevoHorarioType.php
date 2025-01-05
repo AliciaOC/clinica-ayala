@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Horario;
 use App\Entity\Terapeuta;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -15,7 +16,7 @@ class NuevoHorarioType extends AbstractType
     {
         $builder
             ->add('franja_horaria', null, [
-                'label' => 'Franja horaria',
+                'label' => 'Franja horaria*',
                 'required' => true,
                 'attr' => ['class' => 'form-control'],
             ])
@@ -26,6 +27,10 @@ class NuevoHorarioType extends AbstractType
                 'expanded' => false,
                 'required' => false,
                 'attr' => ['class' => 'form-select'],
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('t')
+                            ->orderBy('t.nombre', 'ASC');
+                },
             ])
         ;
     }

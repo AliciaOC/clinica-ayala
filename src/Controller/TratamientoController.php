@@ -38,6 +38,10 @@ class TratamientoController extends AbstractController
 
         //también obtengo todos los tratamientos para mostrarlos
         $tratamientos = $this->tratamientoRepository->findAll();
+        //Los ordeno por nombre ascendente
+        usort($tratamientos, function ($a, $b) {
+            return $a->getNombre() <=> $b->getNombre();
+        });
 
         return $this->render('tratamiento/adminTratamientos.html.twig', [
             'tratamientos' => $tratamientos,
@@ -164,6 +168,11 @@ class TratamientoController extends AbstractController
         $userActual = $this->getUser();
         $terapeuta = $userActual->getTerapeuta();
         $tratamientos = $terapeuta->getTratamientos();
+        //paso a array y ordeno por nombre ascendente
+        $tratamientos = $tratamientos->toArray();
+        usort($tratamientos, function ($a, $b) {
+            return $a->getNombre() <=> $b->getNombre();
+        });
 
         return $this->twig->render('terapeuta/tratamientos/tratamientos-terapeuta.html.twig', [
             'tratamientos' => $tratamientos

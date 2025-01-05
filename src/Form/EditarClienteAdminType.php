@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Cliente;
 use App\Entity\Terapeuta;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -32,6 +33,10 @@ class EditarClienteAdminType extends AbstractType
                 'expanded' => false,
                 'required' => false,
                 'attr' => ['class' => 'form-select'],
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('t')
+                        ->orderBy('t.nombre', 'ASC');
+                },
             ])
         ;
     }

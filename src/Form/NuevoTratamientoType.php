@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Terapeuta;
 use App\Entity\Tratamiento;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -16,13 +17,13 @@ class NuevoTratamientoType extends AbstractType
     {
         $builder
             ->add('nombre', null, [
-            'label' => 'Nombre del tratamiento',
+            'label' => 'Nombre del tratamiento*',
             'required' => true,
             'attr' => ['placeholder' => 'Introduce el nombre del tratamiento'],
             'attr' => ['class' => 'form-control'],
             ])
             ->add('descripcion', null, [
-            'label' => 'Descripción',
+            'label' => 'Descripción*',
             'required' => true,
             'attr' => ['placeholder' => 'Introduce la descripción del tratamiento'],
             'attr' => ['class' => 'form-control'],
@@ -35,6 +36,10 @@ class NuevoTratamientoType extends AbstractType
                 'multiple' => true,
                 'required' => false,
                 'attr' => ['class' => 'form-select'],
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('t')
+                            ->orderBy('t.nombre', 'ASC');
+                },
             ])
             ->add('save', SubmitType::class, [
                 'label' => 'Añadir',

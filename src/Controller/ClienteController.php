@@ -29,6 +29,10 @@ class ClienteController extends AbstractController
         $cliente=$user->getCliente();
 
         $terapeutas=$cliente->getTerapeutas();
+        $terapeutas=$terapeutas->toArray();
+        usort($terapeutas, function($a, $b) {
+            return $a->getNombre() <=> $b->getNombre();
+        });
 
         //actualizo citas pendientes
         $this->citaRepository->actualizarEstadoCitasPendientesCliente($cliente->getId());

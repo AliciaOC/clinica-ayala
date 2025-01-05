@@ -15,7 +15,7 @@ class RegistrarUserType extends AbstractType
     {
         $builder
             ->add('email', EmailType::class, [
-                'label' => 'Email',
+                'label' => 'Email*',
                 'required' => true,
                 'attr' => ['placeholder' => 'Introduzca el email del nuevo usuario'],
                 'attr' => ['class' => 'form-control'],

@@ -66,9 +66,12 @@ class HorarioController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+            $data = $request->request->all();//obtenemos los datos del formulario y luego sacamos la franja que ha escrito el usuario
+            $franja_horariaRequest = $data['nuevo_horario']['franja_horaria'] ?? null;
+
             //comprobación de franjas horarias no repetidas controlando que no sea el actual
-            foreach ($horarios as $horario) {
-                if (strcmp($horario->getFranjaHoraria(), $franja_horaria) !=0 && $horario->getId() != $id) {
+            foreach ($horarios as $horarioBucle) {
+                if (strcmp($horarioBucle->getFranjaHoraria(), $franja_horariaRequest) == 0 && $horarioBucle->getId() != $id) {
                     $this->addFlash('error', 'Esta franja horaria ya existe');
                     return $this->redirectToRoute('app_admin_horarios_editar', ['id' => $id]);
                 }

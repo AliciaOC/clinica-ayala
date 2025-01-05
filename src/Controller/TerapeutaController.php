@@ -71,8 +71,11 @@ class TerapeutaController extends AbstractController
         $this->citaRepository->actualizarEstadoCitasPendientes($userActual->getTerapeuta()->getId());
 
         $clientesTerapeuta = $userActual->getTerapeuta()->getClientes();
-
-        
+        //Los ordeno por nombre ascendente
+        $clientesTerapeuta = $clientesTerapeuta->toArray();
+        usort($clientesTerapeuta, function($a, $b) {
+            return $a->getNombre() <=> $b->getNombre();
+        });
 
         return $this->render('terapeuta/clientes.html.twig', [
             'clientes' => $clientesTerapeuta,
@@ -121,6 +124,12 @@ class TerapeutaController extends AbstractController
         
         //si la fecha de la cita es anterior a la fecha actual, la cita se marca como finalizada
         $this->citaRepository->actualizarEstadoCitasPendientes($terapeuta->getId());
+
+        //ordenar citas por fechas de más recientes a más antiguas
+        $citasTerapeuta = $citasTerapeuta->toArray();
+        usort($citasTerapeuta, function($a, $b) {
+            return $b->getFecha() <=> $a->getFecha();
+        });
 
         return $this->render('terapeuta/citas.html.twig', [
             'citas' => $citasTerapeuta,

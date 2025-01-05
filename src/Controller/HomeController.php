@@ -44,8 +44,6 @@ class HomeController extends AbstractController
         return $this->render('home/index.html.twig', [
             'perfil' => 'app_login_redirect',
             'nombre' => $nombrePerfil,
-            'tratamientos' => $tratamientos,
-            'terapeutas' => $terapeutas
         ]);
     }
 }

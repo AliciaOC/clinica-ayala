@@ -6,6 +6,7 @@ use App\Entity\Cliente;
 use App\Entity\Horario;
 use App\Entity\Terapeuta;
 use App\Entity\Tratamiento;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -48,6 +49,10 @@ class EditarTerapeutaAdminType extends AbstractType
                 'multiple' => true,
                 'required' => false,
                 'attr' => ['class' => 'form-select'],
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('t')
+                        ->orderBy('t.nombre', 'ASC');
+                },
             ])
             ->add('clientes', EntityType::class, [
                 'class' => Cliente::class,
@@ -57,6 +62,10 @@ class EditarTerapeutaAdminType extends AbstractType
                 'multiple' => true,
                 'required' => false,
                 'attr' => ['class' => 'form-select'],
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('c')
+                        ->orderBy('c.nombre', 'ASC');
+                },
             ])
         ;
     }

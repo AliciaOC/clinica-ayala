@@ -82,6 +82,7 @@ class TratamientoRepository extends ServiceEntityRepository
             ->from('tratamiento', 'tratamiento')
             ->where('tratamiento.id NOT IN (SELECT tratamiento_id FROM tratamiento_terapeuta WHERE terapeuta_id = :terapeutaId)')
             ->setParameter('terapeutaId', $terapeuta->getId())
+            ->orderBy('tratamiento.nombre', 'ASC')
             ->executeQuery()
             ->fetchAllAssociative(); // Obtenemos el resultado como un array asociativo
     

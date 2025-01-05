@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Horario;
 use App\Entity\Terapeuta;
 use App\Entity\Tratamiento;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -16,12 +17,12 @@ class RegistrarTerapeutaType extends AbstractType
     {
         $builder
             ->add('titulacion' , null, [
-                'label' => 'Titulación',
+                'label' => 'Titulación*',
                 'required' => true,
                 'attr' => ['class' => 'form-control'],
                 ])
             ->add('nombre', null, [
-                'label' => 'Nombre',
+                'label' => 'Nombre*',
                 'required' => true,
                 'attr' => ['class' => 'form-control'],
                 ])
@@ -42,6 +43,11 @@ class RegistrarTerapeutaType extends AbstractType
                 'multiple' => true,
                 'required' => false,
                 'attr' => ['class' => 'form-select'],
+                //Para ordenar los tratamientos por nombre
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('t')
+                            ->orderBy('t.nombre', 'ASC');
+                },
             ])
         ;
     }

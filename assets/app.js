@@ -87,6 +87,9 @@ $(document).ready(function() {
         });
     });
     /*-----*/
+
+    /*Si en las tablas de citas el motivo contiene la cadena ' <<Admin>> ' se le añade la clase admin*/
+    $("section#citasTerapeuta table tbody td:contains('<<Admin>>')").addClass("cita_admin");
 });
 
 /* Funciones */

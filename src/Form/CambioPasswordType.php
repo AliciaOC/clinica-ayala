@@ -15,11 +15,13 @@ class CambioPasswordType extends AbstractType
         $builder
             ->add('nuevaPassword', PasswordType::class, [
                 'mapped' => false,
+                'label' => 'Nueva contraseña*',
                 'required' => true,
                 'attr' => ['class' => 'form-control'],
             ])
             ->add('confirmacionPassword', PasswordType::class, [
                 'mapped' => false,
+                'label' => 'Confirmar contraseña*',
                 'required' => true,
                 'attr' => ['class' => 'form-control'],
             ])

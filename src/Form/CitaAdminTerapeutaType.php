@@ -16,8 +16,9 @@ class CitaAdminTerapeutaType extends AbstractType
         $builder
         ->add('fecha', DateTimeType::class, [
             'widget' => 'single_text',
-            'label' => 'Fecha',
+            'label' => 'Fecha*',
             'attr' => ['class' => 'form-control'],
+            'required' => true,
         ])
             ->add('motivo', null, [
                 'label' => 'Motivo',

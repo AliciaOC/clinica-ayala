@@ -54,6 +54,10 @@ class AdminController extends AbstractController
 
         //todos los admins
         $admins = $this->userRepository->findByRole('["ROLE_ADMIN"]');
+        //ordenar los admins por email
+        usort($admins, function ($a, $b) {
+            return $a->getEmail() <=> $b->getEmail();
+        });
         
         return $this->render('admin/admins.html.twig', [
             'admins' => $admins,
@@ -144,6 +148,10 @@ class AdminController extends AbstractController
 
         //todos los terapeutas
         $terapeutas = $this->terapeutaRepository->getAllTerapeutas();
+        //ordenar los terapeutas por email
+        usort($terapeutas, function ($a, $b) {
+            return $a->getUsuario()->getEmail() <=> $b->getUsuario()->getEmail();
+        });
 
         //Se van a mostrar citas así que vamos a actualizar el estado de las citas pendientes
         foreach ($terapeutas as $terapeuta) {
@@ -237,6 +245,10 @@ class AdminController extends AbstractController
     public function administrarClientes(): Response
     {
         $clientes = $this->clienteRepository->getAllClientes();
+        //ordenar los clientes por email
+        usort($clientes, function ($a, $b) {
+            return $a->getUsuario()->getEmail() <=> $b->getUsuario()->getEmail();
+        });
 
         //Se van a mostrar las citas así que vamos a actualizar el estado de las citas pendientes
         foreach ($clientes as $cliente) {

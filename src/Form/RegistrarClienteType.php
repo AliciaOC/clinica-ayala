@@ -13,7 +13,7 @@ class RegistrarClienteType extends AbstractType
     {
         $builder
             ->add('nombre', null, [
-                'label' => 'Nombre',
+                'label' => 'Nombre*',
                 'required' => true,
                 'attr' => ['class' => 'form-control'],
             ])

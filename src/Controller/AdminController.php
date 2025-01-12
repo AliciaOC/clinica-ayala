@@ -52,6 +52,11 @@ class AdminController extends AbstractController
         //formulario para añadir admins
         $crearAdminForm=$this->crearUserForm($request, "ROLE_ADMIN");
 
+        //vaciar el formulario de registro de admins
+        if ($crearAdminForm->isSubmitted() && $crearAdminForm->isValid()) {
+            return $this->redirectToRoute('app_admin_admins');
+        }
+
         //todos los admins
         $admins = $this->userRepository->findByRole('["ROLE_ADMIN"]');
         //ordenar los admins por email

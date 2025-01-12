@@ -14,39 +14,43 @@
 	</section>
 	<section id="citasTerapeuta">
 		<h3>Citas</h3>
-		<table class="table table-striped table-hover">
-			<thead>
-				<tr>
-					<th>Fecha</th>
-					<th>Estado</th>
-                    <th>Motivo</th>
-                    <th>Cliente</th>
-                    <th>Acciones</th>
-				</tr>
-			</thead>
-			<tbody>
-				{% for cita in citas %}
+		{% if citas|length > 0 %}
+			<table class="table table-striped table-hover">
+				<thead>
 					<tr>
-						<td>{{ cita.fecha|date('d-m-Y H:i') }}</td>
-                        <td class="estado_cita">{{ cita.estado }}</td>
-                        <td>
-                        {% if cita.motivo %}
-                            {{ cita.motivo }}
-                        {% endif %}
-                        </td>
-                        <td>
-                            {% if cita.cliente %}
-                                {{ cita.cliente.nombre }}
-                            {% endif %}
-                        </td>
-                        <td>
-                            {% if cita.estado == 'pendiente' %}
-								<button class="btn-accion btn" type="button" data-bs-toggle="modal" data-bs-target="#modalConfirm" data-url="{{ path('terapeuta_cancelarCita', {'id': cita.id, 'origen': 'app_terapeuta_citas'}) }}">Cancelar Cita</button>
-                            {% endif %}
-                        </td>
+						<th>Fecha</th>
+						<th>Estado</th>
+						<th>Motivo</th>
+						<th>Cliente</th>
+						<th>Acciones</th>
 					</tr>
-				{% endfor %}
-			</tbody>
-		</table>
+				</thead>
+				<tbody>
+					{% for cita in citas %}
+						<tr>
+							<td>{{ cita.fecha|date('d-m-Y H:i') }}</td>
+							<td class="estado_cita">{{ cita.estado }}</td>
+							<td>
+							{% if cita.motivo %}
+								{{ cita.motivo }}
+							{% endif %}
+							</td>
+							<td>
+								{% if cita.cliente %}
+									{{ cita.cliente.nombre }}
+								{% endif %}
+							</td>
+							<td>
+								{% if cita.estado == 'pendiente' %}
+									<button class="btn-accion btn" type="button" data-bs-toggle="modal" data-bs-target="#modalConfirm" data-url="{{ path('terapeuta_cancelarCita', {'id': cita.id, 'origen': 'app_terapeuta_citas'}) }}">Cancelar Cita</button>
+								{% endif %}
+							</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		{% else %}
+			<p>No hay citas</p>
+		{% endif %}
 	</section>
 {% endblock %}

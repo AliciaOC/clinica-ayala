@@ -26,69 +26,74 @@
 
 	<section id="terapeutas">
 		<h3>Terapeutas</h3>
-		<table class="table table-striped table-hover">
-			<thead>
-				<tr>
-					<th>Correo Electrónico</th>
-                    <th>Nombre</th>
-                    <th>Titulación</th>
-                    <th>Tratamientos</th>
-                    <th>Horario</th>
-					<th>Número de Clientes</th>
-					<th>Citas Próximas</th>
-					<th>Acciones</th>
-				</tr>
-			</thead>
-			<tbody>
-				{% for terapeuta in terapeutas %}
+		{% if terapeutas|length > 0 %}
+			<table class="table table-striped table-hover">
+				<thead>
 					<tr>
-						<td>{{ terapeuta.usuario.email }}</td>
-                        <td>{{ terapeuta.nombre }}</td>
-                        <td>{{ terapeuta.titulacion }}</td>
-                        <td>
-							{% for tratamiento in terapeuta.tratamientos %}
-								<p>{{ tratamiento.nombre }}</p>
-							{% endfor %}
-						</td>
-                        <td>
-							{% for horario in terapeuta.horario %}
-								<p>{{ horario.franjaHoraria }}</p>
-							{% endfor %}
-						</td>
-						<td>{{ terapeuta.clientes|length }}</td>
-						<td>
-							{% if terapeuta.citas|length > 0 %}
-								{% set citasPendientes = [] %}
-								{% for cita in terapeuta.citas %}
-									{% if cita.estado == 'pendiente' %}
-										{% set citasPendientes = citasPendientes | merge([cita]) %}
-									{% endif %}
-								{% endfor %}
-								{% if citasPendientes|length > 0 %}
-									{% set citasPendientes = citasPendientes|sort((a, b) => a.fecha <=> b.fecha) %}
-									{% for cita in citasPendientes %}
-										<p>{{ cita.fecha|date('d-m-Y H:i') }} 
-											{% if cita.cliente %}
-												{{cita.cliente.nombre}}
-											{% else %}
-												Cliente sin Ficha
-											{% endif %}
-										</p>
-									{% endfor %}
-								{% endif %}
-							{% endif %}
-						</td>
-						<td>
-							<a class="enlace_accion" href="{{ path('app_admin_terapeuta_cita', {'id': terapeuta.id}) }}">Nueva cita</a>
-							<button class="btn-accion btn" type="button" data-bs-toggle="modal" data-bs-target="#modalConfirm" data-url="{{ path('admin_borrarUser', {'id': terapeuta.usuario.id, 'origen': 'app_admin_terapeutas'}) }}">Borrar</button>
-							<a class="enlace_accion" href="{{ path('app_admin_terapeutas_editar', {'id': terapeuta.usuario.id}) }}">Editar</a>
-							{% if not terapeuta.usuario.nuevo %}
-								<button class="btn-accion btn" type="button" data-bs-toggle="modal" data-bs-target="#modalConfirm" data-url="{{ path('admin_reiniciarPassword', {'id': terapeuta.usuario.id, 'origen': 'app_admin_terapeutas'}) }}">Reiniciar Contraseña</button>
-							{% endif %}
-						</td> 
+						<th>Correo Electrónico</th>
+						<th>Nombre</th>
+						<th>Titulación</th>
+						<th>Tratamientos</th>
+						<th>Horario</th>
+						<th>Número de Clientes</th>
+						<th>Citas Próximas</th>
+						<th>Acciones</th>
 					</tr>
-				{% endfor %}
-			</tbody>
-		</table>
+				</thead>
+				<tbody>
+					{% for terapeuta in terapeutas %}
+						<tr>
+							<td>{{ terapeuta.usuario.email }}</td>
+							<td>{{ terapeuta.nombre }}</td>
+							<td>{{ terapeuta.titulacion }}</td>
+							<td>
+								{% for tratamiento in terapeuta.tratamientos %}
+									<p>{{ tratamiento.nombre }}</p>
+								{% endfor %}
+							</td>
+							<td>
+								{% for horario in terapeuta.horario %}
+									<p>{{ horario.franjaHoraria }}</p>
+								{% endfor %}
+							</td>
+							<td>{{ terapeuta.clientes|length }}</td>
+							<td>
+								{% if terapeuta.citas|length > 0 %}
+									{% set citasPendientes = [] %}
+									{% for cita in terapeuta.citas %}
+										{% if cita.estado == 'pendiente' %}
+											{% set citasPendientes = citasPendientes | merge([cita]) %}
+										{% endif %}
+									{% endfor %}
+									{% if citasPendientes|length > 0 %}
+										{% set citasPendientes = citasPendientes|sort((a, b) => a.fecha <=> b.fecha) %}
+										{% for cita in citasPendientes %}
+											<p>{{ cita.fecha|date('d-m-Y H:i') }} 
+												{% if cita.cliente %}
+													{{cita.cliente.nombre}}
+												{% else %}
+													Cliente sin Ficha
+												{% endif %}
+											</p>
+										{% endfor %}
+									{% endif %}
+								{% endif %}
+							</td>
+							<td>
+								<a class="enlace_accion" href="{{ path('app_admin_terapeuta_cita', {'id': terapeuta.id}) }}">Nueva cita</a>
+								<button class="btn-accion btn" type="button" data-bs-toggle="modal" data-bs-target="#modalConfirm" data-url="{{ path('admin_borrarUser', {'id': terapeuta.usuario.id, 'origen': 'app_admin_terapeutas'}) }}">Borrar</button>
+								<a class="enlace_accion" href="{{ path('app_admin_terapeutas_editar', {'id': terapeuta.usuario.id}) }}">Editar</a>
+								{% if not terapeuta.usuario.nuevo %}
+									<button class="btn-accion btn" type="button" data-bs-toggle="modal" data-bs-target="#modalConfirm" data-url="{{ path('admin_reiniciarPassword', {'id': terapeuta.usuario.id, 'origen': 'app_admin_terapeutas'}) }}">Reiniciar Contraseña</button>
+								{% endif %}
+							</td> 
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		{% else %}
+			<p>No hay terapeutas</p>
+		{% endif %}
+		
     </section>
 {% endblock %}

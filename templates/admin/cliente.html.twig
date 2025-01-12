@@ -6,52 +6,56 @@
 {% block main %}
 	<section id="clientes">
 		<h3>Clientes</h3>
-		<table class="table table-striped table-hover">
-			<thead>
-				<tr>
-					<th>Correo Electrónico</th>
-                    <th>Nombre</th>
-                    <th>Terapeutas</th>
-					<th>Próximas Citas y Terapeuta</th>
-					<th>Acciones</th>
-				</tr>
-			</thead>
-			<tbody>
-				{% for cliente in clientes %}
+		{% if clientes|length > 0 %}
+			<table class="table table-striped table-hover">
+				<thead>
 					<tr>
-						<td>{{ cliente.usuario.email }}</td>
-                        <td>{{ cliente.nombre }}</td>
-                        <td>
-							{% for terapeuta in cliente.terapeutas %}
-								{{ terapeuta.nombre }}<br/>
-							{% endfor %}
-						</td>
-						<td>
-							{% if cliente.citas|length > 0 %}
-								{% set citasPendientes = [] %}
-								{% for cita in cliente.citas %}
-									{% if cita.estado == 'pendiente' %}
-										{% set citasPendientes = citasPendientes | merge([cita]) %}
-									{% endif %}
-								{% endfor %}
-								{% if citasPendientes|length > 0 %}
-									{% set citasPendientes = citasPendientes|sort((a, b) => a.fecha <=> b.fecha) %}
-									{% for cita in citasPendientes %}
-										<p>{{ cita.fecha|date('d-m-Y H:i') }} {{cita.terapeuta.nombre}}</p>
-									{% endfor %}
-								{% endif %}
-							{% endif %}
-						</td>
-						<td>
-							<button class="btn-accion btn" type="button" data-bs-toggle="modal" data-bs-target="#modalConfirm" data-url="{{ path('admin_borrarUser', {'id': cliente.usuario.id, 'origen': 'app_admin_clientes'}) }}">Borrar</button>
-							<a class="enlace_accion" href="{{ path('app_admin_cliente_editar', {'id': cliente.usuario.id}) }}">Editar</a>
-							{% if not cliente.usuario.nuevo %}
-								<button class="btn-accion btn" type="button" data-bs-toggle="modal" data-bs-target="#modalConfirm" data-url="{{ path('admin_reiniciarPassword', {'id': cliente.usuario.id, 'origen': 'app_admin_clientes'}) }}">Reiniciar Contraseña</button>
-							{% endif %}
-						</td> 
+						<th>Correo Electrónico</th>
+						<th>Nombre</th>
+						<th>Terapeutas</th>
+						<th>Próximas Citas y Terapeuta</th>
+						<th>Acciones</th>
 					</tr>
-				{% endfor %}
-			</tbody>
-		</table>
+				</thead>
+				<tbody>
+					{% for cliente in clientes %}
+						<tr>
+							<td>{{ cliente.usuario.email }}</td>
+							<td>{{ cliente.nombre }}</td>
+							<td>
+								{% for terapeuta in cliente.terapeutas %}
+									{{ terapeuta.nombre }}<br/>
+								{% endfor %}
+							</td>
+							<td>
+								{% if cliente.citas|length > 0 %}
+									{% set citasPendientes = [] %}
+									{% for cita in cliente.citas %}
+										{% if cita.estado == 'pendiente' %}
+											{% set citasPendientes = citasPendientes | merge([cita]) %}
+										{% endif %}
+									{% endfor %}
+									{% if citasPendientes|length > 0 %}
+										{% set citasPendientes = citasPendientes|sort((a, b) => a.fecha <=> b.fecha) %}
+										{% for cita in citasPendientes %}
+											<p>{{ cita.fecha|date('d-m-Y H:i') }} {{cita.terapeuta.nombre}}</p>
+										{% endfor %}
+									{% endif %}
+								{% endif %}
+							</td>
+							<td>
+								<button class="btn-accion btn" type="button" data-bs-toggle="modal" data-bs-target="#modalConfirm" data-url="{{ path('admin_borrarUser', {'id': cliente.usuario.id, 'origen': 'app_admin_clientes'}) }}">Borrar</button>
+								<a class="enlace_accion" href="{{ path('app_admin_cliente_editar', {'id': cliente.usuario.id}) }}">Editar</a>
+								{% if not cliente.usuario.nuevo %}
+									<button class="btn-accion btn" type="button" data-bs-toggle="modal" data-bs-target="#modalConfirm" data-url="{{ path('admin_reiniciarPassword', {'id': cliente.usuario.id, 'origen': 'app_admin_clientes'}) }}">Reiniciar Contraseña</button>
+								{% endif %}
+							</td> 
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		{% else %}
+			<p>No hay clientes</p>
+		{% endif %}
     </section>
 {% endblock %}

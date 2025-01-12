@@ -21,30 +21,34 @@
 
 	<section id="horarios">
 		<h3>Horarios</h3>
-		<table class="table table-striped table-hover">
-			<thead>
-				<tr>
-					<th>Franja Horaria</th>
-                    <th>Terapeutas que la cubren</th>
-					<th>Acciones</th>
-				</tr>
-			</thead>
-			<tbody>
-				{% for horario in horarios %}
+		{% if horarios|length > 0 %}
+			<table class="table table-striped table-hover">
+				<thead>
 					<tr>
-                        <td>{{ horario.franjaHoraria }}</td>
-                        <td>
-							{% for terapeuta in horario.terapeutas %}
-								<p>{{ terapeuta.nombre }}<p/>
-							{% endfor %}
-						</td>
-						<td>
-							<button class="btn-accion btn" type="button" data-bs-toggle="modal" data-bs-target="#modalConfirm" data-url="{{ path('app_admin_horarios_borrar', {'id': horario.id}) }}">Borrar</button>
-							<a class="enlace_accion" href="{{ path('app_admin_horarios_editar', {'id': horario.id}) }}">Editar</a>
-						</td>
+						<th>Franja Horaria</th>
+						<th>Terapeutas que la cubren</th>
+						<th>Acciones</th>
 					</tr>
-				{% endfor %}
-			</tbody>
-		</table>
+				</thead>
+				<tbody>
+					{% for horario in horarios %}
+						<tr>
+							<td>{{ horario.franjaHoraria }}</td>
+							<td>
+								{% for terapeuta in horario.terapeutas %}
+									<p>{{ terapeuta.nombre }}<p/>
+								{% endfor %}
+							</td>
+							<td>
+								<button class="btn-accion btn" type="button" data-bs-toggle="modal" data-bs-target="#modalConfirm" data-url="{{ path('app_admin_horarios_borrar', {'id': horario.id}) }}">Borrar</button>
+								<a class="enlace_accion" href="{{ path('app_admin_horarios_editar', {'id': horario.id}) }}">Editar</a>
+							</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		{% else %}
+			<p>No hay horarios preestablecidos</p>
+		{% endif %}
     </section>
 {% endblock %}

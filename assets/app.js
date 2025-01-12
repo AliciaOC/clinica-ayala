@@ -90,6 +90,10 @@ $(document).ready(function() {
 
     /*Si en las tablas de citas el motivo contiene la cadena ' <<Admin>> ' se le añade la clase admin*/
     $("section#citasTerapeuta table tbody td:contains('<<Admin>>')").addClass("cita_admin");
+
+    /*En las tablas de citas se le añade una class cuando la cita está pendiente o cancelada*/
+    $("table tbody td.estado_cita:contains('pendiente')").addClass("cita_pendiente");
+    $("table tbody td.estado_cita:contains('cancelada')").addClass("cita_cancelada");
 });
 
 /* Funciones */

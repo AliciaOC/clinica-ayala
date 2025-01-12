@@ -28,7 +28,7 @@
 				{% for cita in citas %}
 					<tr>
 						<td>{{ cita.fecha|date('d-m-Y H:i') }}</td>
-                        <td>{{ cita.estado }}</td>
+                        <td class="estado_cita">{{ cita.estado }}</td>
                         <td>
                         {% if cita.motivo %}
                             {{ cita.motivo }}

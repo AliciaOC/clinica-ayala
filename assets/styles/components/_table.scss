@@ -28,6 +28,14 @@ table{
                 &:not(:last-child){
                     padding-right: 2rem;
                 }
+                &.cita_pendiente{
+                    font-weight: bold;
+                    color: $verde;
+                }
+                &.cita_cancelada{
+                    font-style: italic;
+                    font-weight: bold;
+                }
                 .enlace_accion,
                 .btn-accion{
                     display: block;

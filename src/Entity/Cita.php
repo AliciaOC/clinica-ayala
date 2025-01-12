@@ -27,6 +27,7 @@ class Cita
     private ?Terapeuta $terapeuta = null;
 
     #[ORM\ManyToOne(inversedBy: 'citas')]
+    #[ORM\JoinColumn(onDelete: "SET NULL")]
     private ?Cliente $cliente = null;
 
     public function getId(): ?int

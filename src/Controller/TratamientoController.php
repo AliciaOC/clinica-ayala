@@ -119,7 +119,7 @@ class TratamientoController extends AbstractController
         return $this->redirectToRoute('app_admin_tratamientos');
     }
 
-    #[Route('/terapeuta/tratamientos', name: 'app_terapeuta_tratamientos')]
+    #[Route('/_terapeuta/tratamientos', name: 'app_terapeuta_tratamientos')]
     public function administrarTratamientosTerapeuta(): Response
     {
         return $this->render('terapeuta/tratamientos.html.twig', [
@@ -128,7 +128,7 @@ class TratamientoController extends AbstractController
         ]);
     }
 
-    #[Route('/terapeuta/tratamientos/borrar/{id}', name: 'terapeuta_borrarTratamiento')]
+    #[Route('/_terapeuta/tratamientos/borrar/{id}', name: 'terapeuta_borrarTratamiento')]
     public function quitarTratamientoTerapeuta($id): JsonResponse
     {
         /** @var \App\Entity\User $userActual */
@@ -145,7 +145,7 @@ class TratamientoController extends AbstractController
         ]);
     }
 
-    #[Route('/terapeuta/tratamientos/anadir/{id}', name: 'terapeuta_anadirTratamiento')]
+    #[Route('/_terapeuta/tratamientos/anadir/{id}', name: 'terapeuta_anadirTratamiento')]
     public function anadirTratamientoTerapeuta($id): Response
     {
         /** @var \App\Entity\User $userActual */

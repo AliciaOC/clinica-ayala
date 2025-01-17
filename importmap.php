@@ -31,5 +31,5 @@ return [
     ],
     'js-cookie' => [
         'version' => '3.0.5',
-    ],
+    ]
 ];

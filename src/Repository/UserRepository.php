@@ -68,6 +68,8 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         ;
     }
 
+
+    //Método mixto que usa sql y dql para buscar por roles. Es necesario ya que roles es un campo json
     public function findByRole($role): array
     {
         $rsm = $this->createResultSetMappingBuilder('user');

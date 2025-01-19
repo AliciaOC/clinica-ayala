@@ -34,7 +34,9 @@ form{
             border-color: $verde;
         }
     }
-    label[for="registrar_user_confirmacion"] {
+    label[for="registrar_user_confirmacion"],
+    label[for="registrar_terapeuta_confirmacion"],
+    label[for="registrar_cliente_confirmacion"]{
         color: $azul-oscuro;
         font-weight: bold;
         font-family: $fuente-texto;

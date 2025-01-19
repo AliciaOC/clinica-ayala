@@ -5,15 +5,12 @@
 	<section id="nuevo-cliente">
 		<h3>Añadir un nuevo Cliente</h3>
 
-		{{ form_start(registroFormUser) }}
 		{{ form_start(registroClienteForm) }}
 
-			{{ form_widget(registroFormUser) }}
 			{{ form_widget(registroClienteForm) }}
 			<button class="btn btn-primary" type="submit">Guardar</button>
 
-		{{ form_end(registroClienteForm) }}
-		{{ form_end(registroFormUser) }}		
+		{{ form_end(registroClienteForm) }}		
 		
         {% for message in app.flashes('error') %}
 			<div class="flash-error">

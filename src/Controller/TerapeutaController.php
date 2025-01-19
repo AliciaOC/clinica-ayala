@@ -42,27 +42,36 @@ class TerapeutaController extends AbstractController
         $userActual = $this->getUser();
 
         //Primero la creacion de nuevos clientes
-        $user=new User();
-        $formUser=$this->createForm(RegistrarUserType::class, $user);
         $cliente=new Cliente();
-        $formCliente=$this->createForm(RegistrarClienteType::class, $cliente);
+        $form=$this->createForm(RegistrarClienteType::class, $cliente);
 
-        $formUser->handleRequest($request);
-        $formCliente->handleRequest($request);
+        $form->handleRequest($request);
 
-        if ($formUser->isSubmitted() && $formUser->isValid() && $formCliente->isSubmitted() && $formCliente->isValid()) {
-            $this->userService->crearUser($user, "ROLE_CLIENTE");
-            $cliente->setUsuario($user);
-            $cliente->addTerapeuta($userActual->getTerapeuta());
-            //me aseguro que el nombre del cliente empiece con mayuscula cada palabra
-            $cliente->setNombre(ucwords(strtolower($cliente->getNombre())));
+        if ($form->isSubmitted() && $form->isValid()) {
             
-            foreach ($cliente->getTerapeutas() as $terapeuta) {
-                $terapeuta->addCliente($cliente);
-            }
+            //controlo que el email no está en uso
+            $email = $form->get('email')->getData();
+            if($this->userRepository->findOneByEmail($email)){
+                $this->addFlash('error', 'Error: El email ya está registrado.');
+            }else{
+                $user = new User();
+                $user->setEmail($email);
+                $user = $this->userService->crearUser($user, 'ROLE_CLIENTE');
+                $cliente->setUsuario($user);
+                $cliente->addTerapeuta($userActual->getTerapeuta());
 
-            $this->entityManager->persist($cliente);
-            $this->entityManager->flush();
+                //me aseguro que el nombre del cliente empiece con mayuscula cada palabra
+                $cliente->setNombre(ucwords(strtolower($cliente->getNombre())));
+                
+                foreach ($cliente->getTerapeutas() as $terapeuta) {
+                    $terapeuta->addCliente($cliente);
+                }
+
+                $this->entityManager->persist($cliente);
+                $this->entityManager->flush();
+
+                $this->addFlash('success', 'Cliente creado correctamente');
+            }
 
             return $this->redirectToRoute('app_terapeuta_clientes');
         }
@@ -79,8 +88,7 @@ class TerapeutaController extends AbstractController
 
         return $this->render('terapeuta/clientes.html.twig', [
             'clientes' => $clientesTerapeuta,
-            'registroFormUser' => $formUser->createView(),
-            'registroClienteForm' => $formCliente->createView(),
+            'registroClienteForm' => $form->createView(),
         ]);
     }
 

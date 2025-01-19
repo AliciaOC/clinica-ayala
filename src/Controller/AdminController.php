@@ -78,16 +78,23 @@ class AdminController extends AbstractController
         $form = $this->createForm(EditarAdminType::class, $user, [
             'email' => $email,
         ]);
+        $errorEmail=false;
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             if($form->get('email')->getData() != $email && $form->get('email')->getData() != null){
+                if($this->userRepository->findOneByEmail($email)){
+                    $this->addFlash('error', 'Error: El email ya está registrado.');
+                    $errorEmail=true;
+                }
                 $user->setEmail($form->get('email')->getData());
             }
 
-            $this->entityManager->persist($user);
-            $this->entityManager->flush();
+            if($errorEmail==false){
+                $this->entityManager->persist($user);
+                $this->entityManager->flush();
+            }
 
             return $this->redirectToRoute('app_admin_admins');
 
@@ -130,22 +137,25 @@ class AdminController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            //si no hay errores de los formularios.
+            //controlo que el email no está en uso
             $email = $form->get('email')->getData();
-            $user = new User();
-            $user->setEmail($email);
-            $user = $this->userService->crearUser($user, 'ROLE_TERAPEUTA');
-            $terapeuta->setUsuario($user);
+            if($this->userRepository->findOneByEmail($email)){
+                $this->addFlash('error', 'Error: El email ya está registrado.');
+            }else{
+                $user = new User();
+                $user->setEmail($email);
+                $user = $this->userService->crearUser($user, 'ROLE_TERAPEUTA');
+                $terapeuta->setUsuario($user);
 
-            foreach ($terapeuta->getTratamientos() as $tratamiento) {
-                $tratamiento->addTerapeuta($terapeuta);
+                foreach ($terapeuta->getTratamientos() as $tratamiento) {
+                    $tratamiento->addTerapeuta($terapeuta);
+                }
+
+                $this->entityManager->persist($terapeuta);
+                $this->entityManager->flush();
+
+                $this->addFlash('success', 'Terapeuta creado correctamente');
             }
-
-            $this->entityManager->persist($terapeuta);
-            $this->entityManager->flush();
-
-            $this->addFlash('success', 'Terapeuta creado correctamente');
-
             return $this->redirectToRoute('app_admin_terapeutas');
         }
 
@@ -176,26 +186,34 @@ class AdminController extends AbstractController
         $form = $this->createForm(EditarTerapeutaAdminType::class, $terapeuta, [
             'email' => $email,
         ]);
+        $errorEmail=false;
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
             if($form->get('email')->getData() != $email && $form->get('email')->getData() != null){
-                $user->setEmail($form->get('email')->getData());
-                $this->entityManager->persist($user);
+                if($this->userRepository->findOneByEmail($form->get('email')->getData())){
+                    $this->addFlash('error', 'Error: El email ya está registrado.');
+                    $errorEmail=true;
+                }else{
+                    $user->setEmail($form->get('email')->getData());
+                    $this->entityManager->persist($user);
+                }
             }
 
-            //Por si se han eliminado tratamientos del terapeuta
-            $this->terapeutaRepository->borrarTerapeutaDeTratamientoHuerfano($terapeuta);
+            if($errorEmail==false){
+                //Por si se han eliminado tratamientos del terapeuta
+                $this->terapeutaRepository->borrarTerapeutaDeTratamientoHuerfano($terapeuta);
 
-            //Por si se han añadido tratamientos al terapeuta
-            foreach ($terapeuta->getTratamientos() as $tratamiento) {
-                $tratamiento->addTerapeuta($terapeuta);
+                //Por si se han añadido tratamientos al terapeuta
+                foreach ($terapeuta->getTratamientos() as $tratamiento) {
+                    $tratamiento->addTerapeuta($terapeuta);
+                }
+
+                $this->entityManager->persist($terapeuta);
+                $this->entityManager->flush();
             }
-
-            $this->entityManager->persist($terapeuta);
-            $this->entityManager->flush();
 
             return $this->redirectToRoute('app_admin_terapeutas');
 
@@ -272,26 +290,33 @@ class AdminController extends AbstractController
         $form = $this->createForm(EditarClienteAdminType::class, $cliente,[
             'email' => $email,
         ]);
+        $errorEmail=false;
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
             if($form->get('email')->getData() != $email && $form->get('email')->getData() != null){
+                if($this->userRepository->findOneByEmail($email)){
+                    $this->addFlash('error', 'Error: El email ya está registrado.');
+                    $errorEmail=true;
+                }
                 $user->setEmail($form->get('email')->getData());
                 $this->entityManager->persist($user);
             }
 
-            //Por si se han eliminado terapeutas del cliente
-            $this->clienteRepository->borrarClienteDeTerapeutaHuerfano($cliente);
+            if($errorEmail==false){
+                //Por si se han eliminado terapeutas del cliente
+                $this->clienteRepository->borrarClienteDeTerapeutaHuerfano($cliente);
 
-            //Por si se han añadido terapeutas al cliente
-            foreach ($cliente->getTerapeutas() as $terapeuta) {
-                $terapeuta->addCliente($cliente);
+                //Por si se han añadido terapeutas al cliente
+                foreach ($cliente->getTerapeutas() as $terapeuta) {
+                    $terapeuta->addCliente($cliente);
+                }
+
+                $this->entityManager->persist($cliente);
+                $this->entityManager->flush();
             }
-
-            $this->entityManager->persist($cliente);
-            $this->entityManager->flush();
 
             return $this->redirectToRoute('app_admin_clientes');
 
@@ -311,7 +336,15 @@ class AdminController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->userService->crearUser($user, $rol);
+            
+            $email = $form->get('email')->getData();
+
+            //Compruebo que el email no esté en uso.
+            if($this->userRepository->findOneByEmail($email)){
+                $this->addFlash('error', 'Error: El email ya está registrado.');
+            }else{
+                $this->userService->crearUser($user, $rol);
+            }
         }
         return $form;
     }

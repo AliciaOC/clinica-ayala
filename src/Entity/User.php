@@ -10,7 +10,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
-#[UniqueEntity(fields: ['email'], message: 'Este correo ya está en uso.')]
+//#[UniqueEntity(fields: ['email'], message: 'Este correo ya está en uso.')] Lo controlo desde los controladores
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]

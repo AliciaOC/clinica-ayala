@@ -125,30 +125,28 @@ class AdminController extends AbstractController
     #[Route('/admin/terapeutas', name: 'app_admin_terapeutas')]
     public function administrarTerapeutas(Request $request): Response
     {
-        $formUser=$this->crearUserForm($request, "ROLE_TERAPEUTA");
         $terapeuta=new Terapeuta();
         $form = $this->createForm(RegistrarTerapeutaType::class, $terapeuta);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             //si no hay errores de los formularios.
-            if ($formUser) {//es false si ha dado error
-                $user=$formUser->getData();
-                $terapeuta->setUsuario($user);
+            $email = $form->get('email')->getData();
+            $user = new User();
+            $user->setEmail($email);
+            $user = $this->userService->crearUser($user, 'ROLE_TERAPEUTA');
+            $terapeuta->setUsuario($user);
 
-                foreach ($terapeuta->getTratamientos() as $tratamiento) {
-                    $tratamiento->addTerapeuta($terapeuta);
-                }
-
-                $this->entityManager->persist($terapeuta);
-                $this->entityManager->flush();
-
-                $this->addFlash('success', 'Terapeuta creado correctamente');
-
-                return $this->redirectToRoute('app_admin_terapeutas');
-            }else{
-                $this->addFlash('error', 'No ha podido crearse el terapeuta');
+            foreach ($terapeuta->getTratamientos() as $tratamiento) {
+                $tratamiento->addTerapeuta($terapeuta);
             }
+
+            $this->entityManager->persist($terapeuta);
+            $this->entityManager->flush();
+
+            $this->addFlash('success', 'Terapeuta creado correctamente');
+
+            return $this->redirectToRoute('app_admin_terapeutas');
         }
 
         //todos los terapeutas
@@ -165,7 +163,6 @@ class AdminController extends AbstractController
             
         return $this->render('admin/terapeuta.html.twig', [
             'terapeutas' => $terapeutas,
-            'registroFormUser' => $formUser->createView(),
             'registroFormTerapeuta' => $form->createView(),
         ]);
     }

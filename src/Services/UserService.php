@@ -19,7 +19,7 @@ class UserService
 
     }
 
-    public function crearUser(User $user, string $rol)
+    public function crearUser(User $user, string $rol): User
     {
         //introduzco los valores que faltan para crear un user (el email va en el formulario)
         //la contraseña para nuevos usuarios es el string de su email que hay antes del @
@@ -36,5 +36,6 @@ class UserService
         /*} catch (\Exception $e) {// el \ es para que busque en la raíz del proyecto
             return $e->getMessage();
         }*/
+        return $user;
     }
 }

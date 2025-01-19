@@ -6,15 +6,12 @@
 {% block main %}
 	<h3>Crear Cuenta de Terapeuta</h1>
 	<section id="nuevo-terapeuta">
-		{{ form_start(registroFormUser) }}
 		{{ form_start(registroFormTerapeuta) }}
 
-			{{ form_widget(registroFormUser) }}
 			{{ form_widget(registroFormTerapeuta) }}
 			<button class="btn btn-primary" type="submit">Guardar</button>
 
 		{{ form_end(registroFormTerapeuta) }}
-		{{ form_end(registroFormUser) }}
 
 		{% for message in app.flashes('error') %}
 			<div class="flash-error">

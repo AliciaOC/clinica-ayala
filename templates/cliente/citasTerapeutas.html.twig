@@ -32,7 +32,7 @@
 							<td class="estado_cita">{{ cita.estado }}</td>
 							<td>
 							{% if cita.estado=='pendiente' %}
-								<button class="btn-accion btn" type="button" data-bs-toggle="modal" data-bs-target="#modalConfirm" data-url="{{ path('terapeuta_cancelarCita', {'id': cita.id, 'origen': 'app_cliente_citas_terapeutas'}) }}">Cancelar Cita</button>
+								<button class="btn-accion btn" type="button" data-bs-toggle="modal" data-bs-target="#modalConfirm" data-url="{{ path('terapeuta_cancelarCita', {'id': cita.id, 'origen': 'app_cliente'}) }}">Cancelar Cita</button>
 							{% endif %}
 							</td>
 						</tr>
